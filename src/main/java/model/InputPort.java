@@ -3,7 +3,7 @@ package model;
 
 public class
 InputPort extends Port<OutputPort> {
-    public InputPort(G_System parentSystem, Type portType) {
+    public InputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
     }
 }

@@ -2,11 +2,14 @@ package model;
 
 import java.awt.*;
 
-public enum Type {
+public enum PortType {
     Rectangle {
 
     } ,
     Triangle {
 
-    } ;
+    } ,
+    None {
+
+    };
 }

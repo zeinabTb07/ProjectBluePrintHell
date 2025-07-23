@@ -5,13 +5,11 @@ import view.InfoBar;
 import java.awt.*;
 
 public abstract class Port<T extends Port<?>> {
-    private G_System parentSystem;
-    private Type portType;
+    private NetworkSystem parentSystem;
+    private PortType portType;
     private T connectedTo;
-    private int x , y ;
-    private Polygon shape ;
 
-    public Port(G_System parentSystem, Type portType) {
+    public Port(NetworkSystem parentSystem, PortType portType) {
         this.parentSystem = parentSystem ;
         this.portType = portType ;
     }
@@ -35,36 +33,11 @@ public abstract class Port<T extends Port<?>> {
         return connectedTo != null;
     }
 
-    public Type getPortType(){
+    public PortType getPortType(){
         return portType;
     }
 
-
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-    public Polygon getShape(){
-        return shape;
-    }
-
-    public void setShape(Polygon polygon){
-        shape = polygon;
-    }
-
-    public G_System getParentSystem(){
+    public NetworkSystem getParentSystem(){
         return parentSystem;
     }
 

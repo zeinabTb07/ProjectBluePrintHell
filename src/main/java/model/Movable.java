@@ -1,6 +1,6 @@
 package model;
 
 public interface Movable {
-    void setPosition(int x, int y);
-    boolean canMove(int newX, int newY);
+    void moveNormal(Packet packet);
+    void moveInduced(Vector2D force , Packet packet);
 }
