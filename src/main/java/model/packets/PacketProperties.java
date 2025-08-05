@@ -1,3 +1,3 @@
 package model.packets;
 
-public record PacketProperties(int coin, int size, double speed, double accel) {}
+public record PacketProperties(int coin, int size) {}

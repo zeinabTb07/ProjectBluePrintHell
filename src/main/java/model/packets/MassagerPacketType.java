@@ -3,8 +3,8 @@ package model.packets;
 import model.Shape;
 
 public enum MassagerPacketType {
-    SQUARE(Shape.SQUARE, new PacketProperties(10, 3, 2.0, 0.0)),
-    TRIANGLE(Shape.TRIANGLE, new PacketProperties(5, 2, 1.5, 1.2));
+    SQUARE(Shape.SQUARE, new PacketProperties(2, 2)),
+    TRIANGLE(Shape.TRIANGLE, new PacketProperties(3, 3));
 
     private final Shape shape;
     private final PacketProperties props;
