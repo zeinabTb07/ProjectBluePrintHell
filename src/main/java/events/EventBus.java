@@ -2,7 +2,7 @@ package events;
 
 import java.util.*;
 import java.util.function.Consumer;
-// Todo : بفهم اینجا اصلا چه اتفاقاتی داره میافته
+
 public class EventBus {
 
     private static final Map<Class<?>, List<Consumer<Object>>> listeners = new HashMap<>();

@@ -2,7 +2,7 @@ package view.ui;
 
 import events.EventBus;
 import events.UIEvents;
-import model.Setting;
+import model.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class InfoBar extends JLabel {
     public InfoBar(){
         super();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setBounds(0 , 0 , Setting.FRAME_WIDTH, 60);
+        setBounds(0 , 0 , Constants.FRAME_WIDTH, 60);
         setBackground(Color.white);
         setOpaque(false);
         add(Box.createHorizontalStrut(20));

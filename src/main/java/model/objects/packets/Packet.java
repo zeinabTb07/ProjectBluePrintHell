@@ -1,16 +1,28 @@
-package model.packets;
-import model.systems.NetworkSystem;
+package model.objects.packets;
+import model.interfaces.Movable;
+import model.interfaces.Updatable;
+import model.objects.GameObject;
+import model.objects.systems.NetworkSystem;
+import model.objects.systems.RooterSystem;
+
 import java.awt.*;
 
-public abstract class Packet {
+public abstract class Packet extends GameObject implements Updatable , Movable {
     protected int size;
     protected int coin;
     protected double velocity;
     protected double acceleration;
     protected NetworkSystem currentSystem;
-    protected double distancePassedOnConnection;
+    protected Connection currentConnection;
+    protected double distance;
     protected Point centerOfMass;
 
+
+    public Packet(RooterSystem system){
+        super();
+        this.currentSystem = system;
+        centerOfMass = new Point();
+    }
     public int getSize() {
         return size;
     }
@@ -52,11 +64,11 @@ public abstract class Packet {
     }
 
     public double getDistancePassedOnConnection() {
-        return distancePassedOnConnection;
+        return distance;
     }
 
-    public void setDistancePassedOnConnection(double distancePassedOnConnection) {
-        this.distancePassedOnConnection = distancePassedOnConnection;
+    public void setDistancePassedOnConnection(double distance) {
+        this.distance = distance;
     }
 
     public Point getCenterOfMass() {
@@ -66,5 +78,14 @@ public abstract class Packet {
     public void setCenterOfMass(Point centerOfMass) {
         this.centerOfMass = centerOfMass;
     }
+
+    public Connection getCurrentConnection() {
+        return currentConnection;
+    }
+
+    public void setCurrentConnection(Connection currentConnection) {
+        this.currentConnection = currentConnection;
+    }
+
 
 }

@@ -1,7 +1,7 @@
 package view.ui;
 
 
-import model.Setting;
+import model.constants.Constants;
 
 import javax.swing.*;
 
@@ -12,7 +12,7 @@ public class Frame extends JFrame {
     }
 
     private void insilize() {
-        setSize(Setting.FRAME_WIDTH,Setting.Frame_HEIGHT);
+        setSize(Constants.FRAME_WIDTH, Constants.Frame_HEIGHT);
         setUndecorated(true);
         setLayout(null);
         setLocationRelativeTo(null);

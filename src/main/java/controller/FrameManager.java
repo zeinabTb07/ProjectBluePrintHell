@@ -3,6 +3,9 @@ package controller;
 
 import events.EventBus;
 import events.UIEvents.*;
+import model.GameState;
+import model.constants.Constants;
+import model.constants.Level1;
 import view.ui.*;
 
 import javax.swing.*;
@@ -11,22 +14,20 @@ import java.util.ArrayList;
 public class FrameManager {
     private final Frame frame;
     private GamePanel gamePanel;
+    private GameState gameState;
     private MenuPanel menuPanel;
     private final SettingDialog settingDialog;
     private final LevelsDialog levelsDialog;
     private final Shop shop;
     private final MusicPlayer musicPlayer;
-    //TODO move musicplayer to main controller
-
-    public FrameManager() {
+    public FrameManager(GameState gameState) {
         this.frame = new Frame();
         this.musicPlayer = new MusicPlayer();
         this.settingDialog = new SettingDialog();
-        this.levelsDialog = new LevelsDialog(new ArrayList<>());
+        this.levelsDialog = new LevelsDialog(Constants.levels.size());
+        this.gameState = gameState;
         this.shop = new Shop();
-
         setupEventListeners();
-
     }
 
     private void setupEventListeners() {
@@ -35,7 +36,6 @@ public class FrameManager {
         EventBus.subscribe(OpenSettingsEvent.class, e -> settingDialog.setVisible(true));
         EventBus.subscribe(OpenLevelsEvent.class, e -> levelsDialog.setVisible(true));
         EventBus.subscribe(OpenShopEvent.class, e -> shop.setVisible(true));
-        EventBus.subscribe(VolumeChangeEvent.class, e -> musicPlayer.setVolume(e.volume()));
     }
     private void goToMenu() {
         if (menuPanel == null) {
@@ -47,7 +47,7 @@ public class FrameManager {
 
     private void goToGame() {
         if (gamePanel == null) {
-            gamePanel = new GamePanel();
+            gamePanel = new GamePanel(gameState);
         }
         switchPanel(gamePanel);
         musicPlayer.playBackgroundMusic();

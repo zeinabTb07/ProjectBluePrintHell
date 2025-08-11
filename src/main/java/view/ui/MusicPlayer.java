@@ -1,6 +1,9 @@
 package view.ui;
 
 
+import events.EventBus;
+import events.UIEvents;
+
 import javax.sound.sampled.*;
 import java.io.File;
 
@@ -9,6 +12,10 @@ public class MusicPlayer {
     private FloatControl bgVolumeControl;
     private int currentVolume = 90;
 
+    public MusicPlayer (){
+        EventBus.subscribe(UIEvents.VolumeChangeEvent.class, e -> setVolume(e.volume()));
+        EventBus.subscribe(UIEvents.PlaySoundEvent.class, e-> playSoundEffect(e.path()));
+    }
     public void playBackgroundMusic() {
         try {
             if (backgroundMusic != null && backgroundMusic.isRunning()) {

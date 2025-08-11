@@ -6,33 +6,52 @@ import org.slf4j.LoggerFactory;
 
 public class UIEvents {
     private static final Logger log = LoggerFactory.getLogger(UIEvents.class);
+
     public record OpenMenuEvent() {
         public OpenMenuEvent {
-            log.info("UI Event: [MenuPanel] Action=Open");
+            log.info("Main menu opened by the user.");
         }
     }
+
     public record OpenGameEvent() {
         public OpenGameEvent {
-            log.info("UI Event: [GamePanel] Action=Open");
+            log.info("Game screen initialized and displayed.");
         }
     }
+
     public record OpenSettingsEvent() {
         public OpenSettingsEvent {
-            log.info("UI Event: [SettingDialog] Action=Open");
+            log.info("User opened the settings panel.");
         }
     }
+
     public record OpenLevelsEvent() {
         public OpenLevelsEvent {
-            log.info("UI Event: [LevelsDialog] Action=Open");
+            log.info("Level selection screen is now visible.");
         }
     }
+
     public record OpenShopEvent() {
         public OpenShopEvent {
-            log.info("UI Event: [Shop] Action=Open");
+            log.info("Player accessed the in-game store.");
         }
     }
+
     public record VolumeChangeEvent(int volume) {
         public VolumeChangeEvent {
-        log.info("UI Event: [Volume] Action=Change");
-    }}
+            log.info("Volume level changed to {}%.", volume);
+        }
+    }
+
+    public record PlaySoundEvent(String path) {
+        public PlaySoundEvent {
+            log.info("Playing sound effect from: {}", path);
+        }
+    }
+
+    public record ChooseLevelEvent(int n) {
+        public ChooseLevelEvent {
+            log.info("Level reset to: {}" ,n);
+        }
+    }
 }

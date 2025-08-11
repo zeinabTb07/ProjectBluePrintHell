@@ -1,5 +1,10 @@
 package view.ui;
 
+import events.EventBus;
+import events.GameEvents;
+import model.objects.packets.Connection;
+import model.objects.systems.InputPort;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,6 +48,7 @@ public class Shop extends JDialog {
 
         parent.add(itemPanel);
         parent.add(Box.createRigidArea(new Dimension(0, 5)));
+
     }
 
     private void handlePurchase(String powerUpName) {

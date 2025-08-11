@@ -4,7 +4,7 @@ package view.ui;
 
 import events.EventBus;
 import events.UIEvents.*;
-import model.Setting;
+import model.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public class MenuPanel extends JPanel {
     }
     private void insilize() {
         setLayout(null);
-        setSize(Setting.FRAME_WIDTH, Setting.Frame_HEIGHT);
+        setSize(Constants.FRAME_WIDTH, Constants.Frame_HEIGHT);
 
         try {
             backgroundImage = new ImageIcon("src/main/resources/edited_background.jpg").getImage();
@@ -98,7 +98,7 @@ public class MenuPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g ;
         super.paintComponent(g2d);
-        g2d.drawImage(backgroundImage, 0, 0, Setting.FRAME_WIDTH, Setting.Frame_HEIGHT, this);
+        g2d.drawImage(backgroundImage, 0, 0, Constants.FRAME_WIDTH, Constants.Frame_HEIGHT, this);
 
     }
 }

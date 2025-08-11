@@ -1,17 +1,18 @@
 package view.ui;
 
-import controller.GameMouseLisntener;
+import controller.GameMouseListener;
 import model.GameState;
-import model.Setting;
+import model.constants.Constants;
+import view.components.GameStateRenderer;
 
 import javax.swing.*;
 import java.awt.*;
 
 
 public class GamePanel extends JPanel {
-    private JLayeredPane layeredPane ;
     private GameState gameState;
-    private GameMouseLisntener gameMouseListener;
+    private GameMouseListener gameMouseListener;
+    private GameStateRenderer gameStateRenderer;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -23,24 +24,22 @@ public class GamePanel extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON
         );
         g2d.setBackground(Color.black);
-//        gameStateRender.updateGame(g2d);
-//        gameMouseListener.paintConnections(g2d);
+        gameStateRenderer.render(g2d, gameState);
+        gameMouseListener.paintConnections(g2d);
     }
 
-    public GamePanel(){
+    public GamePanel(GameState gameState){
         super();
         JLabel infoBar = new InfoBar();
+        gameStateRenderer = new GameStateRenderer();
         add(infoBar);
         setBackground(Color. BLACK);
         this.gameState = gameState;
-        // gameMouseListener = new GameMouseListener(this);
+        gameMouseListener = new GameMouseListener(this , gameState);
         setLayout(null);
-        setBounds(0 , 0 , Setting.FRAME_WIDTH, Setting.Frame_HEIGHT);
+        setBounds(0 , 0 , Constants.FRAME_WIDTH, Constants.Frame_HEIGHT);
+        super.addMouseMotionListener(gameMouseListener);
         super.addMouseListener(gameMouseListener);
-   //     super.addMouseMotionListener(gameMouseListener);
-
-
-
     }
 
     public GameState getGameState() {

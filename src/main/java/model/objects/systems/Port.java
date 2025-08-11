@@ -1,0 +1,80 @@
+package model.objects.systems;
+
+import model.constants.Constants;
+import model.interfaces.Updatable;
+import model.objects.GameObject;
+import model.enums.PortType;
+
+import java.awt.*;
+
+public abstract class Port<T extends Port<?>> extends GameObject  implements Updatable {
+    private NetworkSystem parentSystem;
+    private PortType portType;
+    private T connectedTo;
+    private Point point;
+
+    public Port(NetworkSystem parentSystem, PortType portType) {
+        super();
+        this.parentSystem = parentSystem ;
+        this.portType = portType ;
+    }
+
+    public void connect(T connectedTo) {
+        if(!isConnected()){
+            this.connectedTo = connectedTo;
+        }
+    }
+
+
+    protected void makeShape(){
+        super.shape = portType.getShape().getShape(point , Constants.PORT_SIZE);
+    }
+
+
+    public void disconnect() {
+        if (isConnected()) {
+            T temp = connectedTo;
+            connectedTo = null;
+            temp.disconnect();
+        }
+    }
+    public boolean isConnected() {
+        return connectedTo != null;
+    }
+
+
+    public NetworkSystem getParentSystem() {
+        return parentSystem;
+    }
+
+    public void setParentSystem(NetworkSystem parentSystem) {
+        this.parentSystem = parentSystem;
+    }
+
+    public PortType getPortType() {
+        return portType;
+    }
+
+    public void setPortType(PortType portType) {
+        this.portType = portType;
+    }
+
+    public T getConnectedTo() {
+        return connectedTo;
+    }
+
+    public void setConnectedTo(T connectedTo) {
+        this.connectedTo = connectedTo;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
+
+
+}
