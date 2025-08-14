@@ -1,6 +1,8 @@
 package view.ui;
 
 import controller.GameMouseListener;
+import events.EventBus;
+import events.UIEvents;
 import model.GameState;
 import model.constants.Constants;
 import view.components.GameStateRenderer;
@@ -25,7 +27,7 @@ public class GamePanel extends JPanel {
         );
         g2d.setBackground(Color.black);
         gameStateRenderer.render(g2d, gameState);
-        gameMouseListener.paintConnections(g2d);
+        gameMouseListener.paintLine(g2d);
     }
 
     public GamePanel(GameState gameState){
@@ -35,11 +37,12 @@ public class GamePanel extends JPanel {
         add(infoBar);
         setBackground(Color. BLACK);
         this.gameState = gameState;
-        gameMouseListener = new GameMouseListener(this , gameState);
+        gameMouseListener = new GameMouseListener(gameState);
         setLayout(null);
         setBounds(0 , 0 , Constants.FRAME_WIDTH, Constants.Frame_HEIGHT);
         super.addMouseMotionListener(gameMouseListener);
         super.addMouseListener(gameMouseListener);
+        EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class , e->{repaint();});
     }
 
     public GameState getGameState() {

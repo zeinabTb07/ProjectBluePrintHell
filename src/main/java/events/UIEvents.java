@@ -54,4 +54,5 @@ public class UIEvents {
             log.info("Level reset to: {}" ,n);
         }
     }
+    public record RepaintGamePanelEvent() { }
 }

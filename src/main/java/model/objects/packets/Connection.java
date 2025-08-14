@@ -24,11 +24,13 @@ public class Connection extends GameObject implements Updatable {
     private double length;
     private InputPort target;
     private OutputPort source;
+    private boolean isBusy;
 
     public Connection(InputPort target, OutputPort source) {
         super();
         this.target = target;
         this.source = source;
+        source.setConnection(this);
         controlPoints = new ArrayList<Point>();
         controlPoints.add(source.getPoint());
         controlPoints.add(target.getPoint());
@@ -64,6 +66,7 @@ public class Connection extends GameObject implements Updatable {
     public void disconnect(){
         target.disconnect();
         source.disconnect();
+        source.setConnection(null);
     }
 
     private void makeShape() {
@@ -135,6 +138,13 @@ public class Connection extends GameObject implements Updatable {
         this.controlPoints = controlPoints;
     }
 
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setBusy(boolean busy) {
+        isBusy = busy;
+    }
 
     @Override
     public void update() {

@@ -1,6 +1,5 @@
 package model.constants;
 
-import model.PacketRecord;
 import model.enums.MassagerPacketType;
 import model.enums.PortType;
 

@@ -1,6 +1,6 @@
 package model.enums;
 
-import model.PacketRecord;
+import model.constants.PacketRecord;
 
 public enum MassagerPacketType {
     SQUARE(GameShape.SQUARE, new PacketRecord.PacketProperties(2, 2)),

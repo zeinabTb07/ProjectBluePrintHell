@@ -2,10 +2,12 @@ package model.objects.systems;
 
 import model.constants.Constants;
 import model.enums.PortType;
+import model.objects.packets.Connection;
 
 import java.awt.*;
 
 public class OutputPort extends Port<InputPort> {
+    private Connection connection;
     public OutputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
         Point p = parentSystem.getPoint();
@@ -17,6 +19,14 @@ public class OutputPort extends Port<InputPort> {
     @Override
     public void update() {
         super.makeShape();
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }
 

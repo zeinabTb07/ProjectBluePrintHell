@@ -1,5 +1,8 @@
 package controller;
 
+import events.EventBus;
+import events.GameEvents;
+import events.UIEvents;
 import model.GameState;
 import model.constants.Constants;
 import model.objects.packets.Connection;
@@ -21,13 +24,13 @@ public class GameMouseListener extends MouseAdapter {
 
     private Point dragStartPoint;
     private OutputPort sourcePort;
-    private final JComponent drawingSurface;
     private final GameState gameState;
     private Line currentLine;
+    private NetworkConnectivityChecker connectivityChecker;
 
-    public GameMouseListener(JComponent drawingSurface, GameState gameState) {
-        this.drawingSurface = drawingSurface;
+    public GameMouseListener(GameState gameState) {
         this.gameState = gameState;
+        this.connectivityChecker=new NetworkConnectivityChecker(gameState.getGameLevel().getSystems());
     }
 
     @Override
@@ -42,14 +45,14 @@ public class GameMouseListener extends MouseAdapter {
         } else if (SwingUtilities.isRightMouseButton(e)) {
             removeConnectionAtPoint(e.getPoint());
         }
-        drawingSurface.repaint();
+        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         if (currentLine != null) {
             currentLine.setEnd(e.getPoint());
-            drawingSurface.repaint();
+            EventBus.publish(new UIEvents.RepaintGamePanelEvent());
         }
     }
 
@@ -65,33 +68,30 @@ public class GameMouseListener extends MouseAdapter {
                 Connection connection = new Connection(targetPort, sourcePort);
                 gameState.addConnection(connection);
                 log.info("Connection created: " + connection.getId());
+                EventBus.publish(new GameEvents.CheckConnectivity(connectivityChecker.check()));
             }
         });
 
         clearDragState();
-        drawingSurface.repaint();
+        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
-    public void paintConnections(Graphics2D g) {
+    public void paintLine(Graphics2D g) {
         if (currentLine != null) {
             g.setColor(new Color(135, 206, 235));
             g.setStroke(new BasicStroke(3));
             g.drawLine(currentLine.start.x, currentLine.start.y, currentLine.end.x, currentLine.end.y);
         }
-        boolean b = !gameState.getConnections().isEmpty();
-        if(b){
-            gameState.getConnections().get(0).update();
-        }
     }
 
-    // --------- Helper methods -----------
+
 
     private Optional<OutputPort> findSourcePort(Point point) {
         return gameState.getGameLevel().getSystems().stream()
                 .flatMap(system -> system.getOutputPorts().values().stream())
                 .flatMap(Collection::stream)
                 .filter(port -> !port.isConnected())
-                .filter(port -> port.getPoint().distance(point) < Constants.PORT_SIZE / 2)
+                .filter(port -> port.getShape().contains(point))
                 .findFirst();
     }
 
@@ -100,7 +100,7 @@ public class GameMouseListener extends MouseAdapter {
                 .flatMap(system -> system.getInputPorts().values().stream())
                 .flatMap(Collection::stream)
                 .filter(port -> !port.isConnected())
-                .filter(port -> port.getPoint().distance(point) < Constants.PORT_SIZE / 2)
+                .filter(port ->  port.getShape().contains(point))
                 .findFirst();
     }
 
@@ -109,12 +109,12 @@ public class GameMouseListener extends MouseAdapter {
         Iterator<Connection> iterator = gameState.getConnections().iterator();
         while (iterator.hasNext()) {
             Connection connection = iterator.next();
-            if (connection.getSource().getPoint().distance(point) < Constants.PORT_SIZE / 2 ||
-                    connection.getTarget().getPoint().distance(point) < Constants.PORT_SIZE / 2) {
+            if ( connection.getSource().getShape().contains(point) ||
+                    connection.getTarget().getShape().contains(point)) {
                 connection.disconnect();
                 iterator.remove();
                 log.info("Connection removed: " + connection.getId());
-                break; // حذف یکی کافیه
+                break;
             }
         }
     }

@@ -1,4 +1,5 @@
 package model.objects.packets;
+import model.interfaces.Forceable;
 import model.interfaces.Movable;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
@@ -7,9 +8,10 @@ import model.objects.systems.RooterSystem;
 
 import java.awt.*;
 
-public abstract class Packet extends GameObject implements Updatable , Movable {
+public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable {
     protected int size;
     protected int coin;
+    protected int noise;
     protected double velocity;
     protected double acceleration;
     protected NetworkSystem currentSystem;
@@ -87,5 +89,11 @@ public abstract class Packet extends GameObject implements Updatable , Movable {
         this.currentConnection = currentConnection;
     }
 
+    public int getNoise() {
+        return noise;
+    }
 
+    public void setNoise(int noise) {
+        this.noise = noise;
+    }
 }

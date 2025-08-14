@@ -21,19 +21,19 @@ public class Level1 extends Level {
         addSystem(ns3);
 
 
-        NetworkSystem ns4 = new NetworkSystem(new Point(500, 220));
-        ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
-        ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
-        ns4.addInputPort(new InputPort(ns4, PortType.SQUARE));
-        ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
-        addSystem(ns4);
+//        NetworkSystem ns4 = new NetworkSystem(new Point(500, 220));
+//        ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
+//        ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
+//        ns4.addInputPort(new InputPort(ns4, PortType.SQUARE));
+//        ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
+//        addSystem(ns4);
 
-        NetworkSystem ns5 = new NetworkSystem(new Point(650, 300));
-        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
-        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
-        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
-        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
-        addSystem(ns5);
+//        NetworkSystem ns5 = new NetworkSystem(new Point(650, 300));
+//        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
+//        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
+//        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
+//        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
+//        addSystem(ns5);
 
 
         NetworkSystem ns6 = new NetworkSystem(new Point(450, 420));

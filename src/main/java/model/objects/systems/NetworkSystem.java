@@ -1,18 +1,24 @@
 package model.objects.systems;
 
 import model.constants.Constants;
+import model.enums.GameShape;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
 import model.enums.PortType;
+import model.objects.packets.Connection;
 import model.objects.packets.Packet;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 
 public class NetworkSystem extends GameObject implements Updatable {
-    private HashMap<PortType , ArrayList<InputPort>> inputPorts;
-    private HashMap<PortType , ArrayList<OutputPort>> outputPorts;
+    private HashMap<GameShape, ArrayList<InputPort>> inputPorts;
+    private HashMap<GameShape , ArrayList<OutputPort>> outputPorts;
     private ArrayList<Packet> storage;
     private Point point;
     private Inductor inductor;
@@ -27,9 +33,9 @@ public class NetworkSystem extends GameObject implements Updatable {
         update();
     }
 
-    private <T extends Port> void addPort(HashMap<PortType, ArrayList<T>> portMap, T port) {
+    private <T extends Port> void addPort(HashMap<GameShape, ArrayList<T>> portMap, T port) {
         Objects.requireNonNull(port, "Port cannot be null");
-        portMap.computeIfAbsent(port.getPortType(), k -> new ArrayList<>()).add(port);
+        portMap.computeIfAbsent(port.getPortType().getShape(), k -> new ArrayList<>()).add(port);
         update();
     }
 
@@ -42,6 +48,7 @@ public class NetworkSystem extends GameObject implements Updatable {
                 8);
         super.shape = rectangle;
     }
+
     public void addInputPort(InputPort port) {
         addPort(inputPorts, port);
     }
@@ -65,19 +72,44 @@ public class NetworkSystem extends GameObject implements Updatable {
         return sum;
     }
 
-    public HashMap<PortType, ArrayList<InputPort>> getInputPorts() {
+
+    public Set<NetworkSystem> getNeighbors() {
+        Set<NetworkSystem> neighbors = new HashSet<>();
+
+        outputPorts.values().stream()
+                .flatMap(List::stream)
+                .map(OutputPort::getConnection)
+                .filter(Objects::nonNull)
+                .map(Connection::getTarget)
+                .filter(Objects::nonNull)
+                .map(InputPort::getParentSystem)
+                .filter(Objects::nonNull)
+                .forEach(neighbors::add);
+
+        inputPorts.values().stream()
+                .flatMap(List::stream)
+                .map(InputPort::getConnectedTo)
+                .filter(Objects::nonNull)
+                .map(OutputPort::getParentSystem)
+                .filter(Objects::nonNull)
+                .forEach(neighbors::add);
+
+        return neighbors;
+    }
+
+    public HashMap<GameShape, ArrayList<InputPort>> getInputPorts() {
         return inputPorts;
     }
 
-    public void setInputPorts(HashMap<PortType, ArrayList<InputPort>> inputPorts) {
+    public void setInputPorts(HashMap<GameShape, ArrayList<InputPort>> inputPorts) {
         this.inputPorts = inputPorts;
     }
 
-    public HashMap<PortType, ArrayList<OutputPort>> getOutputPorts() {
+    public HashMap<GameShape, ArrayList<OutputPort>> getOutputPorts() {
         return outputPorts;
     }
 
-    public void setOutputPorts(HashMap<PortType, ArrayList<OutputPort>> outputPorts) {
+    public void setOutputPorts(HashMap<GameShape, ArrayList<OutputPort>> outputPorts) {
         this.outputPorts = outputPorts;
     }
 

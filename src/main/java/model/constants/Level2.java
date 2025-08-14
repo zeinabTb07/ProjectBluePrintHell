@@ -15,7 +15,7 @@ public class Level2 extends Level {
         super();
 
 
-        NetworkSystem ns1 = new NetworkSystem(new Point(450, 420));
+        NetworkSystem ns1 = new NetworkSystem(new Point(370, 380));
         ns1.addInputPort(new InputPort(ns1, PortType.TRIANGLE));
         ns1.addOutputPort(new OutputPort(ns1, PortType.SQUARE));
         ns1.addOutputPort(new OutputPort(ns1, PortType.TRIANGLE));
@@ -32,8 +32,6 @@ public class Level2 extends Level {
 
         NetworkSystem ns3 = new NetworkSystem(new Point(200, 300));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
-        ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
-        ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
         ns3.addOutputPort(new OutputPort(ns3, PortType.TRIANGLE));
         addSystem(ns3);
 

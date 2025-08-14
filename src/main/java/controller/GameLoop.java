@@ -1,11 +1,12 @@
 package controller;
 
+import events.EventBus;
+import events.GameEvents;
+import events.UIEvents;
 import model.GameState;
-import model.objects.packets.Packet;
 
 public class GameLoop extends Thread {
     private static int FRAME_RATE = 60;
-    private static final double NSPF = 1_000_000_000.0 / FRAME_RATE;
     private volatile boolean running = true;
     private volatile boolean paused = false;
     private GameState gameState ;
@@ -14,8 +15,9 @@ public class GameLoop extends Thread {
     public GameLoop(GameState gameState) {
         this.gameState = gameState;
         packetController = new PacketController(gameState.getPackets());
+        EventBus.subscribe(GameEvents.StartGameEvent.class , e->{start();});
+        EventBus.subscribe(GameEvents.PauseGameEvent.class, e->{this.pauseGame();});
     }
-
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -23,11 +25,12 @@ public class GameLoop extends Thread {
 
         while (running) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / NSPF;
+            double deltaTime = now - lastTime / 1_000_000_000.0;
+            delta += deltaTime*FRAME_RATE;
             lastTime = now;
-
             if (!paused && delta >= 1) {
-                //Todo update game;
+                packetController.updatePackets(deltaTime);
+                EventBus.publish(new UIEvents.RepaintGamePanelEvent());
                 delta--;
             }
 
