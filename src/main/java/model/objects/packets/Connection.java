@@ -20,7 +20,7 @@ import java.util.List;
 public class Connection extends GameObject implements Updatable {
     private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
-    private List<Point> controlPoints;
+    private List<Point2D> controlPoints;
     private double length;
     private InputPort target;
     private OutputPort source;
@@ -31,16 +31,19 @@ public class Connection extends GameObject implements Updatable {
         this.target = target;
         this.source = source;
         source.setConnection(this);
-        controlPoints = new ArrayList<Point>();
+        controlPoints = new ArrayList<Point2D>();
         controlPoints.add(source.getPoint());
         controlPoints.add(target.getPoint());
         connect();
         update();
+        length = GeometryUtils.calcPathLength((Path2D) shape);
         logger.info("New connection created: from {} to {}", source, target);
     }
-    public void addHelperPoint(Point point){
+    public void addHelperPoint(Point2D point){
         logger.info("Helper point added: {}", point);
                 controlPoints.add(controlPoints.size()-1 , point);
+                update();
+        length = GeometryUtils.calcPathLength((Path2D) shape);
     }
 
     public void removeHelperPoint(Point2D point){
@@ -51,10 +54,12 @@ public class Connection extends GameObject implements Updatable {
         } catch (Exception e) {
             logger.error("Error removing helper point", e);
         }
+        update();
+        length = GeometryUtils.calcPathLength((Path2D) shape);
     }
 
-    public List<Point> getHelperPoints(){
-        List<Point> temp = controlPoints;
+    public List<Point2D> getHelperPoints(){
+        List<Point2D> temp = controlPoints;
         temp.removeFirst();
         temp.removeLast();
         return temp;
@@ -104,11 +109,11 @@ public class Connection extends GameObject implements Updatable {
         logger.debug("Connection length updated: {}", length);
     }
 
-    public Point getRelativePoint(double t) {
+    public Point2D getRelativePoint(double t) {
         return shape != null ? GeometryUtils.getRelativePoint( (Path2D)shape, t) : null;
     }
 
-    public Point getUnitTangentAt(double dist) {
+    public Point2D getUnitTangentAt(double dist) {
         return  shape != null ? GeometryUtils.getUnitTangent((Path2D)shape, dist) : null;
     }
 
@@ -130,11 +135,11 @@ public class Connection extends GameObject implements Updatable {
         this.source = source;
     }
 
-    public List<Point> getControlPoints() {
+    public List<Point2D> getControlPoints() {
         return controlPoints;
     }
 
-    public void setControlPoints(List<Point> controlPoints) {
+    public void setControlPoints(List<Point2D> controlPoints) {
         this.controlPoints = controlPoints;
     }
 

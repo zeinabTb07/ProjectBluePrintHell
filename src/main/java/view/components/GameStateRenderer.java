@@ -24,79 +24,90 @@ public class GameStateRenderer {
 
         log.debug("GameStateRenderer initialized");
     }
-
-    public void render(Graphics2D g2d, GameState gameState) {
-        if (gameState == null) {
-            log.error("GameState is null!");
+    public void render(Graphics2D g , GameState gameState){
+        for(NetworkSystem system : gameState.getGameLevel().getSystems()){
+            systemRenderer.render(g , system);
         }
-        if (g2d == null) {
-            log.error("Graphics2D is null!");
-            return;
+        for (Connection connection : gameState.getConnections()){
+            connectionRenderer.render(g , connection);
         }
-
-        try {
-            renderSystems(g2d, gameState);
-            renderConnections(g2d, gameState);
-            renderPackets(g2d, gameState);
-        } catch (Exception e) {
-            log.error("Unexpected error in render method", e);
+        for (Packet packet : gameState.getPackets()){
+            packetRenderer.render(g ,packet);
         }
     }
-
-    private void renderSystems(Graphics2D g2d, GameState gameState) {
-        if (gameState.getGameLevel() == null) {
-            log.warn("GameLevel is null in GameState!");
-            return;
-        }
-
-        for (NetworkSystem system : gameState.getGameLevel().getSystems()) {
-            if (system == null) {
-                log.warn("Found null NetworkSystem in GameLevel!");
-                continue;
-            }
-            try {
-                systemRenderer.render(g2d, system);
-            } catch (Exception e) {
-                log.error("Failed to render system: {}", system.getId(), e);
-            }
-        }
-    }
-
-    private void renderConnections(Graphics2D g2d, GameState gameState) {
-        if (gameState.getConnections() == null) {
-            log.warn("Connections list is null in GameState!");
-            return;
-        }
-
-        for (Connection connection : gameState.getConnections()) {
-            if (connection == null) {
-                log.warn("Found null Connection in GameState!");
-                continue;
-            }
-            try {
-                connectionRenderer.render(g2d, connection);
-            } catch (Exception e) {
-                log.error("Failed to render connection: {}", connection.getId(), e);
-            }
-        }
-    }
-
-    private void renderPackets(Graphics2D g2d, GameState gameState) {
-        if (gameState.getPackets() == null) {
-            log.warn("Packets list is null in GameState!");
-            return;
-        }
-
-        for (Packet packet : gameState.getPackets()) {
-            if (packet == null) {
-                log.warn("Found null Packet in GameState!");
-                continue;
-            }
-            try {
-                packetRenderer.render(g2d, packet);
-            } catch (Exception e) {
-                log.error("Failed to render packet: {}", packet.getId(), e);
-            }
-        }
-    }
+//
+//    public void render(Graphics2D g2d, GameState gameState) {
+//        if (gameState == null) {
+//            log.error("GameState is null!");
+//        }
+//        if (g2d == null) {
+//            log.error("Graphics2D is null!");
+//            return;
+//        }
+//
+//        try {
+//            renderSystems(g2d, gameState);
+//            renderConnections(g2d, gameState);
+//            renderPackets(g2d, gameState);
+//        } catch (Exception e) {
+//            log.error("Unexpected error in render method", e);
+//        }
+//    }
+//
+//    private void renderSystems(Graphics2D g2d, GameState gameState) {
+//        if (gameState.getGameLevel() == null) {
+//            log.warn("GameLevel is null in GameState!");
+//            return;
+//        }
+//
+//        for (NetworkSystem system : gameState.getGameLevel().getSystems()) {
+//            if (system == null) {
+//                log.warn("Found null NetworkSystem in GameLevel!");
+//                continue;
+//            }
+//            try {
+//                systemRenderer.render(g2d, system);
+//            } catch (Exception e) {
+//                log.error("Failed to render system: {}", system.getId(), e);
+//            }
+//        }
+//    }
+//
+//    private void renderConnections(Graphics2D g2d, GameState gameState) {
+//        if (gameState.getConnections() == null) {
+//            log.warn("Connections list is null in GameState!");
+//            return;
+//        }
+//
+//        for (Connection connection : gameState.getConnections()) {
+//            if (connection == null) {
+//                log.warn("Found null Connection in GameState!");
+//                continue;
+//            }
+//            try {
+//                connectionRenderer.render(g2d, connection);
+//            } catch (Exception e) {
+//                log.error("Failed to render connection: {}", connection.getId(), e);
+//            }
+//        }
+//    }
+//
+//    private void renderPackets(Graphics2D g2d, GameState gameState) {
+//        if (gameState.getPackets() == null) {
+//            log.warn("Packets list is null in GameState!");
+//            return;
+//        }
+//
+//        for (Packet packet : gameState.getPackets()) {
+//            if (packet == null) {
+//                log.warn("Found null Packet in GameState!");
+//                continue;
+//            }
+//            try {
+//                packetRenderer.render(g2d, packet);
+//            } catch (Exception e) {
+//                log.error("Failed to render packet: {}", packet.getId(), e);
+//            }
+//        }
+//    }
 }

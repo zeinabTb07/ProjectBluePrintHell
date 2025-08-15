@@ -2,14 +2,15 @@ package model.objects.packets;
 
 import model.Vector2D;
 import model.constants.Constants;
+import model.constants.PacketRecord;
+import model.constants.PacketSpeedRules;
 import model.enums.MassagerPacketType;
 import model.objects.systems.RooterSystem;
-
-import java.awt.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class MassagerPacket extends Packet {
     private static final Logger log = LoggerFactory.getLogger(MassagerPacket.class);
@@ -21,10 +22,14 @@ public class MassagerPacket extends Packet {
         super.currentSystem = system;
         super.size = type.getProperties().size();
         super.coin = type.getProperties().coin();
+        makeShape();
+    }
 
-        log.debug("Created new MassagerPacket: type={}, size={}, coin={}",
-                type, size, coin);
-        update();
+    public void sendTo(Connection connection){
+        this.currentConnection = connection;
+        PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(this.type , connection.getSource().getPortType());
+                this.velocity = packetRecord.speed()*Constants.PACKET_SPEED;
+                this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
     }
 
     public Point getAbsolutePoint() {
@@ -35,10 +40,9 @@ public class MassagerPacket extends Packet {
                     p.y + 2 * Constants.INDUCTOR_HEIGHT
             );
         } else {
-            Point p = currentConnection.getRelativePoint(distance / currentConnection.getLength());
-            return new Point(
-                    centerOfMass.x + p.x,
-                    centerOfMass.y + p.y
+            Point2D p = currentConnection.getRelativePoint(distance / currentConnection.getLength());
+            return new Point((int) (centerOfMass.getX() + p.getX()),
+                    (int) (centerOfMass.getY() + p.getY())
             );
         }
     }
@@ -46,8 +50,6 @@ public class MassagerPacket extends Packet {
     private void makeShape() {
         try {
             super.shape = type.getShape().getShape(getAbsolutePoint(), size * Constants.PACKET_SIZE_SCALE);
-            log.trace("Updated shape for packet: type={}, position={}",
-                    type, getAbsolutePoint());
         } catch (Exception e) {
             log.error("Failed to create shape for packet: {}", e.getMessage(), e);
         }
@@ -57,25 +59,21 @@ public class MassagerPacket extends Packet {
     public void moveNormal(double deltaTime) {
         double oldDistance = super.distance;
         super.distance += acceleration * deltaTime * deltaTime / 2 + velocity * deltaTime;
-
         log.trace("Packet moved: type={}, oldDistance={}, newDistance={}",
                 type, oldDistance, distance);
     }
 
     @Override
     public void update() {
-        log.debug("Updating packet: type={}, currentSystem={}",
-                type, currentSystem.getId());
-        moveNormal(10);
         makeShape();
     }
 
     @Override
     public void moveInduced(Vector2D forceVector) {
-        Point oldCenter = centerOfMass;
-        centerOfMass = new Point(
-                centerOfMass.x + (int) forceVector.getX(),
-                centerOfMass.y + (int) forceVector.getY()
+        Point2D oldCenter = centerOfMass;
+        centerOfMass = new Point2D.Double(
+                centerOfMass.getX() + (int) forceVector.getX(),
+                centerOfMass.getY() + (int) forceVector.getY()
         );
 
         log.debug("Packet moved by force: type={}, oldCenter={}, newCenter={}, force={}",

@@ -15,39 +15,40 @@ public class GeometryUtils {
         return dist;
     }
 
-    public static Point getRelativePoint(Path2D path, double t) {
+    public static Point2D getRelativePoint(Path2D path, double t) {
         // فرض: t بین 0 و 1
         double totalLen = calcPathLength(path);
         return getPointAtDistance(path, totalLen * t);
     }
 
-    public static Point getPointAtDistance(Path2D path, double dist) {
+    public static Point2D getPointAtDistance(Path2D path, double dist) {
         double lenSoFar = 0;
-        int[] coords = new int[6];
-        Point prev = null;
-        for (var it = path.getPathIterator(null, 0.5); !it.isDone(); it.next()) {
-            Point curr = new Point(coords[0], coords[1]);
+        double[] coords = new double[6];
+        Point2D prev = null;
+        for (var it = path.getPathIterator(null, 0.01); !it.isDone(); it.next()) {
+            int segType = it.currentSegment(coords);
+            Point2D curr = new Point2D.Double(coords[0], coords[1]);
             if (prev != null) {
                 double segLen = prev.distance(curr);
                 if (lenSoFar + segLen >= dist) {
                     double ratio = (dist - lenSoFar) / segLen;
                     return new Point(
                             (int) (prev.getX() + ratio * (curr.getX() - prev.getX())),
-                            (int)(prev.getY() + ratio * (curr.getY() - prev.getY()))
+                            (int) (prev.getY() + ratio * (curr.getY() - prev.getY()))
                     );
                 }
                 lenSoFar += segLen;
             }
             prev = curr;
         }
-        return prev;
+        return prev != null ? new Point2D.Double(prev.getX(),  prev.getY()) : null;
     }
 
     public static double calcPathLength(Path2D path) {
         double len = 0;
         double[] coords = new double[6];
         Point2D prev = null;
-        for (var it = path.getPathIterator(null, 0.5); !it.isDone(); it.next()) {
+        for (var it = path.getPathIterator(null, 0.01); !it.isDone(); it.next()) {
             int segType = it.currentSegment(coords);
             Point2D curr = new Point2D.Double(coords[0], coords[1]);
             if (prev != null) len += prev.distance(curr);
@@ -56,12 +57,12 @@ public class GeometryUtils {
         return len;
     }
 
-    public static Point getUnitTangent(Path2D path, double dist) {
+    public static Point2D getUnitTangent(Path2D path, double dist) {
         Point2D p1 = getPointAtDistance(path, dist);
         Point2D p2 = getPointAtDistance(path, dist + 1e-3);
         double dx = p2.getX() - p1.getX();
         double dy = p2.getY() - p1.getY();
         double mag = Math.sqrt(dx * dx + dy * dy);
-        return new Point((int) (dx / mag), (int) (dy / mag));
+        return new Point2D.Double((dx / mag), (dy / mag));
     }
 }

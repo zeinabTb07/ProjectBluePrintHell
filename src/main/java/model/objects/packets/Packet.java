@@ -1,4 +1,5 @@
 package model.objects.packets;
+import model.constants.PacketRecord;
 import model.interfaces.Forceable;
 import model.interfaces.Movable;
 import model.interfaces.Updatable;
@@ -7,6 +8,7 @@ import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable {
     protected int size;
@@ -17,7 +19,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected NetworkSystem currentSystem;
     protected Connection currentConnection;
     protected double distance;
-    protected Point centerOfMass;
+    protected Point2D centerOfMass;
 
 
     public Packet(RooterSystem system){
@@ -25,6 +27,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         this.currentSystem = system;
         centerOfMass = new Point();
     }
+
     public int getSize() {
         return size;
     }
@@ -73,11 +76,11 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         this.distance = distance;
     }
 
-    public Point getCenterOfMass() {
+    public Point2D getCenterOfMass() {
         return centerOfMass;
     }
 
-    public void setCenterOfMass(Point centerOfMass) {
+    public void setCenterOfMass(Point2D centerOfMass) {
         this.centerOfMass = centerOfMass;
     }
 

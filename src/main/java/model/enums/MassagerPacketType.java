@@ -2,7 +2,7 @@ package model.enums;
 
 import model.constants.PacketRecord;
 
-public enum MassagerPacketType {
+public enum MassagerPacketType  {
     SQUARE(GameShape.SQUARE, new PacketRecord.PacketProperties(2, 2)),
     TRIANGLE(GameShape.TRIANGLE, new PacketRecord.PacketProperties(3, 3));
 

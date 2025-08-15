@@ -15,8 +15,8 @@ public class Constants {
     public static final int PORT_SIZE = 8;
     public static final int PACKET_SIZE_SCALE = 4;
     public static final double WAVE_SPEED = 0.00005;
-    public static double PACKET_SPEED = 0.001;
-    public static double PACKET_ACCELERATION = 0.0001;
+    public static double PACKET_SPEED = 10;
+    public static double PACKET_ACCELERATION = 2;
     public static Stroke LINE_STROKE = new BasicStroke(3);
     public static ArrayList<Level> levels = new ArrayList<>();
     static {

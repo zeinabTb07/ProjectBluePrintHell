@@ -1,8 +1,13 @@
 package model.objects.systems;
 
+import events.EventBus;
+import events.GameEvents;
+import model.objects.packets.Connection;
+import model.objects.packets.MassagerPacket;
 import model.objects.packets.Packet;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class RooterSystem extends NetworkSystem {
@@ -11,6 +16,22 @@ public class RooterSystem extends NetworkSystem {
     public RooterSystem(Point point) {
         super(point);
         initialPackets = new ArrayList<>();
+    }
+
+    @Override
+    public void process(){
+        if (!initialPackets.isEmpty()) {
+            trySendingPacket(initialPackets.get(0));
+            if(initialPackets.get(0).getCurrentConnection()!=null){
+                initialPackets.removeFirst();
+            }
+        }
+
+    }
+    @Override
+    public void receivePacket(Packet p){
+        p.setCurrentSystem(this);
+        EventBus.publish(new GameEvents.PacketReachedEnd(p));
     }
 
     public void addPacket(Packet packet){

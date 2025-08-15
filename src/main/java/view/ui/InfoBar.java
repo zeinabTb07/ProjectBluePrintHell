@@ -72,6 +72,7 @@ public class InfoBar extends JLabel {
                 .withSize(new Dimension(50, 30))
                 .withAction(e -> EventBus.publish(new GameEvents.StartGameEvent()))
                 .build();
+        run.setEnabled(false);
         EventBus.subscribe(GameEvents.CheckConnectivity.class , e->{run.setEnabled(e.b());});
         add(run);
         add(Box.createHorizontalStrut(20));

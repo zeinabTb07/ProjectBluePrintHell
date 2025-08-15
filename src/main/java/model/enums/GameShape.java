@@ -1,6 +1,7 @@
 package model.enums;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public enum GameShape {
     SQUARE {

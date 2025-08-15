@@ -4,24 +4,26 @@ import model.constants.Constants;
 import model.enums.GameShape;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
-import model.enums.PortType;
 import model.objects.packets.Connection;
+import model.objects.packets.MassagerPacket;
 import model.objects.packets.Packet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 
 public class NetworkSystem extends GameObject implements Updatable {
-    private HashMap<GameShape, ArrayList<InputPort>> inputPorts;
-    private HashMap<GameShape , ArrayList<OutputPort>> outputPorts;
-    private ArrayList<Packet> storage;
-    private Point point;
-    private Inductor inductor;
+    protected static final Logger logger = LoggerFactory.getLogger(NetworkSystem.class);
+    protected HashMap<GameShape, ArrayList<InputPort>> inputPorts;
+    protected HashMap<GameShape , ArrayList<OutputPort>> outputPorts;
+    protected ArrayList<Packet> storage;
+    protected Point point;
+    protected Inductor inductor;
 
     public NetworkSystem(Point point){
         super();
@@ -40,14 +42,65 @@ public class NetworkSystem extends GameObject implements Updatable {
     }
 
     private void makeShape(){
-        RoundRectangle2D rectangle = new RoundRectangle2D.Float(point.x,
-                point.y ,
+        RoundRectangle2D rectangle = new RoundRectangle2D.Double(point.getX(),
+                point.getY() ,
                 Constants.SYSTEMS_WIDTH ,
                 Math.max(getOutPortsSize(), getInputPortsSize())*Constants.PORT_GAP+1.5f*Constants.INDUCTOR_HEIGHT,
                 8 ,
                 8);
         super.shape = rectangle;
     }
+
+    protected void trySendingPacket(Packet p) {
+        if (!(p instanceof MassagerPacket)) {
+            logger.error("Packet is not a MassagerPacket: {}", p);
+            return;
+        }
+        Connection connection = getProperConnection(p);
+        if (connection != null && !connection.isBusy()) {
+            ((MassagerPacket)p).sendTo(connection);
+            connection.setBusy(true);
+            logger.info("Packet {} sent to connection from {} to {}", p, connection.getSource(), connection.getTarget());
+        } else {
+            logger.debug("No available connection for packet {}", p);
+        }
+    }
+
+    protected Connection getProperConnection(Packet p) {
+        if (!(p instanceof MassagerPacket)) {
+            logger.error("Packet is not a MassagerPacket: {}", p);
+            return null;
+        }
+        MassagerPacket mp = (MassagerPacket) p;
+        GameShape packetPortType = mp.getType().getShape();
+        ArrayList<OutputPort> ports = getOutputPorts().get(packetPortType);
+        if(ports!=null){
+            for (OutputPort output : ports){
+                if (output.getConnection() != null && !output.getConnection().isBusy()) {
+                    return output.getConnection();
+                }
+            }
+        }
+
+        for (ArrayList<OutputPort> outputs : getOutputPorts().values()) {
+            for (OutputPort output : outputs){
+                if (output.getConnection() != null && !output.getConnection().isBusy()) {
+                    return output.getConnection();
+                }
+            }
+        }
+        return null;
+    }
+
+    public void process(){
+        if (!storage.isEmpty()) trySendingPacket(storage.get(0));
+    }
+
+    public void receivePacket(Packet p){
+        storage.add(p);
+        p.setCurrentSystem(this);
+    }
+
 
     public void addInputPort(InputPort port) {
         addPort(inputPorts, port);

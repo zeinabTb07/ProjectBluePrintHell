@@ -13,8 +13,6 @@ public class NetworkConnectivityChecker {
         this.systems = new ArrayList<>(systems);
     }
     public boolean check(){
-        System.out.println("ports : "+checkAllPortConnected());
-        System.out.println("condoctivity : "+ isConnected());
         return isConnected() && checkAllPortConnected();
     }
     private boolean isConnected() {
