@@ -3,7 +3,7 @@ package controller;
 
 import events.EventBus;
 import events.GameEvents;
-import model.GameState;
+import events.UIEvents;
 import model.constants.Constants;
 import model.objects.packets.Connection;
 import model.objects.packets.Packet;
@@ -20,7 +20,6 @@ public class PacketController{
 
     public PacketController(ArrayList<Packet> packets){
         this.packets = packets;
-        EventBus.subscribe(GameEvents.PacketReachedEnd.class,e->{packets.remove(e.packet());});
     }
 
 
@@ -33,16 +32,18 @@ public class PacketController{
             } else {
                 packet.moveNormal(deltaTime);
 
-                if(isPacketFallen(packet)||isPacketDisruptedByNoise(packet)){
-                    EventBus.publish(new GameEvents.PacketLostEvent(packet));
-                    packets.remove(packet);
-                }
-
                 if(isPacketReachedEnd(packet)){
                     Connection con = packet.getCurrentConnection();
                     NetworkSystem end = con.getTarget().getParentSystem();
                     end.receivePacket(packet);
                     resetPacket(packet);
+                }
+
+                if(isPacketFallen(packet)||isPacketDisruptedByNoise(packet)){
+                    EventBus.publish(new GameEvents.PacketLostEvent(packet));
+                    resetPacket(packet);
+                    packets.remove(packet);
+                    EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/lost.wav"));
                 }
             }
         }

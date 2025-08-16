@@ -31,7 +31,7 @@ public class RooterSystem extends NetworkSystem {
     @Override
     public void receivePacket(Packet p){
         p.setCurrentSystem(this);
-        EventBus.publish(new GameEvents.PacketReachedEnd(p));
+        EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
     }
 
     public void addPacket(Packet packet){

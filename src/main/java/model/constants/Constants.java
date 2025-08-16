@@ -10,14 +10,14 @@ public class Constants {
     public static final int Frame_HEIGHT = 700;
     // مثکه توی جی فریم به طول میگن عرض! بعد به عرض میگن ارتفاع
     public static final int SYSTEMS_WIDTH = 90;
-    public static final int PORT_GAP = 40;
+    public static final int PORT_GAP = 50;
     public static final int INDUCTOR_HEIGHT = 20;
     public static final int PORT_SIZE = 8;
-    public static final int PACKET_SIZE_SCALE = 5;
+    public static final int PACKET_SIZE_SCALE = 4;
     public static final double WAVE_SPEED = 2;
     public static final double MAX_WAVE_R = 150 ;
-    public static double PACKET_SPEED = 10;
-    public static double PACKET_ACCELERATION = 2;
+    public static double PACKET_SPEED = 15;
+    public static double PACKET_ACCELERATION = 10;
     public static Stroke LINE_STROKE = new BasicStroke(3);
     public static ArrayList<Level> levels = new ArrayList<>();
     static {

@@ -2,6 +2,7 @@ package controller;
 
 import events.EventBus;
 import events.GameEvents;
+import events.UIEvents;
 import model.Collision;
 import model.constants.Constants;
 import model.constants.Vector2D;
@@ -30,13 +31,15 @@ public class CollisionController {
             Packet packet = packets.get(i);
             for (int j = i + 1; j < packets.size(); j++) {
                 Packet packet1 = packets.get(j);
-                if (packet.getCurrentConnection() != null && packet1.getCurrentConnection() != null) {
+                if (packet.getCurrentConnection() != null && packet1.getCurrentConnection() != null&&packet.getDistancePassedOnConnection()>2) {
                     if (checkCollision(packet, packet1)) {
                         Point p = packet.getAbsolutePoint();
                         Point p1 = packet1.getAbsolutePoint();
+                        packet.increaseNoise(packet1.getSize());
+                        packet1.increaseNoise(packet.getNoise());
                         Point colCenter = new Point((p.x + p1.x) / 2, (p.y + p1.y) / 2);
-                        EventBus.publish(new GameEvents.CollisionDetectedEvent(colCenter));
                         collisions.add(new Collision(colCenter));
+                        EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/collision.wav"));
                     }
                 }
             }

@@ -3,9 +3,9 @@ package controller;
 import events.EventBus;
 import events.UIEvents;
 import model.GameState;
-import model.Level;
 import model.constants.Constants;
 import model.constants.Level1;
+
 
 public class GameController {
     private GameState gameState;
@@ -17,9 +17,7 @@ public class GameController {
         setupEventListeners();
     }
     private void setupEventListeners() {
-        EventBus.subscribe(UIEvents.ChooseLevelEvent.class, e -> {gameState.resetLevel(Constants.levels.get(e.n()));
-            EventBus.publish(new UIEvents.OpenGameEvent());});
-
+        EventBus.subscribe(UIEvents.ChooseLevelEvent.class, e -> gameState.resetLevel(Constants.levels.get(e.n())));
     }
     public void run(){
         frameManager = new FrameManager(gameState);

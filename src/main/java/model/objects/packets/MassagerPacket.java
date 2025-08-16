@@ -32,20 +32,6 @@ public class MassagerPacket extends Packet {
                 this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
     }
 
-    public Point getAbsolutePoint() {
-        if (super.currentConnection == null) {
-            Point p = super.getCurrentSystem().getPoint();
-            return new Point(
-                    p.x + Constants.SYSTEMS_WIDTH / 2,
-                    p.y + 2 * Constants.INDUCTOR_HEIGHT
-            );
-        } else {
-            Point2D p = currentConnection.getRelativePoint(distance);
-            return new Point((int) (centerOfMass.getX() + p.getX()),
-                    (int) (centerOfMass.getY() + p.getY())
-            );
-        }
-    }
 
     private void makeShape() {
         try {

@@ -1,8 +1,8 @@
 package events;
 
+import model.objects.packets.Connection;
 import model.objects.packets.Packet;
 
-import java.awt.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,15 +17,16 @@ public class GameEvents {
         }
     }
 
-    public record CollisionDetectedEvent(Point p) {
-        public CollisionDetectedEvent {
-            log.info("Collision detected at coordinates: ({}, {})", p.x, p.y);
+    public record ConnectionEvent(double lengthChange){
+        public ConnectionEvent{
+            log.info("Connection Length Change : {}" , lengthChange);
+
         }
     }
 
-    public record PauseGameEvent() {
+    public record PauseGameEvent(boolean b) {
         public PauseGameEvent {
-            log.info("Game paused.");
+            log.info("Game {}", b ? "Paused" : "Running");
         }
     }
 
@@ -35,15 +36,15 @@ public class GameEvents {
         }
     }
 
-    public record PacketReachedEnd(Packet packet) {
-        public PacketReachedEnd {
-            log.info("Packet reached end: {}", packet);
-        }
-    }
 
     public record CheckConnectivity(boolean b) {
         public CheckConnectivity {
             log.info("Connectivity check result: {}", b ? "Connected" : "Disconnected");
+        }
+    }
+    public record CoinGeneratedEvent(int n) {
+        public CoinGeneratedEvent {
+            log.info("Coins increased : {} " , n);
         }
     }
 }

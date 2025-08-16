@@ -12,7 +12,7 @@ public class Level1 extends Level {
 
     public Level1() {
         super();
-
+        setWireLength(5000);
         NetworkSystem ns3 = new NetworkSystem(new Point(300, 260));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
@@ -21,19 +21,19 @@ public class Level1 extends Level {
         addSystem(ns3);
 
 
-//        NetworkSystem ns4 = new NetworkSystem(new Point(500, 220));
-//        ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
-//        ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
-//        ns4.addInputPort(new InputPort(ns4, PortType.SQUARE));
-//        ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
-//        addSystem(ns4);
-//
-//        NetworkSystem ns5 = new NetworkSystem(new Point(650, 300));
-//        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
-//        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
-//        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
-//        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
-//        addSystem(ns5);
+        NetworkSystem ns4 = new NetworkSystem(new Point(500, 220));
+        ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
+        ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
+        ns4.addInputPort(new InputPort(ns4, PortType.SQUARE));
+        ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
+        addSystem(ns4);
+
+        NetworkSystem ns5 = new NetworkSystem(new Point(650, 300));
+        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
+        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
+        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
+        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
+        addSystem(ns5);
 
 
         NetworkSystem ns6 = new NetworkSystem(new Point(450, 420));
@@ -47,7 +47,7 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-       // rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
+        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
         rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
         rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
         addSystem(rs1);

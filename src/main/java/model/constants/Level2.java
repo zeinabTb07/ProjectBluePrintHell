@@ -14,6 +14,7 @@ public class Level2 extends Level {
     public Level2() {
         super();
 
+        setWireLength(15000);
 
         NetworkSystem ns1 = new NetworkSystem(new Point(370, 380));
         ns1.addInputPort(new InputPort(ns1, PortType.TRIANGLE));

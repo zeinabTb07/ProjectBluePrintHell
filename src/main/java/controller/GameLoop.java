@@ -13,6 +13,8 @@ public class GameLoop extends Thread {
     private static final int FRAME_RATE = 30;
     private volatile boolean running = true;
     private volatile boolean paused = false;
+    private double realDelta;
+    private double delta;
     private GameState gameState;
     private PacketController packetController;
     private CollisionController collisionController;
@@ -26,18 +28,18 @@ public class GameLoop extends Thread {
             start();
         });
         EventBus.subscribe(GameEvents.PauseGameEvent.class, e -> {
-            pauseGame();
-            logger.info("GameLoop paused: {}", paused);
+            pauseGame(e.b());
+            logger.info("Received Game {}", e.b() ? "Paused" : "Running");
         });
         logger.debug("GameLoop initialized with GameState: {}", gameState);
     }
+
+
 
     @Override
     public void run() {
         logger.info("GameLoop started");
         long lastTime = System.nanoTime();
-        double delta = 0;
-        double realDelta = 0 ;
 
         while (running) {
             long now = System.nanoTime();
@@ -56,8 +58,12 @@ public class GameLoop extends Thread {
         }
     }
 
-    public void pauseGame() {
-        paused = !paused;
+    public void pauseGame(boolean b) {
+        paused = b;
+        if(!b){
+            delta = 0;
+            realDelta = 0;
+        }
     }
 
     public void stopGame() {

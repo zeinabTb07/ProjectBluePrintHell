@@ -32,7 +32,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel(GameState gameState){
         super();
-        JLabel infoBar = new InfoBar();
+        JLabel infoBar = new InfoBar(gameState);
         gameStateRenderer = new GameStateRenderer();
         add(infoBar);
         setBackground(Color. BLACK);

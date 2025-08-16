@@ -32,7 +32,24 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public abstract void sendTo(Connection connection);
 
-    public abstract Point getAbsolutePoint();
+    public void increaseNoise(int n){
+        noise+=n;
+    }
+
+    public Point getAbsolutePoint() {
+        if (currentConnection == null) {
+            Point p = currentSystem.getPoint();
+            return new Point(
+                    p.x + Constants.SYSTEMS_WIDTH / 2,
+                    p.y + 2 * Constants.INDUCTOR_HEIGHT
+            );
+        } else {
+            Point2D p = currentConnection.getRelativePoint(distance);
+            return new Point((int) (centerOfMass.getX() + p.getX()),
+                    (int) (centerOfMass.getY() + p.getY())
+            );
+        }
+    }
 
 
     public int getSize() {

@@ -1,5 +1,7 @@
 package model.objects.systems;
 
+import events.EventBus;
+import events.GameEvents;
 import model.constants.Constants;
 import model.enums.GameShape;
 import model.interfaces.Updatable;
@@ -58,8 +60,9 @@ public class NetworkSystem extends GameObject implements Updatable {
         }
         Connection connection = getProperConnection(p);
         if (connection != null && !connection.isBusy()) {
-            ((MassagerPacket)p).sendTo(connection);
+            p.sendTo(connection);
             connection.setBusy(true);
+            storage.remove(p);
             logger.info("Packet {} sent to connection from {} to {}", p, connection.getSource(), connection.getTarget());
         } else {
             logger.debug("No available connection for packet {}", p);
@@ -99,6 +102,7 @@ public class NetworkSystem extends GameObject implements Updatable {
     public void receivePacket(Packet p){
         storage.add(p);
         p.setCurrentSystem(this);
+        EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
     }
 
 

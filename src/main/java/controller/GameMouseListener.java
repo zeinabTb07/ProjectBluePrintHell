@@ -66,9 +66,15 @@ public class GameMouseListener extends MouseAdapter {
                     !targetPort.isConnected()) {
 
                 Connection connection = new Connection(targetPort, sourcePort);
-                gameState.addConnection(connection);
-                log.info("Connection created: " + connection.getId());
-                EventBus.publish(new GameEvents.CheckConnectivity(connectivityChecker.check()));
+                if(gameState.getCurrentLengthUsed()+connection.getLength()<= gameState.getGameLevel().getWireLength()){
+                    gameState.addConnection(connection);
+                    EventBus.publish(new GameEvents.ConnectionEvent(connection.getLength()));
+                    log.info("Connection created: " + connection.getId());
+                    EventBus.publish(new GameEvents.CheckConnectivity(connectivityChecker.check()));
+                    EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/connect.wav"));
+                } else { connection.disconnect();
+                    EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/error.wav"));
+                }
             }
         });
 
@@ -112,7 +118,9 @@ public class GameMouseListener extends MouseAdapter {
             if ( connection.getSource().getShape().contains(point) ||
                     connection.getTarget().getShape().contains(point)) {
                 connection.disconnect();
-                iterator.remove();
+                gameState.removeConnection(connection);
+                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/disconnect.wav"));
+                EventBus.publish(new GameEvents.ConnectionEvent(-connection.getLength()));
                 log.info("Connection removed: " + connection.getId());
                 break;
             }

@@ -9,15 +9,27 @@ import javax.swing.*;
 import java.awt.*;
 
 
+
+import events.EventBus;
+import events.GameEvents;
+import events.UIEvents;
+import model.GameState;
+import model.constants.Constants;
+
+import javax.swing.*;
+import java.awt.*;
+
 public class InfoBar extends JLabel {
     private JLabel coin;
     private JProgressBar wireRemain;
     private JProgressBar packetLoss;
     private JSlider temporalProgress;
     private final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 20);
+    private final GameState gameState;
 
-    public InfoBar() {
+    public InfoBar(GameState gameState) {
         super();
+        this.gameState = gameState;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBounds(0, 0, Constants.FRAME_WIDTH, 60);
         setBackground(Color.white);
@@ -34,7 +46,7 @@ public class InfoBar extends JLabel {
         add(back);
         add(Box.createHorizontalStrut(20));
 
-        coin = new JLabel("Coins: 0");
+        coin = new JLabel("Coins: " + gameState.getCoin());
         coin.setForeground(Color.lightGray);
         coin.setFont(DEFAULT_FONT);
         add(coin);
@@ -42,7 +54,7 @@ public class InfoBar extends JLabel {
 
         wireRemain = new JProgressBar(0, 100);
         wireRemain.setString("Wire Length");
-        wireRemain.setValue(wireRemain.getMaximum());
+        wireRemain.setValue(calculateWireRemain());
         wireRemain.setStringPainted(true);
         wireRemain.setFont(DEFAULT_FONT);
         wireRemain.setBackground(Color.red.brighter());
@@ -52,9 +64,9 @@ public class InfoBar extends JLabel {
 
         packetLoss = new JProgressBar(0, 100);
         packetLoss.setString("Packet Loss");
-        packetLoss.setValue(100);
-        packetLoss.setBackground(Color.red.brighter());
-        packetLoss.setForeground(Color.lightGray);
+        packetLoss.setValue((int) gameState.getPacketLossPercentage());
+        packetLoss.setBackground(Color.lightGray);
+        packetLoss.setForeground(Color.RED);
         packetLoss.setStringPainted(true);
         packetLoss.setFont(DEFAULT_FONT);
         add(packetLoss);
@@ -75,8 +87,8 @@ public class InfoBar extends JLabel {
                 })
                 .build();
         run.setEnabled(false);
-        EventBus.subscribe(GameEvents.CheckConnectivity.class , e->{run.setEnabled(e.b());});
-        run.addActionListener(e->{run.setEnabled(false);});
+        EventBus.subscribe(GameEvents.CheckConnectivity.class, e -> run.setEnabled(e.b()));
+        run.addActionListener(e -> run.setEnabled(false));
         add(run);
         add(Box.createHorizontalStrut(20));
 
@@ -88,22 +100,52 @@ public class InfoBar extends JLabel {
                 .build();
         add(shop);
         add(Box.createHorizontalStrut(20));
+
+        setupGameStateListeners();
+    }
+
+    private void setupGameStateListeners() {
+        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> updateCoinDisplay());
+        EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
+        EventBus.subscribe(GameEvents.ConnectionEvent.class, e -> updateWireRemain());
+
+    }
+
+    private void updateCoinDisplay() {
+        coin.setText("Coins: " + gameState.getCoin());
+    }
+
+    private void updateWireRemain() {
+        wireRemain.setValue(calculateWireRemain());
+    }
+
+    private int calculateWireRemain() {
+        double maxWireLength = gameState.getGameLevel().getWireLength();
+        double usedLength = gameState.getCurrentLengthUsed();
+        return (int) ((maxWireLength - usedLength) / maxWireLength * 100);
+    }
+
+    private void updatePacketLoss() {
+        packetLoss.setValue((int) gameState.getPacketLossPercentage());
     }
 
     public void addWire(int d) {
-        wireRemain.setValue(wireRemain.getValue() - d);
+        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + d);
+        updateWireRemain();
     }
 
     public void removeWire(int d) {
-        wireRemain.setValue(wireRemain.getValue() + d);
+        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() - d);
+        updateWireRemain();
     }
 
     public void addCoin(int n) {
-        String currentText = coin.getText();
-        int currentCoins = Integer.parseInt(currentText.replace("Coins: ", ""));
-        coin.setText("Coins: " + (currentCoins + n));
+        gameState.addCoin(n);
+        updateCoinDisplay();
     }
-    public void purchaseCoin(int n){
-        addCoin(-n);
+
+    public void purchaseCoin(int n) {
+        gameState.addCoin(-n);
+        updateCoinDisplay();
     }
 }

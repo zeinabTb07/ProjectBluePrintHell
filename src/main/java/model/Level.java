@@ -4,9 +4,10 @@ import model.objects.systems.NetworkSystem;
 
 import java.util.ArrayList;
 
-public abstract class Level {
+public abstract class
+Level {
     protected ArrayList<NetworkSystem> systems;
-    protected int wireLength ;
+    protected double wireLength ;
     public Level(){
         systems = new ArrayList<>();
         wireLength = 0 ;
@@ -20,11 +21,11 @@ public abstract class Level {
         this.systems = systems;
     }
 
-    public int getWireLength() {
+    public double getWireLength() {
         return wireLength;
     }
 
-    public void setWireLength(int wireLength) {
+    public void setWireLength(double wireLength) {
         this.wireLength = wireLength;
     }
 
