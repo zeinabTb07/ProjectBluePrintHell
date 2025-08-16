@@ -2,8 +2,8 @@ package view.ui;
 
 import events.EventBus;
 import events.GameEvents;
-import model.objects.packets.Connection;
-import model.objects.systems.InputPort;
+import events.ShopEvents;
+import model.GameState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,16 +11,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Shop extends JDialog {
+
     public Shop() {
-        super((JFrame)null, "Power-Up Shop");
+        super((JFrame) null, "Power-Up Shop");
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        addPowerUpItem(mainPanel, "O' Atar", "Disables Impact waves for 10 seconds (Cost: 3 coins)");
-        addPowerUpItem(mainPanel, "O' Airyaman", "Disables packet collisions in the network for 5 seconds (Cost: 4 coins)");
-        addPowerUpItem(mainPanel, "O' Anahita", "Reduces noise of all network packets to zero (Cost: 5 coins)");
+        for (ShopEvents.PowerUpType powerUp : ShopEvents.PowerUpType.values()) {
+            addPowerUpItem(mainPanel, powerUp);
+        }
 
         this.add(mainPanel);
         this.pack();
@@ -35,14 +37,14 @@ public class Shop extends JDialog {
         });
     }
 
-    private void addPowerUpItem(JPanel parent, String name, String description) {
+    private void addPowerUpItem(JPanel parent, ShopEvents.PowerUpType powerUp) {
         JPanel itemPanel = new JPanel(new BorderLayout(10, 0));
         itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        JButton button = new JButton(name);
+        JButton button = new JButton(powerUp.getName());
         button.setFont(new Font("Arial", Font.BOLD, 12));
         button.setPreferredSize(new Dimension(120, 30));
-        button.addActionListener(e -> handlePurchase(name));
-        JLabel descLabel = new JLabel(description);
+        button.addActionListener(e -> handlePurchase(powerUp));
+        JLabel descLabel = new JLabel(powerUp.getDescription());
         descLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         itemPanel.add(button, BorderLayout.WEST);
         itemPanel.add(descLabel, BorderLayout.CENTER);
@@ -50,7 +52,7 @@ public class Shop extends JDialog {
         parent.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
-    private void handlePurchase(String powerUpName) {
-        System.out.println("Purchased: " + powerUpName);
+    private void handlePurchase(ShopEvents.PowerUpType powerUp) {
+        EventBus.publish(new ShopEvents.PowerUpEvent(powerUp));
     }
 }

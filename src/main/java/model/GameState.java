@@ -6,16 +6,9 @@ import model.objects.packets.Connection;
 import model.objects.packets.Packet;
 import model.objects.systems.RooterSystem;
 
-import java.awt.*;
-import java.util.ArrayList;
-import events.EventBus;
-import events.GameEvents;
-import model.objects.packets.Connection;
-import model.objects.packets.Packet;
-import model.objects.systems.RooterSystem;
 
-import java.awt.*;
 import java.util.ArrayList;
+
 
 public class GameState {
     private Level gameLevel;
