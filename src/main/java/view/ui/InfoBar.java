@@ -70,10 +70,13 @@ public class InfoBar extends JLabel {
                 .withText("Run")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e -> EventBus.publish(new GameEvents.StartGameEvent()))
+                .withAction(e -> {
+                    EventBus.publish(new GameEvents.StartGameEvent());
+                })
                 .build();
         run.setEnabled(false);
         EventBus.subscribe(GameEvents.CheckConnectivity.class , e->{run.setEnabled(e.b());});
+        run.addActionListener(e->{run.setEnabled(false);});
         add(run);
         add(Box.createHorizontalStrut(20));
 

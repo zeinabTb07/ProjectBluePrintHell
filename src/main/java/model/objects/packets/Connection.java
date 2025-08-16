@@ -1,7 +1,6 @@
 package model.objects.packets;
 
-import events.EventBus;
-import events.GameEvents;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +11,7 @@ import model.objects.GameObject;
 import model.objects.systems.InputPort;
 import model.objects.systems.OutputPort;
 
-import java.awt.*;
+
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +109,7 @@ public class Connection extends GameObject implements Updatable {
     }
 
     public Point2D getRelativePoint(double t) {
-        return shape != null ? GeometryUtils.getRelativePoint( (Path2D)shape, t) : null;
+        return shape != null ? GeometryUtils.getPointAtDistance( (Path2D)shape, t) : null;
     }
 
     public Point2D getUnitTangentAt(double dist) {

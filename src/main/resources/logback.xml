@@ -1,13 +1,13 @@
 
 <configuration>
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/game.log</file>
+    <appender name="SIMPLE_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app.log</file> <!-- اسم فایل: app.log -->
         <encoder>
-            <pattern>%-5level %logger{36} - %msg%n</pattern>
+            <pattern>%logger{20} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="DEBUG">
-        <appender-ref ref="FILE" />
+    <root level="INFO">
+        <appender-ref ref="SIMPLE_FILE" />
     </root>
 </configuration>

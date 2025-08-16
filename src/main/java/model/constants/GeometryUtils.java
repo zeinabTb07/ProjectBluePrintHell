@@ -15,17 +15,11 @@ public class GeometryUtils {
         return dist;
     }
 
-    public static Point2D getRelativePoint(Path2D path, double t) {
-        // فرض: t بین 0 و 1
-        double totalLen = calcPathLength(path);
-        return getPointAtDistance(path, totalLen * t);
-    }
-
     public static Point2D getPointAtDistance(Path2D path, double dist) {
         double lenSoFar = 0;
         double[] coords = new double[6];
         Point2D prev = null;
-        for (var it = path.getPathIterator(null, 0.01); !it.isDone(); it.next()) {
+        for (var it = path.getPathIterator(null, 0.1); !it.isDone(); it.next()) {
             int segType = it.currentSegment(coords);
             Point2D curr = new Point2D.Double(coords[0], coords[1]);
             if (prev != null) {
@@ -48,7 +42,7 @@ public class GeometryUtils {
         double len = 0;
         double[] coords = new double[6];
         Point2D prev = null;
-        for (var it = path.getPathIterator(null, 0.01); !it.isDone(); it.next()) {
+        for (var it = path.getPathIterator(null, 0.1); !it.isDone(); it.next()) {
             int segType = it.currentSegment(coords);
             Point2D curr = new Point2D.Double(coords[0], coords[1]);
             if (prev != null) len += prev.distance(curr);

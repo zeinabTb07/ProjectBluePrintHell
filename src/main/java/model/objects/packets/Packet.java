@@ -1,5 +1,7 @@
 package model.objects.packets;
+import model.constants.Constants;
 import model.constants.PacketRecord;
+import model.constants.PacketSpeedRules;
 import model.interfaces.Forceable;
 import model.interfaces.Movable;
 import model.interfaces.Updatable;
@@ -27,6 +29,11 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         this.currentSystem = system;
         centerOfMass = new Point();
     }
+
+    public abstract void sendTo(Connection connection);
+
+    public abstract Point getAbsolutePoint();
+
 
     public int getSize() {
         return size;

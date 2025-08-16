@@ -1,4 +1,6 @@
-package model;
+package model.constants;
+
+import java.awt.*;
 
 public class Vector2D {
     private double x;
@@ -7,6 +9,11 @@ public class Vector2D {
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vector2D (Point startPoint, Point endPoint) {
+        this.x = endPoint.getX() - startPoint.getX();
+        this.y = endPoint.getY() - startPoint.getY();
     }
 
     public Vector2D() {

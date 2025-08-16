@@ -1,6 +1,6 @@
 package model.objects.packets;
 
-import model.Vector2D;
+import model.constants.Vector2D;
 import model.constants.Constants;
 import model.constants.PacketRecord;
 import model.constants.PacketSpeedRules;
@@ -40,7 +40,7 @@ public class MassagerPacket extends Packet {
                     p.y + 2 * Constants.INDUCTOR_HEIGHT
             );
         } else {
-            Point2D p = currentConnection.getRelativePoint(distance / currentConnection.getLength());
+            Point2D p = currentConnection.getRelativePoint(distance);
             return new Point((int) (centerOfMass.getX() + p.getX()),
                     (int) (centerOfMass.getY() + p.getY())
             );
@@ -57,10 +57,8 @@ public class MassagerPacket extends Packet {
 
     @Override
     public void moveNormal(double deltaTime) {
-        double oldDistance = super.distance;
-        super.distance += acceleration * deltaTime * deltaTime / 2 + velocity * deltaTime;
-        log.trace("Packet moved: type={}, oldDistance={}, newDistance={}",
-                type, oldDistance, distance);
+        velocity += acceleration * deltaTime;
+        super.distance += velocity * deltaTime;
     }
 
     @Override

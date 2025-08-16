@@ -14,14 +14,17 @@ public class GameState {
     private Level gameLevel;
     private ArrayList<Connection> connections;
     private ArrayList<Packet> packets;
+    private ArrayList<Collision> collisions;
 
     public GameState(){
         connections = new ArrayList<>();
         packets = new ArrayList<>();
+        connections = new ArrayList<>();
+        collisions = new ArrayList<>();
     }
 
     public GameState(Level level){
-        super();
+        this();
         this.gameLevel = level;
         initialState();
 
@@ -70,5 +73,13 @@ public class GameState {
 
     public void setPackets(ArrayList<Packet> packets) {
         this.packets = packets;
+    }
+
+    public ArrayList<Collision> getCollisions() {
+        return collisions;
+    }
+
+    public void setCollisions(ArrayList<Collision> collisions) {
+        this.collisions = collisions;
     }
 }

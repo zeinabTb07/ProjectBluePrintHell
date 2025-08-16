@@ -27,7 +27,7 @@ public class Level1 extends Level {
 //        ns4.addInputPort(new InputPort(ns4, PortType.SQUARE));
 //        ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
 //        addSystem(ns4);
-
+//
 //        NetworkSystem ns5 = new NetworkSystem(new Point(650, 300));
 //        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
 //        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
@@ -47,8 +47,8 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-      //  rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
-      //  rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
+       // rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
+        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
         rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
         addSystem(rs1);
 

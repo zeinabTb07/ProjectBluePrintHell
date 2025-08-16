@@ -3,11 +3,7 @@ package controller;
 import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
-import model.GameState;
-
-import events.EventBus;
-import events.GameEvents;
-import events.UIEvents;
+import model.Collision;
 import model.GameState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +15,12 @@ public class GameLoop extends Thread {
     private volatile boolean paused = false;
     private GameState gameState;
     private PacketController packetController;
+    private CollisionController collisionController;
 
     public GameLoop(GameState gameState) {
         this.gameState = gameState;
         packetController = new PacketController(gameState.getPackets());
+        collisionController = new CollisionController(gameState.getPackets() , gameState.getCollisions());
         EventBus.subscribe(GameEvents.StartGameEvent.class, e -> {
             logger.info("Received StartGameEvent, starting GameLoop");
             start();
@@ -50,6 +48,8 @@ public class GameLoop extends Thread {
             if (!paused && delta >= 1) {
                 EventBus.publish(new UIEvents.RepaintGamePanelEvent());
                 packetController.updatePackets(realDelta);
+                collisionController.checkForCollision();
+                collisionController.applyCollisions();
                 realDelta = 0 ;
                 delta--;
             }
