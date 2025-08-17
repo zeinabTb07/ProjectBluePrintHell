@@ -1,5 +1,6 @@
 package model.objects.packets;
 import model.constants.Constants;
+import model.enums.PacketType;
 import model.interfaces.Forceable;
 import model.interfaces.Movable;
 import model.interfaces.Updatable;
@@ -21,10 +22,12 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected Connection currentConnection;
     protected double distance;
     protected Point2D centerOfMass;
+    private PacketType type;
 
 
-    public Packet(RooterSystem system){
+    public Packet(RooterSystem system , PacketType packetType){
         super();
+        this.type = packetType;
         this.currentSystem = system;
         centerOfMass = new Point();
     }
@@ -121,5 +124,13 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setNoise(int noise) {
         this.noise = noise;
+    }
+
+    public PacketType getType() {
+        return type;
+    }
+
+    public void setType(PacketType type) {
+        this.type = type;
     }
 }

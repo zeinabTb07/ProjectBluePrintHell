@@ -4,7 +4,7 @@ import model.constants.Vector2D;
 import model.constants.Constants;
 import model.constants.PacketRecord;
 import model.constants.PacketSpeedRules;
-import model.enums.MassagerPacketType;
+import model.enums.PacketType;
 import model.objects.other.Connection;
 import model.objects.systems.RooterSystem;
 
@@ -15,11 +15,9 @@ import java.awt.geom.Point2D;
 
 public class MassagerPacket extends Packet {
     private static final Logger log = LoggerFactory.getLogger(MassagerPacket.class);
-    private MassagerPacketType type;
 
-    public MassagerPacket(RooterSystem system, MassagerPacketType type) {
-        super(system);
-        this.type = type;
+    public MassagerPacket(RooterSystem system, PacketType type) {
+        super(system,type);
         super.currentSystem = system;
         super.size = type.getProperties().size();
         super.coin = type.getProperties().coin();
@@ -28,7 +26,7 @@ public class MassagerPacket extends Packet {
 
     public void sendTo(Connection connection){
         this.currentConnection = connection;
-        PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(this.type , connection.getSource().getPortType());
+        PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(getType() , connection.getSource().getPortType());
                 this.velocity = packetRecord.speed()*Constants.PACKET_SPEED;
                 this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
     }
@@ -36,7 +34,7 @@ public class MassagerPacket extends Packet {
 
     private void makeShape() {
         try {
-            super.shape = type.getShape().getShape(getAbsolutePoint(), size * Constants.PACKET_SIZE_SCALE);
+            super.shape = getType().getShape().getShape(getAbsolutePoint(), size * Constants.PACKET_SIZE_SCALE);
         } catch (Exception e) {
             log.error("Failed to create shape for packet: {}", e.getMessage(), e);
         }
@@ -61,16 +59,9 @@ public class MassagerPacket extends Packet {
                 centerOfMass.getY() + (int) forceVector.getY()
         );
 
-        log.debug("Packet moved by force: type={}, oldCenter={}, newCenter={}, force={}",
-                type, oldCenter, centerOfMass, forceVector);
+        log.debug("Packet moved by force, oldCenter={}, newCenter={}, force={}",
+                 oldCenter, centerOfMass, forceVector);
     }
 
 
-    public MassagerPacketType getType() {
-        return type;
-    }
-
-    public void setType(MassagerPacketType type) {
-        this.type = type;
-    }
 }

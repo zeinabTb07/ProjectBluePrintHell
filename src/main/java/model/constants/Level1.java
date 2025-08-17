@@ -3,7 +3,7 @@ package model.constants;
 import model.Level;
 import model.enums.PortType;
 import model.objects.packets.MassagerPacket;
-import model.enums.MassagerPacketType;
+import model.enums.PacketType;
 import model.objects.systems.*;
 
 import java.awt.*;
@@ -49,9 +49,9 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
-        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
         addSystem(rs1);
 
         RooterSystem rs2 = new RooterSystem(new Point(780, 450));

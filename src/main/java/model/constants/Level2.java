@@ -4,7 +4,7 @@ package model.constants;
 import model.Level;
 import model.enums.PortType;
 import model.objects.packets.MassagerPacket;
-import model.enums.MassagerPacketType;
+import model.enums.PacketType;
 import model.objects.systems.*;
 
 import java.awt.*;
@@ -61,19 +61,19 @@ public class Level2 extends Level {
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addInputPort(new InputPort(rs1, PortType.SQUARE));
         rs1.addInputPort(new InputPort(rs1, PortType.TRIANGLE));
-        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
         addSystem(rs1);
 
         RooterSystem rs2 = new RooterSystem(new Point(50, 150));
         rs2.addOutputPort(new OutputPort(rs2, PortType.TRIANGLE));
         rs2.addOutputPort(new OutputPort(rs2, PortType.SQUARE));
-        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.TRIANGLE));
-        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.SQUARE));
-        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.TRIANGLE));
-        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.TRIANGLE));
-        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.SQUARE));
+        rs2.addPacket(new MassagerPacket(rs2, PacketType.TRIANGLE));
+        rs2.addPacket(new MassagerPacket(rs2, PacketType.SQUARE));
+        rs2.addPacket(new MassagerPacket(rs2, PacketType.TRIANGLE));
+        rs2.addPacket(new MassagerPacket(rs2, PacketType.TRIANGLE));
+        rs2.addPacket(new MassagerPacket(rs2, PacketType.SQUARE));
         addSystem(rs2);
     }
 }
