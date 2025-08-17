@@ -1,6 +1,7 @@
 package view.ui;
 
 import controller.GameMouseListener;
+import controller.NetworkConnectivityChecker;
 import events.EventBus;
 import events.UIEvents;
 import model.GameState;
@@ -45,8 +46,9 @@ public class GamePanel extends JPanel {
         super.addMouseListener(gameMouseListener);
         EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class , e->{repaint();});
     }
-    public void resetInfoBar(){
+    public void reset(){
         infoBar.reset();
+        gameMouseListener.setConnectivityChecker(new NetworkConnectivityChecker(gameState.getGameLevel().getSystems()));
     }
 
     public GameState getGameState() {

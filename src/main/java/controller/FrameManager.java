@@ -26,6 +26,8 @@ public class FrameManager {
         this.settingDialog = new SettingDialog();
         this.levelsDialog = new LevelsDialog(Constants.levels.size());
         this.gameState = gameState;
+        this.gamePanel = new GamePanel(gameState);
+        this.menuPanel = new MenuPanel();
         this.shop = new Shop();
         setupEventListeners();
     }
@@ -49,7 +51,7 @@ public class FrameManager {
             int choice = JOptionPane.showOptionDialog(
                     null,
                     e.b() ? "You win!" : "You lost!",
-                    "Game Over",
+                    "Game Finished",
                     JOptionPane.DEFAULT_OPTION,
                     e.b() ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE,
                     null,
@@ -63,17 +65,11 @@ public class FrameManager {
         });
     }
     private void goToMenu() {
-        if (menuPanel == null) {
-            menuPanel = new MenuPanel();
-        }
         switchPanel(menuPanel);
         musicPlayer.stopBackgroundMusic();
     }
 
     private void goToGame() {
-        if (gamePanel == null) {
-            gamePanel = new GamePanel(gameState);
-        }
         switchPanel(gamePanel);
         musicPlayer.playBackgroundMusic();
     }

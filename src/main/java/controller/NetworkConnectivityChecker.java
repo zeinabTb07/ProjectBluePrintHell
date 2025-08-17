@@ -10,7 +10,7 @@ public class NetworkConnectivityChecker {
     private final List<NetworkSystem> systems;
 
     public NetworkConnectivityChecker(List<NetworkSystem> systems) {
-        this.systems = new ArrayList<>(systems);
+        this.systems = systems;
     }
     public boolean check(){
         return isConnected() && checkAllPortConnected();

@@ -27,6 +27,7 @@ public class GameMouseListener extends MouseAdapter {
     private OutputPort sourcePort;
     private final GameState gameState;
     private Line currentLine;
+
     private NetworkConnectivityChecker connectivityChecker;
 
     public GameMouseListener(GameState gameState) {
@@ -126,6 +127,10 @@ public class GameMouseListener extends MouseAdapter {
                 break;
             }
         }
+    }
+
+    public void setConnectivityChecker(NetworkConnectivityChecker connectivityChecker) {
+        this.connectivityChecker = connectivityChecker;
     }
 
     private void clearDragState() {

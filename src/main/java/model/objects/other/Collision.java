@@ -55,7 +55,7 @@ public class Collision implements Updatable {
     private void applyCollision(Packet packet){
         Vector2D v = new Vector2D(getPoint() , packet.getAbsolutePoint());
         if( Math.abs(v.magnitude()-getRadius())<30){
-            packet.moveInduced(v.multiply(300/(v.magnitude()* v.magnitude())));
+            packet.moveInduced(v.multiply(500/(v.magnitude()* v.magnitude())));
         }
     }
 }

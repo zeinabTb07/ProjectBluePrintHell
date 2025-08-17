@@ -21,7 +21,7 @@ public class GameController {
     private void setupEventListeners() {
         EventBus.subscribe(UIEvents.ChooseLevelEvent.class, e -> { gameState.resetLevel(Constants.levels.get(e.n()));
             init();
-            frameManager.getGamePanel().resetInfoBar();
+            frameManager.getGamePanel().reset();
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
             gameLoop.start();
