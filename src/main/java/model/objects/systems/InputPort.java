@@ -11,10 +11,15 @@ public class
 InputPort extends Port<OutputPort> {
     public InputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
-        Point p = parentSystem.getPoint();
-        super.setPoint(new Point((int) p.getX(),
-                (int) (parentSystem.getPoint().getY() + Constants.PORT_GAP*parentSystem.getInputPortsSize()+2*Constants.INDUCTOR_HEIGHT)));
+        n = parentSystem.getInputPortsSize();
         update();
+    }
+
+    @Override
+    public Point getPoint() {
+        Point p = getParentSystem().getPoint();
+        return new Point(p.x,
+                p.y + n*Constants.PORT_GAP +2*Constants.INDUCTOR_HEIGHT);
     }
 
     @Override

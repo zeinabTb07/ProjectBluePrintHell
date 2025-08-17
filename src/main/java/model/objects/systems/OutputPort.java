@@ -6,19 +6,13 @@ import model.objects.other.Connection;
 
 import java.awt.*;
 
+
 public class OutputPort extends Port<InputPort> {
     private Connection connection;
     public OutputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
-        Point p = parentSystem.getPoint();
-        super.setPoint(new Point(p.x + Constants.SYSTEMS_WIDTH ,
-                p.y + Constants.PORT_GAP * parentSystem.getOutPortsSize()+2*Constants.INDUCTOR_HEIGHT));
+        n = parentSystem.getOutPortsSize();
         update();
-    }
-
-    @Override
-    public void update() {
-        super.makeShape();
     }
 
     public Connection getConnection() {
@@ -27,6 +21,18 @@ public class OutputPort extends Port<InputPort> {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    @Override
+    public Point getPoint() {
+        Point p = getParentSystem().getPoint();
+        return new Point(p.x + Constants.SYSTEMS_WIDTH ,
+                p.y + n*Constants.PORT_GAP +2*Constants.INDUCTOR_HEIGHT);
+    }
+
+    @Override
+    public void update() {
+        super.makeShape();
     }
 }
 

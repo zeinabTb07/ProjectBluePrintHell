@@ -11,7 +11,7 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
     private NetworkSystem parentSystem;
     private PortType portType;
     private T connectedTo;
-    private Point point;
+    protected  int n ;
 
     public Port(NetworkSystem parentSystem, PortType portType) {
         super();
@@ -27,7 +27,7 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
 
 
     protected void makeShape(){
-        super.shape = portType.getShape().getShape(point , Constants.PORT_SIZE);
+        super.shape = portType.getShape().getShape(getPoint() , Constants.PORT_SIZE);
     }
 
 
@@ -67,14 +67,12 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
         this.connectedTo = connectedTo;
     }
 
-    public Point getPoint() {
-        return point;
+    public int getN() {
+        return n;
     }
 
-    public void setPoint(Point point) {
-        this.point = point;
+    public void setN(int n) {
+        this.n = n;
     }
-
-
-
+    public abstract Point getPoint();
 }
