@@ -15,6 +15,7 @@ public class GamePanel extends JPanel {
     private GameState gameState;
     private GameMouseListener gameMouseListener;
     private GameStateRenderer gameStateRenderer;
+    private InfoBar infoBar ;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -32,7 +33,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel(GameState gameState){
         super();
-        JLabel infoBar = new InfoBar(gameState);
+        infoBar = new InfoBar(gameState);
         gameStateRenderer = new GameStateRenderer();
         add(infoBar);
         setBackground(Color. BLACK);
@@ -43,6 +44,9 @@ public class GamePanel extends JPanel {
         super.addMouseMotionListener(gameMouseListener);
         super.addMouseListener(gameMouseListener);
         EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class , e->{repaint();});
+    }
+    public void resetInfoBar(){
+        infoBar.reset();
     }
 
     public GameState getGameState() {

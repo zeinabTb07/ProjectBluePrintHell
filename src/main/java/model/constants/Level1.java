@@ -13,6 +13,8 @@ public class Level1 extends Level {
     public Level1() {
         super();
         setWireLength(5000);
+        setTime(30);
+        setNumber(0);
         NetworkSystem ns3 = new NetworkSystem(new Point(300, 260));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));

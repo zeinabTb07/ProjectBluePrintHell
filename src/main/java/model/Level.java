@@ -8,9 +8,19 @@ public abstract class
 Level {
     protected ArrayList<NetworkSystem> systems;
     protected double wireLength ;
+    protected double time;
+    protected int number ;
     public Level(){
         systems = new ArrayList<>();
         wireLength = 0 ;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public ArrayList<NetworkSystem> getSystems() {
@@ -36,4 +46,11 @@ Level {
         systems.remove(system);
     }
 
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
 }

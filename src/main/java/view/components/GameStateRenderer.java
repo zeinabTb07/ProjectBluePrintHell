@@ -1,9 +1,8 @@
 package view.components;
 
-import model.Collision;
+import model.objects.other.Collision;
 import model.GameState;
-import model.constants.Constants;
-import model.objects.packets.Connection;
+import model.objects.other.Connection;
 import model.objects.packets.Packet;
 import model.objects.systems.NetworkSystem;
 import org.slf4j.Logger;

@@ -5,6 +5,7 @@ import events.GameEvents;
 import events.UIEvents;
 
 import model.GameState;
+import model.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +24,7 @@ public class GameLoop extends Thread {
         this.gameState = gameState;
         packetController = new PacketController(gameState.getPackets());
         collisionController = new CollisionController(gameState.getPackets() , gameState.getCollisions());
-        EventBus.subscribe(GameEvents.StartGameEvent.class, e -> {
-            logger.info("Received StartGameEvent, starting GameLoop");
-            start();
-        });
-        EventBus.subscribe(GameEvents.PauseGameEvent.class, e -> {
-            pauseGame(e.b());
-            logger.info("Received Game {}", e.b() ? "Paused" : "Running");
-        });
+
         logger.debug("GameLoop initialized with GameState: {}", gameState);
     }
 
@@ -40,6 +34,7 @@ public class GameLoop extends Thread {
     public void run() {
         logger.info("GameLoop started");
         long lastTime = System.nanoTime();
+        double gamePassedTime = 0 ;
 
         while (running) {
             long now = System.nanoTime();
@@ -53,6 +48,11 @@ public class GameLoop extends Thread {
                 collisionController.updatePowerUps(realDelta);
                 collisionController.checkForCollision();
                 collisionController.applyCollisions();
+                gamePassedTime+=realDelta;
+                if(gamePassedTime>gameState.getGameLevel().getTime()){
+                    finishGame();
+                    EventBus.publish(new GameEvents.CheckGameEndEvent(checkWinCondition()));
+                }
                 realDelta = 0 ;
                 delta--;
             }
@@ -67,7 +67,12 @@ public class GameLoop extends Thread {
         }
     }
 
-    public void stopGame() {
+    private boolean checkWinCondition(){
+        packetController.timesUp();
+        return gameState.getCoin()>=0 && gameState.getPacketLossPercentage() <=50;
+    }
+
+    public void finishGame() {
         running = false;
     }
 }

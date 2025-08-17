@@ -1,7 +1,7 @@
 package view.components;
 
 import model.constants.Constants;
-import model.objects.packets.Connection;
+import model.objects.other.Connection;
 
 import java.awt.*;
 

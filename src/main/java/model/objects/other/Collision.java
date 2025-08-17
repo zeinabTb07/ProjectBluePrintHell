@@ -1,4 +1,4 @@
-package model;
+package model.objects.other;
 
 import model.constants.Constants;
 import model.constants.Vector2D;
@@ -7,7 +7,6 @@ import model.interfaces.Updatable;
 import java.awt.*;
 import model.objects.packets.Packet;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 

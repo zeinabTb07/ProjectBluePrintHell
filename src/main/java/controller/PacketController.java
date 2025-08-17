@@ -3,11 +3,11 @@ package controller;
 import events.EventBus;
 import events.GameEvents;
 import events.ShopEvents;
-import events.UIEvents;
 import model.constants.Constants;
-import model.objects.packets.Connection;
+import model.objects.other.Connection;
 import model.objects.packets.Packet;
 import model.objects.systems.NetworkSystem;
+import model.objects.systems.RooterSystem;
 
 
 import java.awt.*;
@@ -33,6 +33,16 @@ public class PacketController {
         });
     }
 
+    public void timesUp(){
+        for(Packet packet :new ArrayList<>(packets)){
+            if(packet.getCurrentConnection()!=null ||! (packet.getCurrentSystem() instanceof RooterSystem)){
+                EventBus.publish(new GameEvents.PacketLostEvent(packet));
+                resetPacket(packet);
+                packets.remove(packet);
+            }
+        }
+    }
+
     public void updatePackets(double deltaTime) {
         for (Packet packet : new ArrayList<>(packets)) {
             packet.update();
@@ -53,7 +63,6 @@ public class PacketController {
                     EventBus.publish(new GameEvents.PacketLostEvent(packet));
                     resetPacket(packet);
                     packets.remove(packet);
-                    EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/lost.wav"));
                 }
             }
         }
@@ -80,7 +89,6 @@ public class PacketController {
     }
 
     private void resetPacket(Packet packet) {
-        packet.setNoise(0);
         packet.setDistancePassedOnConnection(0);
         packet.setCenterOfMass(new Point(0, 0));
         packet.setVelocity(0);

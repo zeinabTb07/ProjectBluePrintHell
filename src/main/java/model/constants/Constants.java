@@ -15,7 +15,7 @@ public class Constants {
     public static final int PORT_SIZE = 8;
     public static final int PACKET_SIZE_SCALE = 4;
     public static final double WAVE_SPEED = 2;
-    public static final double MAX_WAVE_R = 150 ;
+    public static final double MAX_WAVE_R = 300 ;
     public static double PACKET_SPEED = 15;
     public static double PACKET_ACCELERATION = 10;
     public static Stroke LINE_STROKE = new BasicStroke(3);

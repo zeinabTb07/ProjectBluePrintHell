@@ -1,6 +1,5 @@
 package events;
 
-import model.objects.packets.Connection;
 import model.objects.packets.Packet;
 
 
@@ -14,6 +13,17 @@ public class GameEvents {
     public record StartGameEvent() {
         public StartGameEvent {
             log.info("Game started.");
+        }
+    }
+
+    public record CheckGameEndEvent(boolean b){
+        public CheckGameEndEvent {
+            log.info("Game ends : {}", b ? "win" :"lost");
+            if(b){
+                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/won.wav"));
+            } else {
+                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/lost.wav"));
+            }
         }
     }
 

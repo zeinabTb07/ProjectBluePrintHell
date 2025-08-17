@@ -1,13 +1,13 @@
-package model.objects.packets;
+package model.objects.other;
 
 
+import model.objects.GameObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import model.constants.GeometryUtils;
 import model.interfaces.Updatable;
-import model.objects.GameObject;
 import model.objects.systems.InputPort;
 import model.objects.systems.OutputPort;
 

@@ -2,12 +2,9 @@ package model.objects.systems;
 
 import events.EventBus;
 import events.GameEvents;
-import model.objects.packets.Connection;
-import model.objects.packets.MassagerPacket;
 import model.objects.packets.Packet;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class RooterSystem extends NetworkSystem {

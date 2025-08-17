@@ -6,7 +6,7 @@ import model.constants.Constants;
 import model.enums.GameShape;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
-import model.objects.packets.Connection;
+import model.objects.other.Connection;
 import model.objects.packets.MassagerPacket;
 import model.objects.packets.Packet;
 import org.slf4j.Logger;

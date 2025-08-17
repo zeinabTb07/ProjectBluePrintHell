@@ -3,10 +3,10 @@ package controller;
 
 import events.EventBus;
 import events.GameEvents;
+import events.UIEvents;
 import events.UIEvents.*;
 import model.GameState;
 import model.constants.Constants;
-import model.constants.Level1;
 import view.ui.*;
 
 import javax.swing.*;
@@ -33,7 +33,6 @@ public class FrameManager {
     private void setupEventListeners() {
         EventBus.subscribe(OpenMenuEvent.class, e ->{
          goToMenu();
-         EventBus.publish(new GameEvents.PauseGameEvent(true));
         });
         EventBus.subscribe(OpenGameEvent.class, e -> {
             goToGame();
@@ -44,6 +43,24 @@ public class FrameManager {
         );
         EventBus.subscribe(OpenShopEvent.class, e -> {shop.setVisible(true);
             EventBus.publish(new GameEvents.PauseGameEvent(true));});
+
+        EventBus.subscribe(GameEvents.CheckGameEndEvent.class, e -> {
+            String[] options = {"Back to Menu"};
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    e.b() ? "You win!" : "You lost!",
+                    "Game Over",
+                    JOptionPane.DEFAULT_OPTION,
+                    e.b() ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+
+            if (choice == 0) {
+                EventBus.publish(new OpenMenuEvent());
+            }
+        });
     }
     private void goToMenu() {
         if (menuPanel == null) {
@@ -71,4 +88,8 @@ public class FrameManager {
     public JFrame getFrame() {
         return frame;
     }
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
 }

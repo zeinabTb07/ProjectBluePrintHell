@@ -9,15 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 
 
-
-import events.EventBus;
-import events.GameEvents;
-import events.UIEvents;
 import model.GameState;
-import model.constants.Constants;
 
-import javax.swing.*;
-import java.awt.*;
 
 public class InfoBar extends JLabel {
     private JLabel coin;
@@ -41,7 +34,8 @@ public class InfoBar extends JLabel {
                 .withText("Back")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e -> EventBus.publish(new UIEvents.OpenMenuEvent()))
+                .withAction(e ->{EventBus.publish(new UIEvents.OpenMenuEvent());
+                    EventBus.publish(new GameEvents.PauseGameEvent(true));})
                 .build();
         add(back);
         add(Box.createHorizontalStrut(20));
@@ -111,8 +105,14 @@ public class InfoBar extends JLabel {
 
     }
 
-    private void updateCoinDisplay() {
+     private void updateCoinDisplay() {
         coin.setText("Coins: " + gameState.getCoin());
+    }
+
+    public void reset(){
+        updateCoinDisplay();
+        updatePacketLoss();
+        updateWireRemain();
     }
 
     private void updateWireRemain() {
@@ -127,25 +127,5 @@ public class InfoBar extends JLabel {
 
     private void updatePacketLoss() {
         packetLoss.setValue((int) gameState.getPacketLossPercentage());
-    }
-
-    public void addWire(int d) {
-        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + d);
-        updateWireRemain();
-    }
-
-    public void removeWire(int d) {
-        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() - d);
-        updateWireRemain();
-    }
-
-    public void addCoin(int n) {
-        gameState.addCoin(n);
-        updateCoinDisplay();
-    }
-
-    public void purchaseCoin(int n) {
-        gameState.addCoin(-n);
-        updateCoinDisplay();
     }
 }

@@ -3,7 +3,7 @@ package controller;
 import events.EventBus;
 import events.ShopEvents;
 import events.UIEvents;
-import model.Collision;
+import model.objects.other.Collision;
 import model.constants.Constants;
 import model.objects.packets.Packet;
 

@@ -5,7 +5,8 @@ import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
 import model.constants.Constants;
-import model.objects.packets.Connection;
+import model.constants.Line;
+import model.objects.other.Connection;
 import model.objects.systems.InputPort;
 import model.objects.systems.OutputPort;
 import org.slf4j.Logger;
@@ -84,8 +85,8 @@ public class GameMouseListener extends MouseAdapter {
 
     public void paintLine(Graphics2D g) {
         if (currentLine != null) {
-            g.setColor(new Color(135, 206, 235));
-            g.setStroke(new BasicStroke(3));
+            g.setColor(Constants.Colors.LINE);
+            g.setStroke(Constants.LINE_STROKE);
             g.drawLine(currentLine.start.x, currentLine.start.y, currentLine.end.x, currentLine.end.y);
         }
     }
@@ -131,19 +132,5 @@ public class GameMouseListener extends MouseAdapter {
         dragStartPoint = null;
         sourcePort = null;
         currentLine = null;
-    }
-
-    private static class Line {
-        Point start, end;
-        public Line(Point start, Point end) {
-            this.start = start;
-            this.end = end;
-        }
-        public void setEnd(Point end) {
-            this.end = end;
-        }
-        public Point getEnd() {
-            return end;
-        }
     }
 }

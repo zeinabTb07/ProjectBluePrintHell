@@ -1,10 +1,9 @@
 package model.objects.packets;
 import model.constants.Constants;
-import model.constants.PacketRecord;
-import model.constants.PacketSpeedRules;
 import model.interfaces.Forceable;
 import model.interfaces.Movable;
 import model.interfaces.Updatable;
+import model.objects.other.Connection;
 import model.objects.GameObject;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;

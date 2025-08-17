@@ -14,8 +14,9 @@ public class Level2 extends Level {
     public Level2() {
         super();
 
-        setWireLength(15000);
-
+        setWireLength(6000);
+        setTime(50);
+        setNumber(1);
         NetworkSystem ns1 = new NetworkSystem(new Point(370, 380));
         ns1.addInputPort(new InputPort(ns1, PortType.TRIANGLE));
         ns1.addOutputPort(new OutputPort(ns1, PortType.SQUARE));
@@ -61,6 +62,8 @@ public class Level2 extends Level {
         rs1.addInputPort(new InputPort(rs1, PortType.SQUARE));
         rs1.addInputPort(new InputPort(rs1, PortType.TRIANGLE));
         rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, MassagerPacketType.TRIANGLE));
         addSystem(rs1);
 
         RooterSystem rs2 = new RooterSystem(new Point(50, 150));
@@ -68,6 +71,8 @@ public class Level2 extends Level {
         rs2.addOutputPort(new OutputPort(rs2, PortType.SQUARE));
         rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.TRIANGLE));
         rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.SQUARE));
+        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.TRIANGLE));
+        rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.TRIANGLE));
         rs2.addPacket(new MassagerPacket(rs2, MassagerPacketType.SQUARE));
         addSystem(rs2);
     }

@@ -2,7 +2,7 @@ package model.objects.systems;
 
 import model.constants.Constants;
 import model.enums.PortType;
-import model.objects.packets.Connection;
+import model.objects.other.Connection;
 
 import java.awt.*;
 

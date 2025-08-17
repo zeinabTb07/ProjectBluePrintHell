@@ -2,7 +2,9 @@ package model;
 
 import events.EventBus;
 import events.GameEvents;
-import model.objects.packets.Connection;
+import events.ShopEvents;
+import model.objects.other.Collision;
+import model.objects.other.Connection;
 import model.objects.packets.Packet;
 import model.objects.systems.RooterSystem;
 
@@ -21,11 +23,6 @@ public class GameState {
     private int lostPackets;
 
     public GameState() {
-        connections = new ArrayList<>();
-        packets = new ArrayList<>();
-        collisions = new ArrayList<>();
-        totalPackets = 0;
-        lostPackets = 0;
         setupEventListeners();
     }
 
@@ -40,10 +37,13 @@ public class GameState {
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> {
             lostPackets++;
         });
-        // ردیابی سکه‌ها
+
         EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
             coin += e.n();
         });
+
+        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->
+        {coin-=e.powerUpType().getPrice();});
     }
 
     public void resetLevel(Level level) {
@@ -62,10 +62,14 @@ public class GameState {
     }
 
     private void initialState() {
-        connections = new ArrayList<>();
-        packets = new ArrayList<>();
-        totalPackets = 0;
-        lostPackets = 0;
+        this.connections = new ArrayList<>();
+        this.packets = new ArrayList<>();
+        this.collisions = new ArrayList<>();
+        this.coin = 0;
+        this.currentLengthUsed = 0;
+        this.totalPackets = 0;
+        this.lostPackets = 0;
+
         gameLevel.getSystems().forEach(system -> {
             if (system instanceof RooterSystem) {
                 packets.addAll(((RooterSystem) system).getInitialPackets());
