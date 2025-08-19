@@ -18,7 +18,7 @@ public class ProtectedPacket extends Packet {
         basePacket = packet;
     }
 
-    @Override
+
     public void sendTo(Connection connection){
         this.currentConnection = connection;
         PacketType[] types = {PacketType.TRIANGLE, PacketType.SQUARE, PacketType.BITE};
