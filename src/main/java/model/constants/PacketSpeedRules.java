@@ -31,6 +31,38 @@ public class PacketSpeedRules {
         bitePackets.put(PortType.BITE , new PacketRecord.PacketMovement(1 , 1));
         rules.put(PacketType.BITE , trianglePacket);
 
+
+        HashMap<PortType, PacketRecord.PacketMovement> phantomPacket = new HashMap<>();
+        for(PortType portType : PortType.values()){
+            phantomPacket.put(portType , new PacketRecord.PacketMovement(2 , 0));
+        }
+        rules.put(PacketType.PHANTOM , phantomPacket);
+
+        HashMap<PortType, PacketRecord.PacketMovement> spiritPacket = new HashMap<>();
+        for(PortType portType : PortType.values()){
+            spiritPacket.put(portType , new PacketRecord.PacketMovement(2 , 0));
+        }
+        rules.put(PacketType.SPIRIT , spiritPacket);
+
+        HashMap<PortType, PacketRecord.PacketMovement> titanPacket = new HashMap<>();
+        for(PortType portType : PortType.values()){
+            titanPacket.put(portType , new PacketRecord.PacketMovement(1 , 0));
+        }
+        rules.put(PacketType.TITAN , titanPacket);
+
+        HashMap<PortType, PacketRecord.PacketMovement> rangarok = new HashMap<>();
+        for(PortType portType : PortType.values()){
+            rangarok.put(portType , new PacketRecord.PacketMovement(1 , 0));
+        }
+        rules.put(PacketType.RANGAROK , rangarok);
+
+
+
+
+
+
+
+
     }
 
     public static PacketRecord.PacketMovement getProperties(PacketType packetType, PortType portType) {

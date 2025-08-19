@@ -82,7 +82,6 @@ public class PacketController {
 
     private void resetPacket(Packet packet) {
         packet.setDistancePassedOnConnection(0);
-        packet.setCenterOfMass(new Point(0, 0));
         packet.setVelocity(0);
         packet.setAcceleration(0);
         Connection con = packet.getCurrentConnection();

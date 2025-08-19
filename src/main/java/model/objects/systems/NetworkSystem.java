@@ -58,10 +58,6 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     }
 
     protected void trySendingPacket(Packet p) {
-        if (!(p instanceof MassagerPacket)) {
-            log.error("Packet is not a MassagerPacket: {}", p);
-            return;
-        }
         Connection connection = getProperConnection(p);
         if (connection != null && !connection.isBusy()) {
             p.sendTo(connection);
@@ -74,8 +70,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     }
 
     protected Connection getProperConnection(Packet p) {
-        MassagerPacket mp = (MassagerPacket) p;
-        GameShape packetPortType = mp.getType().getShape();
+        GameShape packetPortType = p.getType().getShape();
         Connection con = null;
         for (OutputPort output : outputPorts){
             Connection c = output.getConnection();

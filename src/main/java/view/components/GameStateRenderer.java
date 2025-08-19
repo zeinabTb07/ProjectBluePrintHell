@@ -44,7 +44,6 @@ public class GameStateRenderer {
         }
         for (Packet packet : gameState.getPackets()){
             packetRenderer.render(g ,packet);
-            System.out.println("packet is rednfring"+ packet.getType());
         }
     }
 }

@@ -33,13 +33,14 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     protected boolean dirty;
 
-    public Packet(RooterSystem system , PacketType packetType){
+    public Packet(NetworkSystem system , PacketType packetType){
         super();
         this.type = packetType;
         this.currentSystem = system;
         centerOfMass = new Point();
         dirty = true;
     }
+
 
 
     protected void makeShape() {
