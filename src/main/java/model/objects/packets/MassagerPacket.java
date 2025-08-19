@@ -25,7 +25,7 @@ public class MassagerPacket extends Packet {
     public void sendTo(Connection connection){
         this.currentConnection = connection;
         PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(type, connection.getSource().getPortType());
-        if(connection.getTarget().getPortType().getShape()==type.getShape()){
+        if(!(connection.getTarget().getPortType().getShape()==type.getShape())){
             this.velocity = 2*packetRecord.speed()* Constants.PACKET_SPEED;
         } else this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
         this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;

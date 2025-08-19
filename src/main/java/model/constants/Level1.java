@@ -54,10 +54,10 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-//        rs1.addPacket(new MassagerPacket(rs1, PacketType.SPIRIT));
-//        rs1.addPacket(new MassagerPacket(rs1, PacketType.PHANTOM));
-//        rs1.addPacket(new MassagerPacket(rs1, PacketType.TITAN));
-//        rs1.addPacket(new MassagerPacket(rs1, PacketType.RANGAROK));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
         addSystem(rs1);
 
         RooterSystem rs2 = new RooterSystem(new Point(780, 450));
