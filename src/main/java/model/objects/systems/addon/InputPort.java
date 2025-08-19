@@ -1,17 +1,17 @@
-package model.objects.systems;
+package model.objects.systems.addon;
 
 
 import model.constants.Constants;
 import model.enums.PortType;
+import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class
 InputPort extends Port<OutputPort> {
     public InputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
-        n = parentSystem.getInputPortsSize();
+        n = parentSystem.getInputPorts().size();
         update();
     }
 

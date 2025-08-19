@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.awt.geom.Point2D;
 
 public class MassagerPacket extends Packet {
-    private static final Logger log = LoggerFactory.getLogger(MassagerPacket.class);
-
     public MassagerPacket(RooterSystem system, PacketType type) {
         super(system,type);
         super.currentSystem = system;
@@ -51,17 +49,6 @@ public class MassagerPacket extends Packet {
         makeShape();
     }
 
-    @Override
-    public void moveInduced(Vector2D forceVector) {
-        Point2D oldCenter = centerOfMass;
-        centerOfMass = new Point2D.Double(
-                centerOfMass.getX() + (int) forceVector.getX(),
-                centerOfMass.getY() + (int) forceVector.getY()
-        );
-
-        log.debug("Packet moved by force, oldCenter={}, newCenter={}, force={}",
-                 oldCenter, centerOfMass, forceVector);
-    }
 
 
 }

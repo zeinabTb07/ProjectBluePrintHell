@@ -16,26 +16,27 @@ public class RooterSystem extends NetworkSystem {
     }
 
     @Override
-    public void process(){
+    public void process() {
         if (!initialPackets.isEmpty()) {
             trySendingPacket(initialPackets.get(0));
-            if(initialPackets.get(0).getCurrentConnection()!=null){
+            if (initialPackets.get(0).getCurrentConnection() != null) {
                 initialPackets.removeFirst();
             }
         }
 
     }
+
     @Override
-    public void receivePacket(Packet p){
+    public void receivePacket(Packet p) {
         p.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
     }
 
-    public void addPacket(Packet packet){
+    public void addPacket(Packet packet) {
         initialPackets.add(packet);
     }
 
-    public void removePacket(Packet packet){
+    public void removePacket(Packet packet) {
         initialPackets.remove(packet);
     }
 
@@ -45,5 +46,10 @@ public class RooterSystem extends NetworkSystem {
 
     public void setInitialPackets(ArrayList<Packet> initialPackets) {
         this.initialPackets = initialPackets;
+    }
+
+    @Override
+    public void update() {
+        
     }
 }

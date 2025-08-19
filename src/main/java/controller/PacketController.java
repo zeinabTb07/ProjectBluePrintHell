@@ -23,14 +23,6 @@ public class PacketController {
     }
 
     private void setupEventListeners() {
-        EventBus.subscribe(ShopEvents.PowerUpEvent.class, e -> {
-            ShopEvents.PowerUpType powerUp = e.powerUpType();
-            if (powerUp == ShopEvents.PowerUpType.CLEAR_NOISE) {
-                for (Packet packet : packets) {
-                    packet.setNoise(0);
-                }
-            }
-        });
     }
 
     public void timesUp(){

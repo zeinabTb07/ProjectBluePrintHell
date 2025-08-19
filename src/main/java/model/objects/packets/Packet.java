@@ -1,5 +1,6 @@
 package model.objects.packets;
 import model.constants.Constants;
+import model.constants.Vector2D;
 import model.enums.PacketType;
 import model.interfaces.Forceable;
 import model.interfaces.Movable;
@@ -8,11 +9,14 @@ import model.objects.other.Connection;
 import model.objects.GameObject;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
 public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable {
+    protected static final Logger log = LoggerFactory.getLogger(Packet.class);
     protected int size;
     protected int coin;
     protected int noise;
@@ -22,7 +26,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected Connection currentConnection;
     protected double distance;
     protected Point2D centerOfMass;
-    private PacketType type;
+    protected PacketType type;
 
 
     public Packet(RooterSystem system , PacketType packetType){
@@ -132,5 +136,16 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setType(PacketType type) {
         this.type = type;
+    }
+    @Override
+    public void moveInduced(Vector2D forceVector) {
+        Point2D oldCenter = centerOfMass;
+        centerOfMass = new Point2D.Double(
+                centerOfMass.getX() + (int) forceVector.getX(),
+                centerOfMass.getY() + (int) forceVector.getY()
+        );
+
+        log.debug("Packet moved by force, oldCenter={}, newCenter={}, force={}",
+                oldCenter, centerOfMass, forceVector);
     }
 }

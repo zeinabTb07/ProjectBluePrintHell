@@ -1,9 +1,10 @@
-package model.objects.systems;
+package model.objects.systems.addon;
 
 import model.constants.Constants;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
 import model.enums.PortType;
+import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
 

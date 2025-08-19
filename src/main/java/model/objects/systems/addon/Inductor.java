@@ -1,8 +1,9 @@
-package model.objects.systems;
+package model.objects.systems.addon;
 
 import model.constants.Constants;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
+import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class Inductor extends GameObject implements Updatable {
     protected NetworkSystem system ;
 
-    protected Inductor(NetworkSystem system){
+    public Inductor(NetworkSystem system){
         this.system = system ;
         super.id = system.getId();
         makeShape();
@@ -26,15 +27,12 @@ public class Inductor extends GameObject implements Updatable {
     }
 
     public boolean checkConnections() {
-        boolean inputsConnected = system.getInputPorts().values()
+        boolean inputsConnected = system.getInputPorts()
                 .stream()
-                .flatMap(List::stream)
                 .allMatch(InputPort::isConnected);
         if (!inputsConnected) return false;
 
-        return system.getOutputPorts().values()
-                .stream()
-                .flatMap(List::stream)
+        return system.getOutputPorts().stream()
                 .allMatch(OutputPort::isConnected);
     }
 

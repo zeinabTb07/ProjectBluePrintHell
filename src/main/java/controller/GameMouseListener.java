@@ -7,8 +7,8 @@ import model.GameState;
 import model.constants.Constants;
 import model.constants.Line;
 import model.objects.other.Connection;
-import model.objects.systems.InputPort;
-import model.objects.systems.OutputPort;
+import model.objects.systems.addon.InputPort;
+import model.objects.systems.addon.OutputPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,8 +96,7 @@ public class GameMouseListener extends MouseAdapter {
 
     private Optional<OutputPort> findSourcePort(Point point) {
         return gameState.getGameLevel().getSystems().stream()
-                .flatMap(system -> system.getOutputPorts().values().stream())
-                .flatMap(Collection::stream)
+                .flatMap(system -> system.getOutputPorts().stream())
                 .filter(port -> !port.isConnected())
                 .filter(port -> port.getShape().contains(point))
                 .findFirst();
@@ -105,8 +104,7 @@ public class GameMouseListener extends MouseAdapter {
 
     private Optional<InputPort> findTargetPort(Point point) {
         return gameState.getGameLevel().getSystems().stream()
-                .flatMap(system -> system.getInputPorts().values().stream())
-                .flatMap(Collection::stream)
+                .flatMap(system -> system.getInputPorts().stream())
                 .filter(port -> !port.isConnected())
                 .filter(port ->  port.getShape().contains(point))
                 .findFirst();

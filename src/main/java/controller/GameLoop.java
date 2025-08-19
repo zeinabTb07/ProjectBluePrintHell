@@ -45,7 +45,6 @@ public class GameLoop extends Thread {
             if (!paused && delta >= 1) {
                 EventBus.publish(new UIEvents.RepaintGamePanelEvent());
                 packetController.updatePackets(realDelta);
-                collisionController.updatePowerUps(realDelta);
                 collisionController.checkForCollision();
                 collisionController.applyCollisions();
                 gamePassedTime+=realDelta;

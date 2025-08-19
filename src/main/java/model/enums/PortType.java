@@ -3,7 +3,8 @@ package model.enums;
 
 public enum PortType {
     SQUARE(GameShape.SQUARE),
-    TRIANGLE(GameShape.TRIANGLE);
+    TRIANGLE(GameShape.TRIANGLE),
+    BITE(GameShape.BITE);
 
     private final GameShape shape;
 

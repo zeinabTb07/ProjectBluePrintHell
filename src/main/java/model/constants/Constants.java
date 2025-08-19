@@ -9,6 +9,7 @@ public class Constants {
     public static final int FRAME_WIDTH = 1000;
     public static final int Frame_HEIGHT = 700;
     // مثکه توی جی فریم به طول میگن عرض! بعد به عرض میگن ارتفاع
+
     public static final int SYSTEMS_WIDTH = 90;
     public static final int PORT_GAP = 50;
     public static final int INDUCTOR_HEIGHT = 20;
@@ -22,7 +23,6 @@ public class Constants {
     public static ArrayList<Level> levels = new ArrayList<>();
     static {
         levels.add(new Level1());
-        levels.add(new Level2());
     }
 
     public class Colors {

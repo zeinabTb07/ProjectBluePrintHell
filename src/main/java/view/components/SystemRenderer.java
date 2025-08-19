@@ -33,8 +33,7 @@ public class SystemRenderer {
 
     private void renderInputPorts(Graphics2D g2d, NetworkSystem system) {
         g2d.setColor(Constants.Colors.INPUT_PORT);
-        system.getInputPorts().values().stream()  // Stream<ArrayList<InputPort>>
-                .flatMap(Collection::stream)          // Stream<InputPort>
+        system.getInputPorts().stream()
                 .forEach(port -> g2d.fill(
                         port.getShape())
                 );
@@ -42,8 +41,7 @@ public class SystemRenderer {
 
     private void renderOutputPorts(Graphics2D g2d, NetworkSystem system) {
         g2d.setColor(Constants.Colors.OUTPUT_PORT);
-        system.getOutputPorts().values().stream() // Stream<ArrayList<OutputPort>>
-                .flatMap(Collection::stream)          // Stream<OutputPort>
+        system.getOutputPorts().stream()
                 .forEach(port -> g2d.fill(
                         port.getShape())
                 );

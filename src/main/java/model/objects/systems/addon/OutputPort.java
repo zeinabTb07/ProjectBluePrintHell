@@ -1,8 +1,9 @@
-package model.objects.systems;
+package model.objects.systems.addon;
 
 import model.constants.Constants;
 import model.enums.PortType;
 import model.objects.other.Connection;
+import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public class OutputPort extends Port<InputPort> {
     private Connection connection;
     public OutputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
-        n = parentSystem.getOutPortsSize();
+        n = parentSystem.getOutputPorts().size();
         update();
     }
 

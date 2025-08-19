@@ -2,10 +2,10 @@ package events;
 
 public class ShopEvents {
     public enum PowerUpType {
-        STOP_IMPACT("O' Atar", 3, 10.0, "Disables Impact waves for 10 seconds"),
-        STOP_COLLISION("O' Airyaman", 4, 5.0, "Disables packet collisions in the network for 5 seconds"),
-        CLEAR_NOISE("O' Anahita", 5, 0.0, "Reduces noise of all network packets to zero");
-
+        ZERO_ACCELERATION("Scroll Of Aergia", 10, 20.0, "Sets packet acceleration to zero at a selected point for 20 seconds"),
+        RELOCATE_SYSTEM("Scroll of Sisyphus ", 15, 0.0, "Relocates a non-rooter system within network constraints"),
+        ALIGN_CENTER("Scroll Of Eliphas", 20, 30.0, "Realigns packet centers to wire trajectory for 30 seconds"),
+        HELPER_POINT("Scroll Of Path" , 1 , 0 , "Add a helper Point to make a curve on your connection");
         private final String name;
         private final int price;
         private final double duration;

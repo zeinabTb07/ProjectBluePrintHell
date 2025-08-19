@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import model.constants.GeometryUtils;
 import model.interfaces.Updatable;
-import model.objects.systems.InputPort;
-import model.objects.systems.OutputPort;
+import model.objects.systems.addon.InputPort;
+import model.objects.systems.addon.OutputPort;
 
 
 import java.awt.geom.*;
