@@ -1,4 +1,10 @@
 package model.objects.packets;
 
-public class ProtectedPacket {
+import model.enums.PacketType;
+import model.objects.systems.RooterSystem;
+
+public class ProtectedPacket extends Packet {
+    public ProtectedPacket(RooterSystem system, PacketType packetType) {
+        super(system, packetType);
+    }
 }

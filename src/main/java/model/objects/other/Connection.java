@@ -25,6 +25,8 @@ public class Connection extends GameObject implements Updatable {
     private OutputPort source;
     private boolean isBusy;
 
+    private boolean dirty;
+
     public Connection(InputPort target, OutputPort source) {
         super();
         this.target = target;
@@ -34,15 +36,17 @@ public class Connection extends GameObject implements Updatable {
         controlPoints.add(source.getPoint());
         controlPoints.add(target.getPoint());
         connect();
-        update();
+        makeShape();
         length = GeometryUtils.calcPathLength((Path2D) shape);
         logger.info("New connection created: from {} to {}", source, target);
     }
+
     public void addHelperPoint(Point2D point){
         logger.info("Helper point added: {}", point);
                 controlPoints.add(controlPoints.size()-1 , point);
                 update();
         length = GeometryUtils.calcPathLength((Path2D) shape);
+        dirty = true;
     }
 
     public void removeHelperPoint(Point2D point){
@@ -53,7 +57,7 @@ public class Connection extends GameObject implements Updatable {
         } catch (Exception e) {
             logger.error("Error removing helper point", e);
         }
-        update();
+        dirty = true;
         length = GeometryUtils.calcPathLength((Path2D) shape);
     }
 
@@ -152,7 +156,9 @@ public class Connection extends GameObject implements Updatable {
 
     @Override
     public void update() {
-        makeShape();
+        if (dirty){
+            makeShape();
+        }
     }
 }
 

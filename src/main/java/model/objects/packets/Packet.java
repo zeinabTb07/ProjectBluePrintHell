@@ -1,5 +1,7 @@
 package model.objects.packets;
 import model.constants.Constants;
+import model.constants.PacketRecord;
+import model.constants.PacketSpeedRules;
 import model.constants.Vector2D;
 import model.enums.PacketType;
 import model.interfaces.Forceable;
@@ -17,6 +19,7 @@ import java.awt.geom.Point2D;
 
 public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable {
     protected static final Logger log = LoggerFactory.getLogger(Packet.class);
+
     protected int size;
     protected int coin;
     protected int noise;
@@ -28,15 +31,25 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected Point2D centerOfMass;
     protected PacketType type;
 
+    protected boolean dirty;
 
     public Packet(RooterSystem system , PacketType packetType){
         super();
         this.type = packetType;
         this.currentSystem = system;
         centerOfMass = new Point();
+        dirty = true;
     }
 
-    public abstract void sendTo(Connection connection);
+
+    protected void makeShape() {
+        try {
+            super.shape = getType().getShape().getShape(getAbsolutePoint(), size * Constants.PACKET_SIZE_SCALE);
+        } catch (Exception e) {
+            log.error("Failed to create shape for packet: {}", e.getMessage(), e);
+        }
+    }
+
 
     public void increaseNoise(int n){
         noise+=n;
@@ -55,6 +68,14 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
                     (int) (centerOfMass.getY() + p.getY())
             );
         }
+    }
+
+    public void sendTo(Connection connection){
+        this.currentConnection = connection;
+        PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(getType() , connection.getSource().getPortType());
+        this.velocity = packetRecord.speed()*Constants.PACKET_SPEED;
+        this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
+        dirty = true;
     }
 
 
@@ -96,6 +117,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setCurrentSystem(NetworkSystem currentSystem) {
         this.currentSystem = currentSystem;
+        dirty = true;
     }
 
     public double getDistancePassedOnConnection() {
@@ -104,6 +126,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setDistancePassedOnConnection(double distance) {
         this.distance = distance;
+        dirty = true;
     }
 
     public Point2D getCenterOfMass() {
@@ -112,6 +135,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setCenterOfMass(Point2D centerOfMass) {
         this.centerOfMass = centerOfMass;
+        dirty = true;
     }
 
     public Connection getCurrentConnection() {
@@ -120,6 +144,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setCurrentConnection(Connection currentConnection) {
         this.currentConnection = currentConnection;
+        dirty = true;
     }
 
     public int getNoise() {
@@ -136,16 +161,32 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
 
     public void setType(PacketType type) {
         this.type = type;
+        dirty = true;
     }
+
     @Override
     public void moveInduced(Vector2D forceVector) {
         Point2D oldCenter = centerOfMass;
         centerOfMass = new Point2D.Double(
-                centerOfMass.getX() + (int) forceVector.getX(),
-                centerOfMass.getY() + (int) forceVector.getY()
+                centerOfMass.getX() +  forceVector.getX(),
+                centerOfMass.getY() +  forceVector.getY()
         );
 
         log.debug("Packet moved by force, oldCenter={}, newCenter={}, force={}",
                 oldCenter, centerOfMass, forceVector);
+        dirty = true;
+    }
+    @Override
+    public void moveNormal(double deltaTime) {
+        velocity += acceleration * deltaTime;
+        distance += velocity * deltaTime;
+        dirty = true;
+    }
+
+    @Override
+    public void update() {
+        if (dirty){
+            makeShape();
+        }
     }
 }

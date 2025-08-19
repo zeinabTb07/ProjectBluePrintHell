@@ -4,7 +4,6 @@ import model.constants.Constants;
 import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
-import java.util.Collection;
 public class SystemRenderer {
     public void render(Graphics2D g2d, NetworkSystem system) {
         renderSystemBody(g2d, system);

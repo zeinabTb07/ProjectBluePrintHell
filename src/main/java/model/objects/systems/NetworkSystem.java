@@ -35,6 +35,8 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     protected Point point;
     protected Inductor inductor;
 
+    protected boolean dirty;
+
     public NetworkSystem(Point point){
         super();
         this.point = point;
@@ -42,9 +44,10 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         inductor = new Inductor(this);
         inputPorts = new ArrayList<>();
         outputPorts = new ArrayList<>();
+        dirty = false ;
     }
 
-    private void makeShape(){
+    protected void makeShape(){
         RoundRectangle2D rectangle = new RoundRectangle2D.Double(point.getX(),
                 point.getY() ,
                 Constants.SYSTEMS_WIDTH ,
@@ -73,9 +76,18 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     protected Connection getProperConnection(Packet p) {
         MassagerPacket mp = (MassagerPacket) p;
         GameShape packetPortType = mp.getType().getShape();
+        Connection con = null;
         for (OutputPort output : outputPorts){
-            if (output.getConnection() != null && !output.getConnection().isBusy()) {
-                return output.getConnection();
+            Connection c = output.getConnection();
+            if (c!= null && !c.isBusy()) {
+                con = output.getConnection();
+                if(p instanceof MassagerPacket){
+                    if(output.getPortType().getShape()==packetPortType){
+                        return con;
+                    }
+                } else {
+                    return con;
+                }
             }
         }
         return null;
@@ -157,6 +169,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
 
     public void setPoint(Point point) {
         this.point = point;
+        dirty = true;
     }
 
     public Inductor getInductor() {
@@ -167,6 +180,14 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         this.inductor = inductor;
     }
 
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+    }
+
     @Override
     public void moveInduced(Vector2D forceVector) {
         Point2D oldCenter = point;
@@ -174,9 +195,22 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
                 (int) (point.getX() + forceVector.getX()),
                 (int) (point.getY() +  forceVector.getY())
         );
-
+        dirty = true ;
         log.debug("System moved by force, oldCenter={}, newCenter={}, force={}",
                 oldCenter, point, forceVector);
+    }
+
+    @Override
+    public void update() {
+        if(dirty){
+            makeShape();
+            inductor.update();
+            inputPorts.stream()
+                    .forEach(InputPort::update);
+            outputPorts.stream()
+                    .forEach(OutputPort::update);
+            dirty = false;
+        }
     }
 
 }
