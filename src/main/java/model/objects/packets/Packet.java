@@ -47,6 +47,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
             super.shape = getType().getShape().getShape(getAbsolutePoint(), size * Constants.PACKET_SIZE_SCALE);
         } catch (Exception e) {
             log.error("Failed to create shape for packet: {}", e.getMessage(), e);
+            super.shape = new Rectangle(getAbsolutePoint().x - 5, getAbsolutePoint().y - 5, 10 , 10);
         }
     }
 

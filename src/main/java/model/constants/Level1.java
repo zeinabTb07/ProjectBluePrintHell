@@ -4,6 +4,7 @@ import model.Level;
 import model.enums.PortType;
 import model.objects.packets.MassagerPacket;
 import model.enums.PacketType;
+import model.objects.packets.ProtectedPacket;
 import model.objects.systems.*;
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.addon.OutputPort;
@@ -53,10 +54,10 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
         addSystem(rs1);
 
         RooterSystem rs2 = new RooterSystem(new Point(780, 450));

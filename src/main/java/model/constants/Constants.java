@@ -14,7 +14,7 @@ public class Constants {
     public static final int PORT_GAP = 50;
     public static final int INDUCTOR_HEIGHT = 20;
     public static final int PORT_SIZE = 8;
-    public static final int PACKET_SIZE_SCALE = 4;
+    public static final int PACKET_SIZE_SCALE = 5;
     public static final double WAVE_SPEED = 2;
     public static final double MAX_WAVE_R = 400 ;
     public static double PACKET_SPEED = 15;

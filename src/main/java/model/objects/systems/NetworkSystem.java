@@ -90,7 +90,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
                 }
             }
         }
-        return null;
+        return con;
     }
 
     public void process(){

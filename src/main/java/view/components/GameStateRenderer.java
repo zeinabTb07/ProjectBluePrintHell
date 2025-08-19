@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.Optional;
 
 public class GameStateRenderer {
     private static final Logger log = LoggerFactory.getLogger(GameStateRenderer.class);
@@ -36,12 +37,14 @@ public class GameStateRenderer {
         }
         for(NetworkSystem system : gameState.getGameLevel().getSystems()){
             systemRenderer.render(g , system);
+
         }
         for (Connection connection : gameState.getConnections()){
             connectionRenderer.render(g , connection);
         }
         for (Packet packet : gameState.getPackets()){
             packetRenderer.render(g ,packet);
+            System.out.println("packet is rednfring"+ packet.getType());
         }
     }
 }
