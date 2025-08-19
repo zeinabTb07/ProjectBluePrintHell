@@ -6,6 +6,7 @@ import model.objects.systems.NetworkSystem;
 import java.awt.*;
 public class SystemRenderer {
     public void render(Graphics2D g2d, NetworkSystem system) {
+        system.update();
         renderSystemBody(g2d, system);
         renderInductor(g2d, system);
         renderInputPorts(g2d, system);

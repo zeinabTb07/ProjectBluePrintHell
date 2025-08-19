@@ -48,8 +48,4 @@ public class RooterSystem extends NetworkSystem {
         this.initialPackets = initialPackets;
     }
 
-    @Override
-    public void update() {
-        
-    }
 }

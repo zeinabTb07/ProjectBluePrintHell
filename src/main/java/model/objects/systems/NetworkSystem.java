@@ -44,7 +44,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         inductor = new Inductor(this);
         inputPorts = new ArrayList<>();
         outputPorts = new ArrayList<>();
-        dirty = false ;
+        dirty = true ;
     }
 
     protected void makeShape(){
