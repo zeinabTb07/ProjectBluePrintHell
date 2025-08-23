@@ -21,7 +21,7 @@ import java.util.Optional;
 public class HelperPointMode implements MouseMode {
     private static final Logger log = LoggerFactory.getLogger(HelperPointMode.class);
     private static final double HELPER_CLICK_THRESHOLD = 5.0;
-    private static final double LINE_CLICK_THRESHOLD = 8.0;
+    private static final double LINE_CLICK_THRESHOLD =5.0;
 
     private final GameState gameState;
     private Connection helperConnection;
@@ -65,6 +65,10 @@ public class HelperPointMode implements MouseMode {
                     if (gameState.getCurrentLengthUsed() + lengthIncrease <= gameState.getGameLevel().getWireLength()) {
                         gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + lengthIncrease);
                         log.info("Added helper point to connection {} at {}", conn.getId(), clickPoint);
+                        draggingHelper = clickPoint;
+                        helperConnection = conn;
+                        dragStartPoint = clickPoint;
+                        addHelperActive = false;
                     } else {
                         conn.removeHelperPoint(clickPoint);
                         conn.setDirty(true);
@@ -92,6 +96,7 @@ public class HelperPointMode implements MouseMode {
             helperConnection.update();
             double newLength = helperConnection.getLength();
             gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + (newLength - oldLength));
+
             dragStartPoint = e.getPoint();
             log.debug("Dragging helper point to: ({}, {})", newX, newY);
         }
@@ -122,7 +127,7 @@ public class HelperPointMode implements MouseMode {
                 it.currentSegment(coords);
                 Point2D curr = new Point2D.Double(coords[0], coords[1]);
                 if (prev != null) {
-                    // محاسبه فاصله نقطه کلیک‌شده تا خط بین prev و curr
+
                     double distance = Line2D.ptSegDist(prev.getX(), prev.getY(), curr.getX(), curr.getY(), point.getX(), point.getY());
                     if (distance <= LINE_CLICK_THRESHOLD) {
                         return Optional.of(conn);
