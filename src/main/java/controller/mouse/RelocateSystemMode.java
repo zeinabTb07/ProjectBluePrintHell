@@ -1,8 +1,5 @@
 package controller.mouse;
 
-import controller.NetworkConnectivityChecker;
-import events.EventBus;
-import events.GameEvents;
 import model.GameState;
 import model.constants.Vector2D;
 import model.objects.systems.NetworkSystem;
@@ -45,6 +42,7 @@ public class RelocateSystemMode implements MouseMode {
             int dy = e.getY() - dragStartPoint.y;
             draggingSystem.moveInduced(new Vector2D(dx, dy));
             dragStartPoint = e.getPoint();
+
             log.debug("Dragging system to new position: {}", draggingSystem.getPoint());
         }
     }

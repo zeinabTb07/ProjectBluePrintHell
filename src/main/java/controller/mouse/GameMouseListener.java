@@ -1,6 +1,5 @@
 package controller.mouse;
 
-import controller.*;
 import events.EventBus;
 import events.ShopEvents;
 import events.UIEvents;
@@ -14,15 +13,12 @@ import java.awt.event.MouseEvent;
 
 public class GameMouseListener extends MouseAdapter {
     private static final Logger log = LoggerFactory.getLogger(GameMouseListener.class);
-
-    private final GameState gameState;
     private MouseMode currentMode;
     private final MouseMode defaultMode;
     private final MouseMode relocateMode;
     private final MouseMode helperPointMode;
 
     public GameMouseListener(GameState gameState) {
-        this.gameState = gameState;
         this.defaultMode = new DefaultConnectionMode(gameState);
         this.relocateMode = new RelocateSystemMode(gameState);
         this.helperPointMode = new HelperPointMode(gameState);

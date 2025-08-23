@@ -4,6 +4,7 @@ import model.constants.Constants;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
 import model.enums.PortType;
+import model.objects.other.Connection;
 import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
@@ -14,6 +15,7 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
     private PortType portType;
     private T connectedTo;
     protected  int n ;
+    private Connection connection;
 
     public Port(NetworkSystem parentSystem, PortType portType) {
         super();
@@ -43,6 +45,15 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
     public boolean isConnected() {
         return connectedTo != null;
     }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
 
 
     public NetworkSystem getParentSystem() {
@@ -77,4 +88,12 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
         this.n = n;
     }
     public abstract Point getPoint();
+    @Override
+    public void update() {
+        makeShape();
+        if(getConnection()!=null){
+            connection.setDirty(true);
+            getConnection().update();
+        }
+    }
 }

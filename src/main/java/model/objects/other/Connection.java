@@ -158,8 +158,19 @@ public class Connection extends GameObject implements Updatable , Serializable {
     @Override
     public void update() {
         if (dirty){
+            controlPoints = getHelperPoints();
+            controlPoints.addFirst(source.getPoint());
+            controlPoints.addLast(target.getPoint());
             makeShape();
         }
+    }
+
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
     }
 }
 

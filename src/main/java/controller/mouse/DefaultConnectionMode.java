@@ -1,6 +1,5 @@
 package controller.mouse;
 
-import controller.NetworkConnectivityChecker;
 import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
