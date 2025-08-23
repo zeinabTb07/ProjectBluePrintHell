@@ -32,6 +32,7 @@ public class Constants {
         public static final Color PACKET = new Color(0, 255, 191);
         public static final Color LINE = new Color(0x90A4AE);
         public static final Color CONNECTION = new Color(0xBA68C8);
+        public static final Color HP_POINT = new Color(58, 100, 250);
         public static final Color STATUS_CONNECTED = new Color(0x66BB6A);
         public static final Color STATUS_DISCONNECTED = new Color(0xFBC02D);
     }

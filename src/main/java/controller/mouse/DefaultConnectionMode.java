@@ -39,6 +39,7 @@ public class DefaultConnectionMode implements MouseMode {
                 currentLine = new Line(dragStartPoint, e.getPoint());
                 log.info("Starting new connection from: {}", dragStartPoint);
             });
+
         } else if (SwingUtilities.isRightMouseButton(e)) {
             removeConnectionAtPoint(e.getPoint());
         }

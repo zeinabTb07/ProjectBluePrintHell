@@ -1,10 +1,10 @@
 package controller.mouse;
 
-import controller.NetworkConnectivityChecker;
+
 import events.EventBus;
 import events.UIEvents;
 import model.GameState;
-import model.constants.GeometryUtils;
+
 import model.objects.other.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.AbstractMap;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class HelperPointMode implements MouseMode {
     private static final Logger log = LoggerFactory.getLogger(HelperPointMode.class);
     private static final double HELPER_CLICK_THRESHOLD = 5.0;
+    private static final double LINE_CLICK_THRESHOLD = 8.0;
 
     private final GameState gameState;
     private Connection helperConnection;
@@ -52,16 +54,26 @@ public class HelperPointMode implements MouseMode {
                 Optional<Connection> connOpt = findConnectionLineAtPoint(clickPoint);
                 if (connOpt.isPresent()) {
                     Connection conn = connOpt.get();
-                    double newLength = conn.getLength() + GeometryUtils.calcPathLength((Path2D) conn.getShape());
-                    if (gameState.getCurrentLengthUsed() + newLength <= gameState.getGameLevel().getWireLength()) {
-                        conn.addHelperPoint(clickPoint);
-                        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + newLength);
-                        addHelperActive = false; // Consume power-up
+
+                    double oldLength = conn.getLength();
+                    conn.addHelperPoint(clickPoint);
+                    conn.update();
+                    double newLength = conn.getLength();
+                    double lengthIncrease = newLength - oldLength;
+
+
+                    if (gameState.getCurrentLengthUsed() + lengthIncrease <= gameState.getGameLevel().getWireLength()) {
+                        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + lengthIncrease);
                         log.info("Added helper point to connection {} at {}", conn.getId(), clickPoint);
                     } else {
+                        conn.removeHelperPoint(clickPoint);
+                        conn.setDirty(true);
+                        conn.update();
                         EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/error.wav"));
                         log.warn("Cannot add helper point: exceeds wire length limit.");
                     }
+                } else {
+                    log.debug("No connection found at point {}", clickPoint);
                 }
             }
         }
@@ -76,6 +88,7 @@ public class HelperPointMode implements MouseMode {
             double newY = draggingHelper.getY() + dy;
             draggingHelper.setLocation(newX, newY);
             double oldLength = helperConnection.getLength();
+            helperConnection.setDirty(true);
             helperConnection.update();
             double newLength = helperConnection.getLength();
             gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + (newLength - oldLength));
@@ -91,17 +104,34 @@ public class HelperPointMode implements MouseMode {
             helperConnection = null;
             log.info("Helper point drag completed.");
         }
+
+        addHelperActive = true;
     }
 
     @Override
     public void paintLine(Graphics2D g) {
-        // No line to paint in helper point mode
+
     }
 
     private Optional<Connection> findConnectionLineAtPoint(Point point) {
-        return gameState.getConnections().stream()
-                .filter(conn -> conn.getShape().contains(point))
-                .findFirst();
+        for (Connection conn : gameState.getConnections()) {
+            Path2D path = (Path2D) conn.getShape();
+            double[] coords = new double[6];
+            Point2D prev = null;
+            for (var it = path.getPathIterator(null, 0.1); !it.isDone(); it.next()) {
+                it.currentSegment(coords);
+                Point2D curr = new Point2D.Double(coords[0], coords[1]);
+                if (prev != null) {
+                    // محاسبه فاصله نقطه کلیک‌شده تا خط بین prev و curr
+                    double distance = Line2D.ptSegDist(prev.getX(), prev.getY(), curr.getX(), curr.getY(), point.getX(), point.getY());
+                    if (distance <= LINE_CLICK_THRESHOLD) {
+                        return Optional.of(conn);
+                    }
+                }
+                prev = curr;
+            }
+        }
+        return Optional.empty();
     }
 
     private Optional<AbstractMap.SimpleEntry<Connection, Point2D>> findHelperAtPoint(Point point) {

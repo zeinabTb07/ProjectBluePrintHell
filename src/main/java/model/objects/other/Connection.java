@@ -20,7 +20,7 @@ import java.util.List;
 public class Connection extends GameObject implements Updatable , Serializable {
     private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
-    private List<Point2D> controlPoints;
+    private List<Point2D> helperPoint;
     private double length;
     private InputPort target;
     private OutputPort source;
@@ -33,9 +33,8 @@ public class Connection extends GameObject implements Updatable , Serializable {
         this.target = target;
         this.source = source;
         source.setConnection(this);
-        controlPoints = new ArrayList<Point2D>();
-        controlPoints.add(source.getPoint());
-        controlPoints.add(target.getPoint());
+        helperPoint = new ArrayList<Point2D>();
+
         connect();
         makeShape();
         length = GeometryUtils.calcPathLength((Path2D) shape);
@@ -44,7 +43,7 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
     public void addHelperPoint(Point2D point){
         logger.info("Helper point added: {}", point);
-                controlPoints.add(controlPoints.size()-1 , point);
+                helperPoint.add(point);
                 update();
         length = GeometryUtils.calcPathLength((Path2D) shape);
         dirty = true;
@@ -52,7 +51,7 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
     public void removeHelperPoint(Point2D point){
         try {
-            controlPoints.remove(point);
+            helperPoint.remove(point);
 
             logger.info("Helper point removed: {}", point);
         } catch (Exception e) {
@@ -63,10 +62,10 @@ public class Connection extends GameObject implements Updatable , Serializable {
     }
 
     public List<Point2D> getHelperPoints(){
-        List<Point2D> temp = controlPoints;
-        temp.removeFirst();
-        temp.removeLast();
-        return temp;
+        return helperPoint;
+    }
+    public void setHelperPoints(List<Point2D> helperPoint){
+        this.helperPoint = helperPoint;
     }
     private void connect(){
         target.connect(source);
@@ -80,7 +79,9 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
     private void makeShape() {
         Path2D path = new Path2D.Double();
-
+        List<Point2D> controlPoints = new ArrayList<>(helperPoint);
+        controlPoints.addFirst(source.getPoint());
+        controlPoints.addLast(target.getPoint());
         path.moveTo(controlPoints.get(0).getX(), controlPoints.get(0).getY());
 
         if (controlPoints.size() == 2) {
@@ -139,14 +140,6 @@ public class Connection extends GameObject implements Updatable , Serializable {
         this.source = source;
     }
 
-    public List<Point2D> getControlPoints() {
-        return controlPoints;
-    }
-
-    public void setControlPoints(List<Point2D> controlPoints) {
-        this.controlPoints = controlPoints;
-    }
-
     public boolean isBusy() {
         return isBusy;
     }
@@ -158,9 +151,6 @@ public class Connection extends GameObject implements Updatable , Serializable {
     @Override
     public void update() {
         if (dirty){
-            controlPoints = getHelperPoints();
-            controlPoints.addFirst(source.getPoint());
-            controlPoints.addLast(target.getPoint());
             makeShape();
         }
     }

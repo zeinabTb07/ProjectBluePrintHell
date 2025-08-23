@@ -93,7 +93,6 @@ public abstract class Port<T extends Port<?>> extends GameObject  implements Upd
         makeShape();
         if(getConnection()!=null){
             connection.setDirty(true);
-            getConnection().update();
         }
     }
 }
