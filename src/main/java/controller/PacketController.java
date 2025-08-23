@@ -75,7 +75,7 @@ public class PacketController {
     private boolean isPacketReachedEnd(Packet packet) {
         Connection connection = packet.getCurrentConnection();
         double distance = packet.getDistancePassedOnConnection();
-        double target = connection.getLength() / 2;
+        double target = connection.getLength();
         boolean reached = distance >= target;
         return reached;
     }

@@ -58,7 +58,6 @@ public class Connection extends GameObject implements Updatable , Serializable {
             logger.error("Error removing helper point", e);
         }
         dirty = true;
-        length = GeometryUtils.calcPathLength((Path2D) shape);
     }
 
     public List<Point2D> getHelperPoints(){
@@ -87,20 +86,21 @@ public class Connection extends GameObject implements Updatable , Serializable {
         if (controlPoints.size() == 2) {
             Point2D p1 = controlPoints.get(1);
             path.lineTo(p1.getX(), p1.getY());
-        }
-        for (int i = 0; i < controlPoints.size() - 1; i++) {
-            Point2D p0 = (i > 0) ? controlPoints.get(i - 1) : controlPoints.get(i);
-            Point2D p1 = controlPoints.get(i);
-            Point2D p2 = controlPoints.get(i + 1);
-            Point2D p3 = (i + 2 < controlPoints.size()) ? controlPoints.get(i + 2) : p2;
+        } else {
+            for (int i = 0; i < controlPoints.size() - 1; i++) {
+                Point2D p0 = (i > 0) ? controlPoints.get(i - 1) : controlPoints.get(i);
+                Point2D p1 = controlPoints.get(i);
+                Point2D p2 = controlPoints.get(i + 1);
+                Point2D p3 = (i + 2 < controlPoints.size()) ? controlPoints.get(i + 2) : p2;
 
-            double ctrl1X = p1.getX() + (p2.getX() - p0.getX()) / 6.0;
-            double ctrl1Y = p1.getY() + (p2.getY() - p0.getY()) / 6.0;
+                double ctrl1X = p1.getX() + (p2.getX() - p0.getX()) / 6.0;
+                double ctrl1Y = p1.getY() + (p2.getY() - p0.getY()) / 6.0;
 
-            double ctrl2X = p2.getX() - (p3.getX() - p1.getX()) / 6.0;
-            double ctrl2Y = p2.getY() - (p3.getY() - p1.getY()) / 6.0;
+                double ctrl2X = p2.getX() - (p3.getX() - p1.getX()) / 6.0;
+                double ctrl2Y = p2.getY() - (p3.getY() - p1.getY()) / 6.0;
 
-            path.curveTo(ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, p2.getX(), p2.getY());
+                path.curveTo(ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, p2.getX(), p2.getY());
+            }
         }
 
         super.shape = path;
@@ -152,6 +152,7 @@ public class Connection extends GameObject implements Updatable , Serializable {
     public void update() {
         if (dirty){
             makeShape();
+            length = GeometryUtils.calcPathLength((Path2D) shape);
         }
     }
 
