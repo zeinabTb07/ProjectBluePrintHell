@@ -6,9 +6,10 @@ import model.enums.PortType;
 import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
+import java.io.Serializable;
 
 public class
-InputPort extends Port<OutputPort> {
+InputPort extends Port<OutputPort> implements Serializable {
     public InputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);
         n = parentSystem.getInputPorts().size();

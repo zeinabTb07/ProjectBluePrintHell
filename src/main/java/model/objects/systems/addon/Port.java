@@ -7,8 +7,9 @@ import model.enums.PortType;
 import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Port<T extends Port<?>> extends GameObject  implements Updatable {
+public abstract class Port<T extends Port<?>> extends GameObject  implements Updatable , Serializable {
     private NetworkSystem parentSystem;
     private PortType portType;
     private T connectedTo;

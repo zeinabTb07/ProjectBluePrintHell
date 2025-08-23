@@ -6,9 +6,10 @@ import model.objects.other.Connection;
 import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
+import java.io.Serializable;
 
 
-public class OutputPort extends Port<InputPort> {
+public class OutputPort extends Port<InputPort>  implements Serializable {
     private Connection connection;
     public OutputPort(NetworkSystem parentSystem, PortType portType) {
         super(parentSystem, portType);

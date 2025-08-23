@@ -6,9 +6,10 @@ import model.objects.GameObject;
 import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.List;
 
-public class Inductor extends GameObject implements Updatable {
+public class Inductor extends GameObject implements Updatable , Serializable {
     protected NetworkSystem system ;
 
     public Inductor(NetworkSystem system){
