@@ -7,10 +7,11 @@ import model.enums.PacketType;
 import model.objects.other.Connection;
 import model.objects.systems.RooterSystem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ProtectedPacket extends Packet {
+public class ProtectedPacket extends Packet implements Serializable {
     private MassagerPacket basePacket;
     public ProtectedPacket(MassagerPacket packet) {
         super(packet.getCurrentSystem(), packet.getType());

@@ -21,12 +21,13 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.io.Serializable;
 import java.util.*;
 
 
 
 
-public abstract class NetworkSystem extends GameObject implements Updatable , Forceable {
+public abstract class NetworkSystem extends GameObject implements Updatable , Forceable , Serializable {
     protected static final Logger log = LoggerFactory.getLogger(NetworkSystem.class);
     protected ArrayList<InputPort> inputPorts;
     protected ArrayList<OutputPort> outputPorts;

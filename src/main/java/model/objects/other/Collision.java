@@ -8,13 +8,14 @@ import model.interfaces.Updatable;
 import java.awt.*;
 import model.objects.packets.Packet;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Collision implements Updatable {
+public class Collision implements Updatable , Serializable {
     private Point p;
     private double radius;
-    private Set<Packet> affectedPackets; // لیست پکت‌هایی که این collision بهشون اثر کرده
+    private Set<Packet> affectedPackets;
 
     public Collision(Point p) {
         this.p = p;

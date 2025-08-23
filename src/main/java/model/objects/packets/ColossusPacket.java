@@ -7,9 +7,10 @@ import model.enums.PacketType;
 import model.objects.other.Connection;
 import model.objects.systems.NetworkSystem;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class ColossusPacket extends Packet{
+public class ColossusPacket extends Packet implements Serializable {
 
     public ColossusPacket(NetworkSystem system, PacketType packetType) {
         super(system, packetType);

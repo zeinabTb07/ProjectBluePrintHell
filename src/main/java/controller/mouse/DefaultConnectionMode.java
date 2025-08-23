@@ -1,5 +1,6 @@
-package controller;
+package controller.mouse;
 
+import controller.NetworkConnectivityChecker;
 import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
@@ -14,25 +15,22 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.Collection;
 
-public class GameMouseListener extends MouseAdapter {
-    private static final Logger log = LoggerFactory.getLogger(GameMouseListener.class);
+public class DefaultConnectionMode implements MouseMode {
+    private static final Logger log = LoggerFactory.getLogger(DefaultConnectionMode.class);
 
+    private final GameState gameState;
+    private NetworkConnectivityChecker connectivityChecker;
     private Point dragStartPoint;
     private OutputPort sourcePort;
-    private final GameState gameState;
     private Line currentLine;
 
-    private NetworkConnectivityChecker connectivityChecker;
-
-    public GameMouseListener(GameState gameState) {
+    public DefaultConnectionMode(GameState gameState, NetworkConnectivityChecker connectivityChecker) {
         this.gameState = gameState;
-        this.connectivityChecker=new NetworkConnectivityChecker(gameState.getGameLevel().getSystems());
+        this.connectivityChecker = connectivityChecker;
     }
 
     @Override
@@ -42,48 +40,48 @@ public class GameMouseListener extends MouseAdapter {
                 dragStartPoint = port.getPoint();
                 sourcePort = port;
                 currentLine = new Line(dragStartPoint, e.getPoint());
-                log.info("Starting new connection from: " + dragStartPoint);
+                log.info("Starting new connection from: {}", dragStartPoint);
             });
         } else if (SwingUtilities.isRightMouseButton(e)) {
             removeConnectionAtPoint(e.getPoint());
         }
-        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         if (currentLine != null) {
             currentLine.setEnd(e.getPoint());
-            EventBus.publish(new UIEvents.RepaintGamePanelEvent());
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (currentLine == null || sourcePort == null) return;
+        if (currentLine == null || sourcePort == null) {
+            clearDragState();
+            return;
+        }
 
         Point releasePoint = currentLine.getEnd();
         findTargetPort(releasePoint).ifPresent(targetPort -> {
             if (!sourcePort.getParentSystem().equals(targetPort.getParentSystem()) &&
                     !targetPort.isConnected()) {
-
                 Connection connection = new Connection(targetPort, sourcePort);
-                if(gameState.getCurrentLengthUsed()+connection.getLength()<= gameState.getGameLevel().getWireLength()){
+                if (gameState.getCurrentLengthUsed() + connection.getLength() <= gameState.getGameLevel().getWireLength()) {
                     gameState.addConnection(connection);
                     EventBus.publish(new GameEvents.ConnectionEvent(connection.getLength()));
-                    log.info("Connection created: " + connection.getId());
+                    log.info("Connection created: {}", connection.getId());
                     EventBus.publish(new GameEvents.CheckConnectivity(connectivityChecker.check()));
                     EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/connect.wav"));
-                } else { connection.disconnect();
+                } else {
+                    connection.disconnect();
                     EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/error.wav"));
                 }
             }
         });
-
         clearDragState();
-        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
+    @Override
     public void paintLine(Graphics2D g) {
         if (currentLine != null) {
             g.setColor(Constants.Colors.LINE);
@@ -92,7 +90,10 @@ public class GameMouseListener extends MouseAdapter {
         }
     }
 
-
+    @Override
+    public void setConnectivityChecker(NetworkConnectivityChecker checker) {
+        this.connectivityChecker = checker;
+    }
 
     private Optional<OutputPort> findSourcePort(Point point) {
         return gameState.getGameLevel().getSystems().stream()
@@ -106,29 +107,24 @@ public class GameMouseListener extends MouseAdapter {
         return gameState.getGameLevel().getSystems().stream()
                 .flatMap(system -> system.getInputPorts().stream())
                 .filter(port -> !port.isConnected())
-                .filter(port ->  port.getShape().contains(point))
+                .filter(port -> port.getShape().contains(point))
                 .findFirst();
     }
-
 
     private void removeConnectionAtPoint(Point point) {
         Iterator<Connection> iterator = gameState.getConnections().iterator();
         while (iterator.hasNext()) {
             Connection connection = iterator.next();
-            if ( connection.getSource().getShape().contains(point) ||
+            if (connection.getSource().getShape().contains(point) ||
                     connection.getTarget().getShape().contains(point)) {
                 connection.disconnect();
                 gameState.removeConnection(connection);
                 EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/disconnect.wav"));
                 EventBus.publish(new GameEvents.ConnectionEvent(-connection.getLength()));
-                log.info("Connection removed: " + connection.getId());
+                log.info("Connection removed: {}", connection.getId());
                 break;
             }
         }
-    }
-
-    public void setConnectivityChecker(NetworkConnectivityChecker connectivityChecker) {
-        this.connectivityChecker = connectivityChecker;
     }
 
     private void clearDragState() {

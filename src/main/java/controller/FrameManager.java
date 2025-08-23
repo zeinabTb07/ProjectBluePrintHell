@@ -29,17 +29,11 @@ public class FrameManager {
         this.gamePanel = new GamePanel(gameState);
         this.menuPanel = new MenuPanel();
         this.shop = new Shop();
+        switchPanel(menuPanel);
         setupEventListeners();
     }
 
     private void setupEventListeners() {
-        EventBus.subscribe(OpenMenuEvent.class, e ->{
-         goToMenu();
-        });
-        EventBus.subscribe(OpenGameEvent.class, e -> {
-            goToGame();
-            EventBus.publish(new GameEvents.PauseGameEvent(false));
-        });
         EventBus.subscribe(OpenSettingsEvent.class, e -> {settingDialog.setVisible(true);});
         EventBus.subscribe(OpenLevelsEvent.class, e -> levelsDialog.setVisible(true)
         );
@@ -64,14 +58,16 @@ public class FrameManager {
             }
         });
     }
-    private void goToMenu() {
+    public void goToMenu() {
         switchPanel(menuPanel);
         musicPlayer.stopBackgroundMusic();
+        EventBus.publish(new GameEvents.PauseGameEvent(true));
     }
 
-    private void goToGame() {
+    public void goToGame() {
         switchPanel(gamePanel);
         musicPlayer.playBackgroundMusic();
+        EventBus.publish(new GameEvents.PauseGameEvent(false));
     }
 
     private void switchPanel(JPanel panel) {

@@ -2,10 +2,11 @@ package model;
 
 import model.objects.systems.NetworkSystem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public abstract class
-Level {
+Level implements Serializable {
     protected ArrayList<NetworkSystem> systems;
     protected double wireLength ;
     protected double time;

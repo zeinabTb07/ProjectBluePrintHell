@@ -1,9 +1,10 @@
 package model.objects;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
     protected  UUID id ;
     protected Shape shape;
     protected boolean frozen;

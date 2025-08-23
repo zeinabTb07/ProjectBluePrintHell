@@ -16,8 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
-public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable {
+public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable , Serializable {
     protected static final Logger log = LoggerFactory.getLogger(Packet.class);
 
     protected int size;

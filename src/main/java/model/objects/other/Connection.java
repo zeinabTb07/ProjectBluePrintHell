@@ -13,10 +13,11 @@ import model.objects.systems.addon.OutputPort;
 
 
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Connection extends GameObject implements Updatable {
+public class Connection extends GameObject implements Updatable , Serializable {
     private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
     private List<Point2D> controlPoints;

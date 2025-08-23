@@ -5,9 +5,10 @@ import events.GameEvents;
 import model.objects.packets.Packet;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RooterSystem extends NetworkSystem {
+public class RooterSystem extends NetworkSystem implements Serializable {
     protected ArrayList<Packet> initialPackets;
 
     public RooterSystem(Point point) {

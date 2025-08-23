@@ -7,9 +7,10 @@ import model.enums.PacketType;
 import model.objects.other.Connection;
 import model.objects.systems.RooterSystem;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class PrivatePacket extends Packet{
+public class PrivatePacket extends Packet implements Serializable {
     public PrivatePacket(RooterSystem system, PacketType packetType) {
         super(system, packetType);
     }

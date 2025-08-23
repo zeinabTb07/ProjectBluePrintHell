@@ -9,10 +9,11 @@ import model.objects.packets.Packet;
 import model.objects.systems.RooterSystem;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class GameState {
+public class GameState implements Serializable {
     private Level gameLevel;
     private ArrayList<Connection> connections;
     private ArrayList<Packet> packets;
