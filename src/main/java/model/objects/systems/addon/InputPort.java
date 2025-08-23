@@ -22,9 +22,4 @@ InputPort extends Port<OutputPort> implements Serializable {
         return new Point(p.x,
                 p.y + n*Constants.PORT_GAP +2*Constants.INDUCTOR_HEIGHT);
     }
-
-    @Override
-    public void update() {
-        super.makeShape();
-    }
 }

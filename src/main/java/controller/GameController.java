@@ -25,12 +25,13 @@ public class GameController {
         }
         frameManager = new FrameManager(gameState);
         gameStateLoader = new GameStateLoader();
-        init();
+        gameLoop = new GameLoop(gameState);
         setupEventListeners();
     }
     private void setupEventListeners() {
-        EventBus.subscribe(UIEvents.ChooseLevelEvent.class, e -> { gameState.resetLevel(Constants.levels.get(e.n()));
-            init();
+        EventBus.subscribe(UIEvents.ReplayEvent.class, e -> {
+            gameState.resetLevel(Constants.levels.get(0));
+            gameLoop = new GameLoop(gameState);
             frameManager.getGamePanel().reset();
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
@@ -52,8 +53,5 @@ public class GameController {
         EventBus.subscribe(UIEvents.OpenGameEvent.class, e -> {
             frameManager.goToGame();
         });
-    }
-    private void init(){
-        gameLoop = new GameLoop(gameState);
     }
 }

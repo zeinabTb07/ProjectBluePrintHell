@@ -66,10 +66,10 @@ public class MenuPanel extends JPanel {
 
 
         JButton levels =  new  ButtonFactory.Builder()
-                .withText("Levels")
+                .withText("Replay")
                 .atPosition(new Point(550 , 500))
                 .withAction( e -> {
-                    EventBus.publish(new OpenLevelsEvent());
+                    EventBus.publish(new ReplayEvent());
                 })
                 .build();
 

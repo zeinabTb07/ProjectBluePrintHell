@@ -27,11 +27,6 @@ public class UIEvents {
         }
     }
 
-    public record OpenLevelsEvent() {
-        public OpenLevelsEvent {
-            log.info("Level selection screen is now visible.");
-        }
-    }
 
     public record OpenShopEvent() {
         public OpenShopEvent {
@@ -52,9 +47,10 @@ public class UIEvents {
         }
     }
 
-    public record ChooseLevelEvent(int n) {
-        public ChooseLevelEvent {
-            log.info("Level reset to: {}" ,n);
+    public record ReplayEvent() {
+        public ReplayEvent {
+            EventBus.publish(new OpenGameEvent());
+            log.info("Game will start over");
         }
     }
     public record RepaintGamePanelEvent() { }

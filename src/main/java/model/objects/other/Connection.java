@@ -33,8 +33,8 @@ public class Connection extends GameObject implements Updatable , Serializable {
         this.target = target;
         this.source = source;
         source.setConnection(this);
+        target.setConnection(this);
         helperPoint = new ArrayList<Point2D>();
-
         connect();
         makeShape();
         length = GeometryUtils.calcPathLength((Path2D) shape);
@@ -74,6 +74,7 @@ public class Connection extends GameObject implements Updatable , Serializable {
         target.disconnect();
         source.disconnect();
         source.setConnection(null);
+        target.setConnection(null);
     }
 
     private void makeShape() {

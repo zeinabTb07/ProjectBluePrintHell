@@ -17,14 +17,12 @@ public class FrameManager {
     private GameState gameState;
     private MenuPanel menuPanel;
     private  SettingDialog settingDialog;
-    private  LevelsDialog levelsDialog;
     private  Shop shop;
     private  MusicPlayer musicPlayer;
     public FrameManager(GameState gameState) {
         this.frame = new Frame();
         this.musicPlayer = new MusicPlayer();
         this.settingDialog = new SettingDialog();
-        this.levelsDialog = new LevelsDialog(Constants.levels.size());
         this.gameState = gameState;
         this.gamePanel = new GamePanel(gameState);
         this.menuPanel = new MenuPanel();
@@ -35,10 +33,7 @@ public class FrameManager {
 
     private void setupEventListeners() {
         EventBus.subscribe(OpenSettingsEvent.class, e -> {settingDialog.setVisible(true);});
-        EventBus.subscribe(OpenLevelsEvent.class, e -> levelsDialog.setVisible(true)
-        );
-        EventBus.subscribe(OpenShopEvent.class, e -> {shop.setVisible(true);
-            EventBus.publish(new GameEvents.PauseGameEvent(true));});
+        EventBus.subscribe(OpenShopEvent.class, e -> {shop.setVisible(true);});
 
         EventBus.subscribe(GameEvents.CheckGameEndEvent.class, e -> {
             String[] options = {"Back to Menu"};
