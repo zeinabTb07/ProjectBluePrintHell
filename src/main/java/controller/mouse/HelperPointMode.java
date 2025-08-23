@@ -17,9 +17,6 @@ import java.awt.geom.Point2D;
 import java.util.AbstractMap;
 import java.util.Optional;
 
-/**
- * Handles adding and dragging helper points for connections.
- */
 public class HelperPointMode implements MouseMode {
     private static final Logger log = LoggerFactory.getLogger(HelperPointMode.class);
     private static final double HELPER_CLICK_THRESHOLD = 5.0;
@@ -32,7 +29,7 @@ public class HelperPointMode implements MouseMode {
 
     public HelperPointMode(GameState gameState) {
         this.gameState = gameState;
-        this.addHelperActive = true; // Initially active when mode is selected
+        this.addHelperActive = true;
     }
 
     @Override
@@ -40,7 +37,6 @@ public class HelperPointMode implements MouseMode {
         if (SwingUtilities.isLeftMouseButton(e)) {
             Point clickPoint = e.getPoint();
 
-            // Check for dragging existing helper points
             Optional<AbstractMap.SimpleEntry<Connection, Point2D>> helperOpt = findHelperAtPoint(clickPoint);
             if (helperOpt.isPresent()) {
                 AbstractMap.SimpleEntry<Connection, Point2D> helperPair = helperOpt.get();
@@ -51,7 +47,7 @@ public class HelperPointMode implements MouseMode {
                 return;
             }
 
-            // Add new helper point if mode is active
+
             if (addHelperActive) {
                 Optional<Connection> connOpt = findConnectionLineAtPoint(clickPoint);
                 if (connOpt.isPresent()) {
@@ -100,11 +96,6 @@ public class HelperPointMode implements MouseMode {
     @Override
     public void paintLine(Graphics2D g) {
         // No line to paint in helper point mode
-    }
-
-    @Override
-    public void setConnectivityChecker(NetworkConnectivityChecker checker) {
-        // Not needed for helper point mode
     }
 
     private Optional<Connection> findConnectionLineAtPoint(Point point) {

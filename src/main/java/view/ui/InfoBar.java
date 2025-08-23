@@ -1,5 +1,6 @@
 package view.ui;
 
+import controller.NetworkConnectivityChecker;
 import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
@@ -16,13 +17,14 @@ public class InfoBar extends JLabel {
     private JLabel coin;
     private JProgressBar wireRemain;
     private JProgressBar packetLoss;
-    private JSlider temporalProgress;
     private final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 20);
     private final GameState gameState;
+    private NetworkConnectivityChecker networkConnectivityChecker;
 
     public InfoBar(GameState gameState) {
         super();
         this.gameState = gameState;
+        networkConnectivityChecker = new NetworkConnectivityChecker(gameState.getGameLevel().getSystems());
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBounds(0, 0, Constants.FRAME_WIDTH, 60);
         setBackground(Color.white);
@@ -34,8 +36,7 @@ public class InfoBar extends JLabel {
                 .withText("Back")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e ->{EventBus.publish(new UIEvents.OpenMenuEvent());
-                    EventBus.publish(new GameEvents.PauseGameEvent(true));})
+                .withAction(e ->{EventBus.publish(new UIEvents.OpenMenuEvent());})
                 .build();
         add(back);
         add(Box.createHorizontalStrut(20));
@@ -66,23 +67,16 @@ public class InfoBar extends JLabel {
         add(packetLoss);
         add(Box.createHorizontalStrut(20));
 
-        temporalProgress = new JSlider(0, 100);
-        temporalProgress.setFont(DEFAULT_FONT);
-        temporalProgress.setEnabled(false);
-        add(temporalProgress);
-        add(Box.createHorizontalStrut(20));
 
         JButton run = new ButtonFactory.Builder()
                 .withText("Run")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e -> {
+                .withAction(e -> { if (networkConnectivityChecker.check()){
                     EventBus.publish(new GameEvents.StartGameEvent());
+                }
                 })
                 .build();
-        run.setEnabled(false);
-        EventBus.subscribe(GameEvents.CheckConnectivity.class, e -> run.setEnabled(e.b()));
-        run.addActionListener(e -> run.setEnabled(false));
         add(run);
         add(Box.createHorizontalStrut(20));
 

@@ -15,20 +15,15 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Optional;
 
-/**
- * Handles system relocation when RELOCATE_SYSTEM power-up is active.
- */
 public class RelocateSystemMode implements MouseMode {
     private static final Logger log = LoggerFactory.getLogger(RelocateSystemMode.class);
 
     private final GameState gameState;
-    private NetworkConnectivityChecker connectivityChecker;
     private NetworkSystem draggingSystem;
     private Point dragStartPoint;
 
-    public RelocateSystemMode(GameState gameState, NetworkConnectivityChecker connectivityChecker) {
+    public RelocateSystemMode(GameState gameState) {
         this.gameState = gameState;
-        this.connectivityChecker = connectivityChecker;
     }
 
     @Override
@@ -59,18 +54,12 @@ public class RelocateSystemMode implements MouseMode {
         if (draggingSystem != null) {
             draggingSystem = null;
             log.info("Relocate completed.");
-            EventBus.publish(new GameEvents.CheckConnectivity(connectivityChecker.check()));
         }
     }
 
     @Override
     public void paintLine(Graphics2D g) {
-        // No line to paint in relocate mode
-    }
 
-    @Override
-    public void setConnectivityChecker(NetworkConnectivityChecker checker) {
-        this.connectivityChecker = checker;
     }
 
     private Optional<NetworkSystem> findSystemAtPoint(Point point) {

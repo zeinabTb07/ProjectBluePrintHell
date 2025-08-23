@@ -10,5 +10,4 @@ public interface MouseMode {
     void mouseDragged(MouseEvent e);
     void mouseReleased(MouseEvent e);
     void paintLine(Graphics2D g);
-    void setConnectivityChecker(NetworkConnectivityChecker checker);
 }

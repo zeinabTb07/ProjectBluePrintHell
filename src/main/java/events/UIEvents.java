@@ -9,12 +9,14 @@ public class UIEvents {
 
     public record OpenMenuEvent() {
         public OpenMenuEvent {
+            EventBus.publish(new GameEvents.PauseGameEvent(true));
             log.info("Main menu opened by the user.");
         }
     }
 
     public record OpenGameEvent() {
         public OpenGameEvent {
+            EventBus.publish(new GameEvents.PauseGameEvent(false));
             log.info("Game screen initialized and displayed.");
         }
     }
@@ -33,6 +35,7 @@ public class UIEvents {
 
     public record OpenShopEvent() {
         public OpenShopEvent {
+            EventBus.publish(new GameEvents.PauseGameEvent(true));
             log.info("Player accessed the in-game store.");
         }
     }

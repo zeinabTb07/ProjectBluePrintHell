@@ -61,13 +61,11 @@ public class FrameManager {
     public void goToMenu() {
         switchPanel(menuPanel);
         musicPlayer.stopBackgroundMusic();
-        EventBus.publish(new GameEvents.PauseGameEvent(true));
     }
 
     public void goToGame() {
         switchPanel(gamePanel);
         musicPlayer.playBackgroundMusic();
-        EventBus.publish(new GameEvents.PauseGameEvent(false));
     }
 
     private void switchPanel(JPanel panel) {

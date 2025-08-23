@@ -16,7 +16,6 @@ public class GameMouseListener extends MouseAdapter {
     private static final Logger log = LoggerFactory.getLogger(GameMouseListener.class);
 
     private final GameState gameState;
-    private NetworkConnectivityChecker connectivityChecker;
     private MouseMode currentMode;
     private final MouseMode defaultMode;
     private final MouseMode relocateMode;
@@ -24,13 +23,12 @@ public class GameMouseListener extends MouseAdapter {
 
     public GameMouseListener(GameState gameState) {
         this.gameState = gameState;
-        this.connectivityChecker = new NetworkConnectivityChecker(gameState.getGameLevel().getSystems());
-        this.defaultMode = new DefaultConnectionMode(gameState, connectivityChecker);
-        this.relocateMode = new RelocateSystemMode(gameState, connectivityChecker);
+        this.defaultMode = new DefaultConnectionMode(gameState);
+        this.relocateMode = new RelocateSystemMode(gameState);
         this.helperPointMode = new HelperPointMode(gameState);
         this.currentMode = defaultMode;
 
-        // Subscribe to PowerUpEvent to switch modes
+
         EventBus.subscribe(ShopEvents.PowerUpEvent.class, event -> {
             ShopEvents.PowerUpType type = event.powerUpType();
             if (type == ShopEvents.PowerUpType.RELOCATE_SYSTEM) {
@@ -59,7 +57,7 @@ public class GameMouseListener extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         currentMode.mouseReleased(e);
         if (currentMode != defaultMode) {
-            currentMode = defaultMode; // Reset to default after power-up use
+            currentMode = defaultMode;
             log.info("Reverted to DefaultConnectionMode.");
         }
         EventBus.publish(new UIEvents.RepaintGamePanelEvent());
@@ -69,9 +67,4 @@ public class GameMouseListener extends MouseAdapter {
         currentMode.paintLine(g);
     }
 
-    public void setConnectivityChecker(NetworkConnectivityChecker connectivityChecker) {
-        this.connectivityChecker = connectivityChecker;
-        defaultMode.setConnectivityChecker(connectivityChecker);
-        relocateMode.setConnectivityChecker(connectivityChecker);
-    }
 }

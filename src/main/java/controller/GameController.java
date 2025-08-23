@@ -5,7 +5,6 @@ import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
 import model.GameStateLoader;
-import model.Level;
 import model.constants.Constants;
 import model.constants.Level1;
 

@@ -23,14 +23,12 @@ public class DefaultConnectionMode implements MouseMode {
     private static final Logger log = LoggerFactory.getLogger(DefaultConnectionMode.class);
 
     private final GameState gameState;
-    private NetworkConnectivityChecker connectivityChecker;
     private Point dragStartPoint;
     private OutputPort sourcePort;
     private Line currentLine;
 
-    public DefaultConnectionMode(GameState gameState, NetworkConnectivityChecker connectivityChecker) {
+    public DefaultConnectionMode(GameState gameState) {
         this.gameState = gameState;
-        this.connectivityChecker = connectivityChecker;
     }
 
     @Override
@@ -70,7 +68,6 @@ public class DefaultConnectionMode implements MouseMode {
                     gameState.addConnection(connection);
                     EventBus.publish(new GameEvents.ConnectionEvent(connection.getLength()));
                     log.info("Connection created: {}", connection.getId());
-                    EventBus.publish(new GameEvents.CheckConnectivity(connectivityChecker.check()));
                     EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/connect.wav"));
                 } else {
                     connection.disconnect();
@@ -88,11 +85,6 @@ public class DefaultConnectionMode implements MouseMode {
             g.setStroke(Constants.LINE_STROKE);
             g.drawLine(currentLine.start.x, currentLine.start.y, currentLine.end.x, currentLine.end.y);
         }
-    }
-
-    @Override
-    public void setConnectivityChecker(NetworkConnectivityChecker checker) {
-        this.connectivityChecker = checker;
     }
 
     private Optional<OutputPort> findSourcePort(Point point) {

@@ -48,7 +48,6 @@ public class GamePanel extends JPanel {
     }
     public void reset(){
         infoBar.reset();
-        gameMouseListener.setConnectivityChecker(new NetworkConnectivityChecker(gameState.getGameLevel().getSystems()));
     }
 
     public GameState getGameState() {
