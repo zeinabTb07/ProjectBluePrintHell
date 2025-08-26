@@ -15,8 +15,6 @@ import model.objects.systems.addon.Inductor;
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.addon.OutputPort;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -24,6 +22,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
