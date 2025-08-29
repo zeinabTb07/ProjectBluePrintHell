@@ -6,6 +6,9 @@ import model.objects.packets.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.event.ChangeEvent;
+import java.util.ArrayList;
+
 
 public class GameEvents {
     private static final Logger log = LoggerFactory.getLogger(GameEvents.class);
@@ -40,6 +43,12 @@ public class GameEvents {
         }
     }
 
+    public record SwapPacketEvent(Packet from , Packet to) {
+        public SwapPacketEvent {
+            log.info("Packet : {} changed to {}",from , to );
+        }
+    }
+
     public record PacketLostEvent(Packet packet) {
         public PacketLostEvent {
             log.info("Packet lost: {}", packet);
@@ -47,11 +56,6 @@ public class GameEvents {
     }
 
 
-    public record CheckConnectivity(boolean b) {
-        public CheckConnectivity {
-            log.info("Connectivity check result: {}", b ? "Connected" : "Disconnected");
-        }
-    }
     public record CoinGeneratedEvent(int n) {
         public CoinGeneratedEvent {
             log.info("Coins increased : {} " , n);

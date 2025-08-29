@@ -14,7 +14,9 @@ public class SystemRenderer {
     }
 
     private void renderSystemBody(Graphics2D g2d, NetworkSystem system) {
-        g2d.setColor(Constants.Colors.SYSTEM);
+        if(!system.isActive()){
+            g2d.setColor(Color.lightGray);
+        } else g2d.setColor(Constants.Colors.SYSTEM);
         g2d.fill(system.getShape());
     }
 

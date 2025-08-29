@@ -9,8 +9,4 @@ public  class MergeSystem extends NetworkSystem implements Serializable {
         super(point);
     }
 
-    @Override
-    public void update() {
-
-    }
 }

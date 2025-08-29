@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.Random;
 
 public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable , Serializable {
     protected static final Logger log = LoggerFactory.getLogger(Packet.class);
@@ -31,6 +32,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected double distance;
     protected Point2D centerOfMass;
     protected PacketType type;
+    protected boolean trojan;
 
     protected boolean dirty;
 
@@ -73,8 +75,20 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         }
     }
 
-    public abstract void sendTo(Connection connection);
+    public boolean isTrojan() {
+        return trojan;
+    }
 
+    public void setTrojan(boolean trojan) {
+        this.trojan = trojan;
+    }
+    public void sendTo(Connection connection){
+        this.currentConnection = connection;
+        PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(type, connection.getSource().getPortType());
+        this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
+        this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
+        dirty = true;
+    }
 
     public int getSize() {
         return size;

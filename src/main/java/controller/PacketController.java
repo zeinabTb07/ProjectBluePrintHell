@@ -52,9 +52,8 @@ public class PacketController {
                 }
 
                 if (isPacketFallen(packet) || isPacketDisruptedByNoise(packet)) {
-                    EventBus.publish(new GameEvents.PacketLostEvent(packet));
                     resetPacket(packet);
-                    packets.remove(packet);
+                    EventBus.publish(new GameEvents.PacketLostEvent(packet));
                 }
             }
         }

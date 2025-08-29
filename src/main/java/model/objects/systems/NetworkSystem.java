@@ -37,6 +37,8 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     protected Inductor inductor;
 
     protected boolean dirty;
+    protected boolean active = true;
+    protected int coldDownCounter = 0 ;
 
     public NetworkSystem(Point point){
         super();
@@ -195,6 +197,13 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         log.debug("System moved by force, oldCenter={}, newCenter={}, force={}",
                 oldCenter, point, forceVector);
     }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     @Override
     public void update() {
@@ -206,6 +215,13 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
             outputPorts.stream()
                     .forEach(OutputPort::update);
             dirty = false;
+        }
+        if(!active){
+            coldDownCounter++;
+        }
+        if(coldDownCounter>=400){
+            coldDownCounter = 0 ;
+            active = true;
         }
     }
 

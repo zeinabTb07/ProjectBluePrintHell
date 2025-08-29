@@ -16,13 +16,5 @@ public class ColossusPacket extends Packet implements Serializable {
         super(system, packetType);
     }
 
-    public void sendTo(Connection connection){
-        this.currentConnection = connection;
-        PacketType[] types = {PacketType.TRIANGLE, PacketType.SQUARE, PacketType.BITE};
-        Random random = new Random();
-        PacketRecord.PacketMovement packetRecord = PacketSpeedRules.getProperties(types[random.nextInt(0 , 3)] , connection.getSource().getPortType());
-        this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
-        this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
-        dirty = true;
-    }
+
 }

@@ -35,6 +35,7 @@ public class Constants {
         public static final Color HP_POINT = new Color(58, 100, 250);
         public static final Color STATUS_CONNECTED = new Color(0x66BB6A);
         public static final Color STATUS_DISCONNECTED = new Color(0xFBC02D);
+        public static final Color TROJAN_PACKET = new Color(153, 204, 0);
     }
 
 }

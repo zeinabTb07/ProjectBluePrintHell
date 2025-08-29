@@ -36,6 +36,7 @@ public class GameState implements Serializable {
     private void setupEventListeners() {
 
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> {
+            packets.remove(e.packet());
             lostPackets++;
         });
 
