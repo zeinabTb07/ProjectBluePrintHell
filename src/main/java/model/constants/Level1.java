@@ -21,7 +21,7 @@ public class Level1 extends Level {
         setWireLength(6000);
         setTime(20);
         setNumber(0);
-        AntiTrojanSystem ns3 = new AntiTrojanSystem(new Point(300, 260));
+        DistributeSystem ns3 = new DistributeSystem(new Point(300, 260));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
         ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
@@ -58,10 +58,10 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-        rs1.addPacket(new PrivatePacket(rs1, PacketType.PHANTOM));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
+      //  rs1.addPacket(new PrivatePacket(rs1, PacketType.PHANTOM));
+        rs1.addPacket(new ColossusPacket(rs1, PacketType.RANGAROK));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
         addSystem(rs1);
 
         RooterSystem rs2 = new RooterSystem(new Point(780, 450));

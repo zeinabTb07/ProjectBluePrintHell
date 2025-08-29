@@ -40,8 +40,12 @@ public class GameState implements Serializable {
             lostPackets++;
         });
         EventBus.subscribe(GameEvents.SwapPacketEvent.class, e -> {
-            packets.remove(e.from());
-            packets.add(e.to());
+            if(packets.contains(e.from())){
+                packets.remove(e.from());
+            }
+            if(!packets.contains(e.to())){
+                packets.add(e.to());
+            }
         });
 
 

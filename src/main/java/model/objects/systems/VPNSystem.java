@@ -2,7 +2,9 @@ package model.objects.systems;
 
 import events.EventBus;
 import events.GameEvents;
+import model.enums.PacketType;
 import model.objects.packets.Packet;
+import model.objects.packets.PrivatePacket;
 import model.objects.packets.ProtectedPacket;
 
 import java.awt.*;
@@ -18,7 +20,13 @@ public class VPNSystem extends NetworkSystem implements Serializable {
     }
     @Override
     public void receivePacket(Packet p){
-        Packet packet = new ProtectedPacket(p);
+        Packet packet ;
+        if(p instanceof ProtectedPacket){
+             packet = new PrivatePacket(this , PacketType.PHANTOM);
+        } else {
+             packet = new ProtectedPacket(p);
+        }
+
         EventBus.publish(new GameEvents.SwapPacketEvent(p , packet));
         storage.add(packet);
         packet.setCurrentSystem(this);

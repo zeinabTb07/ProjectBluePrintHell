@@ -11,7 +11,7 @@ public class Constants {
     // مثکه توی جی فریم به طول میگن عرض! بعد به عرض میگن ارتفاع
 
     public static final int SYSTEMS_WIDTH = 90;
-    public static final int PORT_GAP = 50;
+    public static final int PORT_GAP = 40;
     public static final int INDUCTOR_HEIGHT = 20;
     public static final int PORT_SIZE = 8;
     public static final int PACKET_SIZE_SCALE = 5;

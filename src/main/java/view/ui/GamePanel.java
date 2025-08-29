@@ -1,7 +1,6 @@
 package view.ui;
 
 import controller.mouse.GameMouseListener;
-import controller.NetworkConnectivityChecker;
 import events.EventBus;
 import events.UIEvents;
 import model.GameState;

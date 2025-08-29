@@ -8,7 +8,7 @@ import model.objects.systems.RooterSystem;
 import java.io.Serializable;
 
 public class PrivatePacket extends Packet implements Serializable {
-    public PrivatePacket(RooterSystem system, PacketType packetType) {
+    public PrivatePacket(NetworkSystem system, PacketType packetType) {
         super(system, packetType);
     }
 

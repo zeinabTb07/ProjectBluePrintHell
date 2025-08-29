@@ -16,5 +16,11 @@ public class ColossusPacket extends Packet implements Serializable {
         super(system, packetType);
     }
 
-
+    @Override
+    public void moveNormal(double deltaTime) {
+       super.moveNormal(deltaTime);
+       if(type==PacketType.RANGAROK){
+           centerOfMass.setLocation(centerOfMass.getX() , centerOfMass.getY()+0.2);
+       }
+    }
 }

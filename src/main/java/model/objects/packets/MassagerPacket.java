@@ -1,24 +1,24 @@
 package model.objects.packets;
 
-import model.constants.Vector2D;
+
 import model.constants.Constants;
 import model.constants.PacketRecord;
 import model.constants.PacketSpeedRules;
 import model.enums.PacketType;
 import model.objects.other.Connection;
+import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.util.Random;
+import java.util.UUID;
+
 
 public class MassagerPacket extends Packet implements Serializable {
-    public MassagerPacket(RooterSystem system, PacketType type) {
+    private UUID parentColossusId;
+    public MassagerPacket(NetworkSystem system, PacketType type) {
         super(system,type);
     }
+
     @Override
     public void sendTo(Connection connection){
         this.currentConnection = connection;
@@ -28,5 +28,13 @@ public class MassagerPacket extends Packet implements Serializable {
         } else this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
         this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
         dirty = true;
+    }
+
+    public UUID getParentColossusId() {
+        return parentColossusId;
+    }
+
+    public void setParentColossusId(UUID parentColossusId) {
+        this.parentColossusId = parentColossusId;
     }
 }
