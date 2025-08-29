@@ -6,6 +6,7 @@ import model.enums.GameShape;
 import model.objects.other.Connection;
 import model.objects.packets.MassagerPacket;
 import model.objects.packets.Packet;
+import model.objects.packets.ProtectedPacket;
 import model.objects.systems.addon.OutputPort;
 
 import java.awt.*;
@@ -20,11 +21,13 @@ public class ChaosSystem extends NetworkSystem implements Serializable {
     @Override
     public void receivePacket(Packet p){
         super.receivePacket(p);
-        if(p.getNoise() == 0){
-            p.setNoise(1);
-        }
-        int n = new Random().nextInt(3);
-        if(n==1) p.setTrojan(true);
+       if(!(p instanceof ProtectedPacket)){
+           if(p.getNoise() == 0){
+               p.setNoise(1);
+           }
+           int n = new Random().nextInt(3);
+           if(n==1) p.setTrojan(true);
+       }
     }
     @Override
     protected Connection getProperConnection(Packet p) {

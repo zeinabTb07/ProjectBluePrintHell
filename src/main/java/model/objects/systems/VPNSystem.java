@@ -19,6 +19,7 @@ public class VPNSystem extends NetworkSystem implements Serializable {
     @Override
     public void receivePacket(Packet p){
         Packet packet = new ProtectedPacket(p);
+        EventBus.publish(new GameEvents.SwapPacketEvent(p , packet));
         storage.add(packet);
         packet.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));

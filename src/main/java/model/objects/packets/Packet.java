@@ -40,6 +40,8 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         super();
         this.type = packetType;
         this.currentSystem = system;
+        this.size = type.getProperties().size();
+        this.coin = type.getProperties().coin();
         centerOfMass = new Point();
         dirty = true;
     }

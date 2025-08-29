@@ -219,7 +219,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         if(!active){
             coldDownCounter++;
         }
-        if(coldDownCounter>=400){
+        if(coldDownCounter>=300){
             coldDownCounter = 0 ;
             active = true;
         }

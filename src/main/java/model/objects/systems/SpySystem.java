@@ -34,9 +34,9 @@ public class SpySystem extends NetworkSystem implements Serializable {
             EventBus.publish(new GameEvents.PacketLostEvent(p));
             return;
         }
-        SpySystem spySystem = spies.get(random.nextInt(spies.size()));
-        spySystem.storage.add(p);
-        p.setCurrentSystem(spySystem);
+      //  SpySystem spySystem = spies.get(random.nextInt(0 , spies.size()));
+        this.storage.add(p);
+        p.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
     }
 

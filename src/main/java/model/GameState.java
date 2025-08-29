@@ -39,6 +39,11 @@ public class GameState implements Serializable {
             packets.remove(e.packet());
             lostPackets++;
         });
+        EventBus.subscribe(GameEvents.SwapPacketEvent.class, e -> {
+            packets.remove(e.from());
+            packets.add(e.to());
+        });
+
 
         EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
             coin += e.n();

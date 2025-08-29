@@ -17,12 +17,13 @@ public class GameController {
     private GameLoop gameLoop ;
     private GameStateLoader gameStateLoader;
     public GameController(){
-        gameStateLoader = new GameStateLoader();
-        try {
-            gameState = gameStateLoader.loadGameState();
-        } catch (Exception e) {
-            gameState = new GameState(new Level1());
-        }
+//        gameStateLoader = new GameStateLoader();
+//        try {
+//            gameState = gameStateLoader.loadGameState();
+//        } catch (Exception e) {
+//            gameState = new GameState(new Level1());
+//        }
+        gameState = new GameState(new Level1());
         frameManager = new FrameManager(gameState);
         gameStateLoader = new GameStateLoader();
         gameLoop = new GameLoop(gameState);
@@ -43,11 +44,11 @@ public class GameController {
         });
         EventBus.subscribe(UIEvents.OpenMenuEvent.class, e ->{
             frameManager.goToMenu();
-            try {
-                gameStateLoader.saveGameState(gameState);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+//            try {
+//                gameStateLoader.saveGameState(gameState);
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
 
         });
         EventBus.subscribe(UIEvents.OpenGameEvent.class, e -> {

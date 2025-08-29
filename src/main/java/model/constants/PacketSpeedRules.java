@@ -34,13 +34,13 @@ public class PacketSpeedRules {
 
         HashMap<PortType, PacketRecord.PacketMovement> phantomPacket = new HashMap<>();
         for(PortType portType : PortType.values()){
-            phantomPacket.put(portType , new PacketRecord.PacketMovement(2 , 0));
+            phantomPacket.put(portType , new PacketRecord.PacketMovement(4 , 0));
         }
         rules.put(PacketType.PHANTOM , phantomPacket);
 
         HashMap<PortType, PacketRecord.PacketMovement> spiritPacket = new HashMap<>();
         for(PortType portType : PortType.values()){
-            spiritPacket.put(portType , new PacketRecord.PacketMovement(2 , 0));
+            spiritPacket.put(portType , new PacketRecord.PacketMovement(4 , 0));
         }
         rules.put(PacketType.SPIRIT , spiritPacket);
 

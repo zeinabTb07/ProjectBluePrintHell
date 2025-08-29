@@ -111,19 +111,29 @@ public enum GameShape {
                 double ang = rnd.nextDouble() * Math.PI * 2;
                 double step = (Math.PI * 2) / n;
 
-                double firstX = 0, firstY = 0;
+                double firstX = 0, firstY = 0; // برای ذخیره اولین نقطه
+
                 for (int i = 0; i < n; i++) {
                     double r = baseR * (0.7 + rnd.nextDouble() * 0.6);
                     double x = center.x + r * Math.cos(ang);
                     double y = center.y + r * Math.sin(ang);
-                    if (i == 0) { combined.moveTo(x, y); firstX = x; firstY = y; }
-                    else { combined.lineTo(x, y); }
+
+                    if (i == 0) {
+                        combined.moveTo(x, y);
+                        firstX = x;
+                        firstY = y;
+                    } else {
+                        combined.lineTo(x, y);
+                    }
+
                     ang += step + (rnd.nextDouble() - 0.5) * step * 0.35;
                 }
+
                 combined.closePath();
             }
             return combined;
         }
+
     },
     SPIRIT {
         @Override

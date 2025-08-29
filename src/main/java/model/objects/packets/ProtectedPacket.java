@@ -23,7 +23,6 @@ public class ProtectedPacket extends Packet implements Serializable {
         basePacket = packet;
         packet.setCoin(5);
         this.id = packet.getId();
-        EventBus.publish(new GameEvents.SwapPacketEvent(packet , this));
     }
     @Override
     public void sendTo(Connection connection){

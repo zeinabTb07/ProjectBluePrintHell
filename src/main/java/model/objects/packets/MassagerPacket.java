@@ -18,9 +18,6 @@ import java.util.Random;
 public class MassagerPacket extends Packet implements Serializable {
     public MassagerPacket(RooterSystem system, PacketType type) {
         super(system,type);
-        super.currentSystem = system;
-        super.size = type.getProperties().size();
-        super.coin = type.getProperties().coin();
     }
     @Override
     public void sendTo(Connection connection){

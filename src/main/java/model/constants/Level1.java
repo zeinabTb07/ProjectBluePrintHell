@@ -2,14 +2,17 @@ package model.constants;
 
 import model.Level;
 import model.enums.PortType;
+import model.objects.packets.ColossusPacket;
 import model.objects.packets.MassagerPacket;
 import model.enums.PacketType;
+import model.objects.packets.PrivatePacket;
 import model.objects.packets.ProtectedPacket;
 import model.objects.systems.*;
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.addon.OutputPort;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Level1 extends Level {
 
@@ -18,7 +21,7 @@ public class Level1 extends Level {
         setWireLength(6000);
         setTime(20);
         setNumber(0);
-        LinkSystem ns3 = new LinkSystem(new Point(300, 260));
+        AntiTrojanSystem ns3 = new AntiTrojanSystem(new Point(300, 260));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
         ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
         ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
@@ -27,7 +30,7 @@ public class Level1 extends Level {
         addSystem(ns3);
 
 
-        LinkSystem ns4 = new LinkSystem(new Point(500, 220));
+        SpySystem ns4 = new SpySystem(new Point(680, 220));
         ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
         ns4.addInputPort(new InputPort(ns4, PortType.BITE));
         ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
@@ -35,15 +38,16 @@ public class Level1 extends Level {
         ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
         addSystem(ns4);
 
-        LinkSystem ns5 = new LinkSystem(new Point(650, 300));
-        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
-        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
-        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
-        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
-        addSystem(ns5);
+//
+//        SpySystem ns5 = new SpySystem(new Point(650, 300));
+//        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
+//        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
+//        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
+//        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
+//        addSystem(ns5);
 
 
-        LinkSystem ns6 = new LinkSystem(new Point(450, 420));
+        ChaosSystem ns6 = new ChaosSystem(new Point(450, 200));
         ns6.addInputPort(new InputPort(ns6, PortType.SQUARE));
         ns6.addOutputPort(new OutputPort(ns6, PortType.SQUARE));
         ns6.addInputPort(new InputPort(ns6, PortType.TRIANGLE));
@@ -54,7 +58,7 @@ public class Level1 extends Level {
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+        rs1.addPacket(new PrivatePacket(rs1, PacketType.PHANTOM));
         rs1.addPacket(new MassagerPacket(rs1, PacketType.TRIANGLE));
         rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
         rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
