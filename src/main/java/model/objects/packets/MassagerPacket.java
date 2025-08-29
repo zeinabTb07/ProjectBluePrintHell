@@ -4,6 +4,7 @@ package model.objects.packets;
 import model.constants.Constants;
 import model.constants.PacketRecord;
 import model.constants.PacketSpeedRules;
+import model.enums.GameRecords;
 import model.enums.PacketType;
 import model.objects.other.Connection;
 import model.objects.systems.NetworkSystem;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 
 public class MassagerPacket extends Packet implements Serializable {
-    private UUID parentColossusId;
+    private GameRecords.ColossusPackets parentColossus;
     public MassagerPacket(NetworkSystem system, PacketType type) {
         super(system,type);
     }
@@ -30,11 +31,11 @@ public class MassagerPacket extends Packet implements Serializable {
         dirty = true;
     }
 
-    public UUID getParentColossusId() {
-        return parentColossusId;
+    public GameRecords.ColossusPackets getParentColossusId() {
+        return parentColossus;
     }
 
-    public void setParentColossusId(UUID parentColossusId) {
-        this.parentColossusId = parentColossusId;
+    public void setParentColossusId(GameRecords.ColossusPackets parentColossusId) {
+        this.parentColossus = parentColossusId;
     }
 }

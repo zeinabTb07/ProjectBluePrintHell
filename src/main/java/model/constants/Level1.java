@@ -30,7 +30,7 @@ public class Level1 extends Level {
         addSystem(ns3);
 
 
-        SpySystem ns4 = new SpySystem(new Point(680, 220));
+        MergeSystem ns4 = new MergeSystem(new Point(600, 270));
         ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
         ns4.addInputPort(new InputPort(ns4, PortType.BITE));
         ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
@@ -47,19 +47,19 @@ public class Level1 extends Level {
 //        addSystem(ns5);
 
 
-        ChaosSystem ns6 = new ChaosSystem(new Point(450, 200));
-        ns6.addInputPort(new InputPort(ns6, PortType.SQUARE));
-        ns6.addOutputPort(new OutputPort(ns6, PortType.SQUARE));
-        ns6.addInputPort(new InputPort(ns6, PortType.TRIANGLE));
-        ns6.addOutputPort(new OutputPort(ns6, PortType.TRIANGLE));
-        addSystem(ns6);
+//        ChaosSystem ns6 = new ChaosSystem(new Point(450, 200));
+//        ns6.addInputPort(new InputPort(ns6, PortType.SQUARE));
+//        ns6.addOutputPort(new OutputPort(ns6, PortType.SQUARE));
+//        ns6.addInputPort(new InputPort(ns6, PortType.TRIANGLE));
+//        ns6.addOutputPort(new OutputPort(ns6, PortType.TRIANGLE));
+//        addSystem(ns6);
 
 
         RooterSystem rs1 = new RooterSystem(new Point(100, 150));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
       //  rs1.addPacket(new PrivatePacket(rs1, PacketType.PHANTOM));
-        rs1.addPacket(new ColossusPacket(rs1, PacketType.RANGAROK));
+        rs1.addPacket(new ColossusPacket(rs1, PacketType.TITAN));
 //        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
 //        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
         addSystem(rs1);

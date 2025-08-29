@@ -13,8 +13,8 @@ public class PacketRenderer {
         if(packet.isTrojan()){
             g2d.setColor(Constants.Colors.TROJAN_PACKET);
         } else  if(packet instanceof MassagerPacket){
-            g2d.setColor(getColorFromUUID(((MassagerPacket)packet).getParentColossusId()));
-        } else
+            g2d.setColor(getColorFromUUID(((MassagerPacket)packet).getParentColossusId().uuid()));
+        } else g2d.setColor(Constants.Colors.PACKET);
         g2d.setStroke(Constants.LINE_STROKE);
         g2d.draw(packet.getShape());
     }
