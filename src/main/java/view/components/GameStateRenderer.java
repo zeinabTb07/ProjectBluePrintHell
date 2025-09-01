@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class GameStateRenderer {
@@ -28,21 +29,21 @@ public class GameStateRenderer {
         log.debug("GameStateRenderer initialized");
     }
     public void render(Graphics2D g , GameState gameState){
-        for(Collision collision : gameState.getCollisions()){
+        for(Collision collision : new ArrayList<>(gameState.getCollisions())){
             g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));
             g.setStroke(new BasicStroke(2));
             double r = collision.getRadius();
             Point p = collision.getPoint();
             g.draw(new Ellipse2D.Double(p.x - r/2, p.y - r/2, r, r));
         }
-        for(NetworkSystem system : gameState.getGameLevel().getSystems()){
+        for(NetworkSystem system :new ArrayList<>( gameState.getGameLevel().getSystems())){
             systemRenderer.render(g , system);
 
         }
-        for (Connection connection : gameState.getConnections()){
+        for (Connection connection : new ArrayList<>(gameState.getConnections())){
             connectionRenderer.render(g , connection);
         }
-        for (Packet packet : gameState.getPackets()){
+        for (Packet packet : new ArrayList<>(gameState.getPackets())){
             packetRenderer.render(g ,packet);
         }
     }
