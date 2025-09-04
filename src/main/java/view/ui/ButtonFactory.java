@@ -1,4 +1,5 @@
 package view.ui;
+import model.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,20 +7,16 @@ import java.awt.event.ActionListener;
 
 public class ButtonFactory {
 
-    private static final int DEFAULT_WIDTH = 300;
-    private static final int DEFAULT_HEIGHT = 80;
-    private static final Font DEFAULT_FONT = new Font("Monospaced", Font.BOLD, 40);
-    private static final Color DEFAULT_BACKGROUND = Color.lightGray;
-            //new Color(162, 210, 255);
+    // Removed fixed defaults, will calculate in Builder dynamically
 
     public static class Builder {
         private String text = "";
         private String iconPath = null;
-        private Point position ;
-        private Dimension size = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        private Point position;
+        private Dimension size = null; // will default in build()
         private ActionListener action = null;
-        private Font font = DEFAULT_FONT;
-        private Color background = DEFAULT_BACKGROUND;
+        private Font font = null; // default in build()
+        private Color background = Color.LIGHT_GRAY;
 
         public Builder withText(String text) {
             this.text = text;
@@ -59,17 +56,33 @@ public class ButtonFactory {
         public JButton build() {
             JButton button = new JButton(text);
 
+            // Icon
             if (iconPath != null) {
                 button.setIcon(new ImageIcon(iconPath));
             }
 
+            // Size
+            if (size == null) {
+                int width = (int) (300 * Constants.SCALE);
+                int height = (int) (80 * Constants.SCALE);
+                size = new Dimension(width, height);
+            }
             button.setSize(size);
-            if(position!=null){
+
+            // Position
+            if (position != null) {
                 button.setLocation(position);
             }
+
+            // Font
+            if (font == null) {
+                font = new Font("Monospaced", Font.BOLD, (int) (40 * Constants.SCALE));
+            }
             button.setFont(font);
+
             button.setBackground(background);
 
+            // Action
             if (action != null) {
                 button.addActionListener(action);
             }

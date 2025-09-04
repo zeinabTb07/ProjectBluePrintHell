@@ -12,7 +12,7 @@ public class Frame extends JFrame {
     }
 
     private void insilize() {
-        setSize(Constants.FRAME_WIDTH, Constants.Frame_HEIGHT);
+        setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
         setUndecorated(true);
         setLayout(null);
         setLocationRelativeTo(null);

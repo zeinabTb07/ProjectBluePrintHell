@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
         this.gameState = gameState;
         gameMouseListener = new GameMouseListener(gameState);
         setLayout(null);
-        setBounds(0 , 0 , Constants.FRAME_WIDTH, Constants.Frame_HEIGHT);
+        setBounds(0 , 0 , Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
         super.addMouseMotionListener(gameMouseListener);
         super.addMouseListener(gameMouseListener);
         EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class , e->{repaint();});

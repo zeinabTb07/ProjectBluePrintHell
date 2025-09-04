@@ -54,14 +54,17 @@ public class HelperPointMode implements MouseMode {
                 Optional<Connection> connOpt = findConnectionLineAtPoint(clickPoint);
                 if (connOpt.isPresent()) {
                     Connection conn = connOpt.get();
-
                     double oldLength = conn.getLength();
-                    conn.addHelperPoint(clickPoint);
+                    if(conn.getHelperPoints().size()<3){
+                        conn.addHelperPoint(clickPoint);
+                    } else{
+                        EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/error.wav"));
+                        return;
+                    }
+
                     conn.update();
                     double newLength = conn.getLength();
                     double lengthIncrease = newLength - oldLength;
-
-
                     if (gameState.getCurrentLengthUsed() + lengthIncrease <= gameState.getGameLevel().getWireLength()) {
                         gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + lengthIncrease);
                         log.info("Added helper point to connection {} at {}", conn.getId(), clickPoint);

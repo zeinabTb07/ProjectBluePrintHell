@@ -1,25 +1,29 @@
 package model.constants;
-
 import model.Level;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Constants {
-    public static final int FRAME_WIDTH = 1000;
-    public static final int Frame_HEIGHT = 700;
-    // مثکه توی جی فریم به طول میگن عرض! بعد به عرض میگن ارتفاع
 
-    public static final int SYSTEMS_WIDTH = 90;
-    public static final int PORT_GAP = 40;
-    public static final int INDUCTOR_HEIGHT = 20;
-    public static final int PORT_SIZE = 8;
-    public static final int PACKET_SIZE_SCALE = 5;
-    public static final double WAVE_SPEED = 2;
-    public static final double MAX_WAVE_R = 400 ;
-    public static double PACKET_SPEED = 15;
-    public static double PACKET_ACCELERATION = 10;
-    public static Stroke LINE_STROKE = new BasicStroke(3);
+    public static final double SCALE = 0.6;
+
+    public static final int FRAME_WIDTH = (int)(1000 * SCALE);
+    public static final int FRAME_HEIGHT = (int)(700 * SCALE);
+
+    public static final int SYSTEMS_WIDTH = (int)(90 * SCALE);
+    public static final int PORT_GAP = (int)(40 * SCALE);
+    public static final int INDUCTOR_HEIGHT = (int)(20 * SCALE);
+    public static final int PORT_SIZE = (int)(8 * SCALE);
+    public static final int PACKET_SIZE_SCALE = (int)(5 * SCALE);
+
+    public static final double WAVE_SPEED = 2 * SCALE;
+    public static final double MAX_WAVE_R = 400 * SCALE;
+    public static double PACKET_SPEED = 20 * SCALE;
+    public static double PACKET_ACCELERATION = 10 * SCALE;
+
+    public static Stroke LINE_STROKE = new BasicStroke((float)(3 * SCALE));
+
     public static ArrayList<Level> levels = new ArrayList<>();
     static {
         levels.add(new Level1());
@@ -37,5 +41,5 @@ public class Constants {
         public static final Color STATUS_DISCONNECTED = new Color(0xFBC02D);
         public static final Color TROJAN_PACKET = new Color(153, 204, 0);
     }
-
 }
+
