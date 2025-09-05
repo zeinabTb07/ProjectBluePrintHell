@@ -88,7 +88,7 @@ public class DefaultConnectionMode implements MouseMode {
     }
 
     private Optional<OutputPort> findSourcePort(Point point) {
-        return gameState.getGameLevel().getSystems().stream()
+        return gameState.getNetworkSystems().stream()
                 .flatMap(system -> system.getOutputPorts().stream())
                 .filter(port -> !port.isConnected())
                 .filter(port -> port.getShape().contains(point))
@@ -96,7 +96,7 @@ public class DefaultConnectionMode implements MouseMode {
     }
 
     private Optional<InputPort> findTargetPort(Point point) {
-        return gameState.getGameLevel().getSystems().stream()
+        return gameState.getNetworkSystems().stream()
                 .flatMap(system -> system.getInputPorts().stream())
                 .filter(port -> !port.isConnected())
                 .filter(port -> port.getShape().contains(point))
@@ -109,12 +109,14 @@ public class DefaultConnectionMode implements MouseMode {
             Connection connection = iterator.next();
             if (connection.getSource().getShape().contains(point) ||
                     connection.getTarget().getShape().contains(point)) {
-                connection.disconnect();
-                gameState.removeConnection(connection);
-                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/disconnect.wav"));
-                EventBus.publish(new GameEvents.ConnectionEvent(-connection.getLength()));
-                log.info("Connection removed: {}", connection.getId());
-                break;
+              if(!connection.isFreeze()){
+                  connection.disconnect();
+                  gameState.removeConnection(connection);
+                  EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/disconnect.wav"));
+                  EventBus.publish(new GameEvents.ConnectionEvent(-connection.getLength()));
+                  log.info("Connection removed: {}", connection.getId());
+                  break;
+              }
             }
         }
     }

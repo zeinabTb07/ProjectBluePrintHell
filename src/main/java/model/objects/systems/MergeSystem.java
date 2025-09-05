@@ -19,15 +19,24 @@ import java.util.UUID;
 
 public class MergeSystem extends NetworkSystem implements Serializable {
     private HashMap<GameRecords.ColossusPackets, ArrayList<MassagerPacket>> packetsMap;
+    private HashMap<UUID , Integer> colossusPacketLostMap;
     public MergeSystem(Point point) {
         super(point);
         packetsMap = new HashMap<>();
+        colossusPacketLostMap = new HashMap<>();
+        EventBus.subscribe(GameEvents.PacketLostEvent.class , e->{
+            if(e.packet() instanceof  MassagerPacket){
+                MassagerPacket p = (MassagerPacket) e.packet();
+                if(p.getParentColossusId()!=null){
+                    colossusPacketLostMap.put(p.getParentColossusId().uuid() , )
+                }
+            }
+        });
     }
 
     @Override
     public void process(){
         if (!storage.isEmpty()) trySendingPacket(storage.get(0));
-        System.out.println("prossing merger ");
 
          for (GameRecords.ColossusPackets key : packetsMap.keySet()) {
             ArrayList<MassagerPacket> packets = packetsMap.get(key);
@@ -37,11 +46,10 @@ public class MergeSystem extends NetworkSystem implements Serializable {
                 for (MassagerPacket packet : packets) {
                     EventBus.publish(new GameEvents.SwapPacketEvent(packet , colossusPacket));
                 }
-                System.out.println("making collosos");
                 storage.add(colossusPacket);
                 packetsMap.remove(key);
             }
-             System.out.println("key removed");
+
         }
     }
 

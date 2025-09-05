@@ -6,6 +6,7 @@ import events.ShopEvents;
 import model.objects.other.Collision;
 import model.objects.other.Connection;
 import model.objects.packets.Packet;
+import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
 
 
@@ -18,6 +19,7 @@ public class GameState implements Serializable {
     private ArrayList<Connection> connections;
     private ArrayList<Packet> packets;
     private ArrayList<Collision> collisions;
+    private ArrayList<NetworkSystem> networkSystems;
     private int coin;
     private double currentLengthUsed;
     private int totalPackets;
@@ -25,6 +27,10 @@ public class GameState implements Serializable {
 
     public GameState() {
         setupEventListeners();
+        this.connections = new ArrayList<>();
+        this.packets = new ArrayList<>();
+        this.collisions = new ArrayList<>();
+        this.networkSystems = new ArrayList<>();
     }
 
     public GameState(Level level) {
@@ -73,13 +79,7 @@ public class GameState implements Serializable {
     }
 
     private void initialState() {
-        this.connections = new ArrayList<>();
-        this.packets = new ArrayList<>();
-        this.collisions = new ArrayList<>();
-        this.coin = 0;
-        this.currentLengthUsed = 0;
-        this.totalPackets = 0;
-        this.lostPackets = 0;
+        addNewSystems(gameLevel.systems);
 
         gameLevel.getSystems().forEach(system -> {
             if (system instanceof RooterSystem) {
@@ -89,20 +89,16 @@ public class GameState implements Serializable {
         });
     }
 
+    private void addNewSystems(ArrayList<NetworkSystem> newSystems){
+        networkSystems.addAll(newSystems);
+    }
+
     public Level getGameLevel() {
         return gameLevel;
     }
 
-    public void setGameLevel(Level gameLevel) {
-        this.gameLevel = gameLevel;
-    }
-
     public ArrayList<Connection> getConnections() {
         return connections;
-    }
-
-    public void setConnections(ArrayList<Connection> connections) {
-        this.connections = connections;
     }
 
     public ArrayList<Packet> getPackets() {
@@ -117,10 +113,6 @@ public class GameState implements Serializable {
         return collisions;
     }
 
-    public void setCollisions(ArrayList<Collision> collisions) {
-        this.collisions = collisions;
-    }
-
     public int getCoin() {
         return coin;
     }
@@ -129,9 +121,6 @@ public class GameState implements Serializable {
         this.coin = coin;
     }
 
-    public void addCoin(int n) {
-        this.coin += n;
-    }
 
     public double getCurrentLengthUsed() {
         return currentLengthUsed;
@@ -140,13 +129,8 @@ public class GameState implements Serializable {
     public void setCurrentLengthUsed(double currentLengthUsed) {
         this.currentLengthUsed = currentLengthUsed;
     }
-
-    public int getTotalPackets() {
-        return totalPackets;
-    }
-
-    public int getLostPackets() {
-        return lostPackets;
+    public ArrayList<NetworkSystem> getNetworkSystems() {
+        return networkSystems;
     }
 
     public double getPacketLossPercentage() {

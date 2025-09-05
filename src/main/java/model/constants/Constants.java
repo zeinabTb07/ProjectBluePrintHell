@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Constants {
 
-    public static final double SCALE = 0.6;
+    public static final double SCALE = 1;
 
     public static final int FRAME_WIDTH = (int)(1000 * SCALE);
     public static final int FRAME_HEIGHT = (int)(700 * SCALE);

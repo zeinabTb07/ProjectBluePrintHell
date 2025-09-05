@@ -1,6 +1,7 @@
 package model.objects.other;
 
 
+import model.constants.Vector2D;
 import model.objects.GameObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,8 @@ public class Connection extends GameObject implements Updatable , Serializable {
     private InputPort target;
     private OutputPort source;
     private boolean isBusy;
-
     private boolean dirty;
+    private boolean freeze;
 
     public Connection(InputPort target, OutputPort source) {
         super();
@@ -119,8 +120,8 @@ public class Connection extends GameObject implements Updatable , Serializable {
         return shape != null ? GeometryUtils.getPointAtDistance( (Path2D)shape, t) : null;
     }
 
-    public Point2D getUnitTangentAt(double dist) {
-        return  shape != null ? GeometryUtils.getUnitTangent((Path2D)shape, dist) : null;
+    public Vector2D getTangentAt(double dist) {
+        return  shape != null ? GeometryUtils.getTangent((Path2D)shape, dist) : null;
     }
 
     public double getLength() { return length; }
@@ -131,6 +132,14 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
     public void setTarget(InputPort target) {
         this.target = target;
+    }
+
+    public boolean isFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(boolean freeze) {
+        this.freeze = freeze;
     }
 
     public OutputPort getSource() {

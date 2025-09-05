@@ -28,6 +28,7 @@ public class SystemRenderer {
 
         g2d.setColor(Color.BLACK);
         Point p = system.getPoint();
+        g2d.setFont(new Font("Press Start 2P", Font.PLAIN, (int)(12*Constants.SCALE)));
         g2d.drawString(system.getClass().getSimpleName(),
                 p.x+4,
                 p.y+Constants.INDUCTOR_HEIGHT-2);

@@ -51,12 +51,11 @@ public class GeometryUtils {
         return len;
     }
 
-    public static Point2D getUnitTangent(Path2D path, double dist) {
+    public static Vector2D getTangent(Path2D path, double dist) {
         Point2D p1 = getPointAtDistance(path, dist);
         Point2D p2 = getPointAtDistance(path, dist + 1e-3);
         double dx = p2.getX() - p1.getX();
         double dy = p2.getY() - p1.getY();
-        double mag = Math.sqrt(dx * dx + dy * dy);
-        return new Point2D.Double((dx / mag), (dy / mag));
+        return new Vector2D(dx, dy);
     }
 }

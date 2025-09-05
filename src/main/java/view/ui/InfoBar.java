@@ -24,7 +24,7 @@ public class InfoBar extends JLabel {
     public InfoBar(GameState gameState) {
         super();
         this.gameState = gameState;
-        networkConnectivityChecker = new NetworkConnectivityChecker(gameState.getGameLevel().getSystems());
+        networkConnectivityChecker = new NetworkConnectivityChecker(gameState.getNetworkSystems());
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBounds(0, 0, Constants.FRAME_WIDTH, 60);
         setBackground(Color.white);

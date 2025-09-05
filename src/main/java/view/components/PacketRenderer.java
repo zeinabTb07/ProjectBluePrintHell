@@ -19,7 +19,6 @@ public class PacketRenderer {
                 g2d.setColor(getColorFromUUID(c.uuid()));
             }
         } else g2d.setColor(Constants.Colors.PACKET);
-        g2d.setStroke(Constants.LINE_STROKE);
         g2d.draw(packet.getShape());
     }
     public  Color getColorFromUUID(UUID uuid) {

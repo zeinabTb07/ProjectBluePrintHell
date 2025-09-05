@@ -61,7 +61,7 @@ public class RelocateSystemMode implements MouseMode {
     }
 
     private Optional<NetworkSystem> findSystemAtPoint(Point point) {
-        return gameState.getGameLevel().getSystems().stream()
+        return gameState.getNetworkSystems().stream()
                 .filter(system -> system.getShape().contains(point))
                 .findFirst();
     }

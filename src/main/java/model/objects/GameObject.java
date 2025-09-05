@@ -7,15 +7,7 @@ import java.util.UUID;
 public abstract class GameObject implements Serializable {
     protected  UUID id ;
     protected Shape shape;
-    protected boolean frozen;
 
-    public boolean isFrozen() {
-        return frozen;
-    }
-
-    public void setFrozen(boolean frozen) {
-        this.frozen = frozen;
-    }
 
     public GameObject(){
         this.id = UUID.randomUUID();

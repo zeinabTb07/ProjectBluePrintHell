@@ -1,5 +1,6 @@
 package view.components;
 
+import model.constants.Constants;
 import model.objects.other.Collision;
 import model.GameState;
 import model.objects.other.Connection;
@@ -29,14 +30,18 @@ public class GameStateRenderer {
         log.debug("GameStateRenderer initialized");
     }
     public void render(Graphics2D g , GameState gameState){
+        g.setColor(Color.white);
+        g.setStroke(Constants.LINE_STROKE);
+        g.setFont(new Font("Press Start 2P", Font.PLAIN, (int)(20*Constants.SCALE)));
+        g.drawString(String.valueOf("Level : "+gameState.getGameLevel().getNumber()), 15, 70);
+
         for(Collision collision : new ArrayList<>(gameState.getCollisions())){
             g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));
-            g.setStroke(new BasicStroke(2));
             double r = collision.getRadius();
             Point p = collision.getPoint();
             g.draw(new Ellipse2D.Double(p.x - r/2, p.y - r/2, r, r));
         }
-        for(NetworkSystem system :new ArrayList<>( gameState.getGameLevel().getSystems())){
+        for(NetworkSystem system :new ArrayList<>( gameState.getNetworkSystems())){
             systemRenderer.render(g , system);
 
         }

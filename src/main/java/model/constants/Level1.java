@@ -20,7 +20,6 @@ public class Level1 extends Level {
         setTime(20);
         setNumber(0);
 
-        // DistributeSystem
         DistributeSystem ns3 = new DistributeSystem(new Point(
                 (int)(300 * Constants.SCALE),
                 (int)(260 * Constants.SCALE)
@@ -32,10 +31,10 @@ public class Level1 extends Level {
         ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
         addSystem(ns3);
 
-        // MergeSystem
+
         MergeSystem ns4 = new MergeSystem(new Point(
-                (int)(600 * Constants.SCALE),
-                (int)(270 * Constants.SCALE)
+                (int)(550 * Constants.SCALE),
+                (int)(400 * Constants.SCALE)
         ));
         ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
         ns4.addInputPort(new InputPort(ns4, PortType.BITE));
@@ -44,29 +43,29 @@ public class Level1 extends Level {
         ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
         addSystem(ns4);
 
-        // SpySystem
-        SpySystem ns5 = new SpySystem(new Point(
-                (int)(650 * Constants.SCALE),
-                (int)(300 * Constants.SCALE)
-        ));
-        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
-        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
-        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
-        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
-        addSystem(ns5);
 
-        // ChaosSystem
-        ChaosSystem ns6 = new ChaosSystem(new Point(
-                (int)(450 * Constants.SCALE),
-                (int)(200 * Constants.SCALE)
-        ));
-        ns6.addInputPort(new InputPort(ns6, PortType.SQUARE));
-        ns6.addOutputPort(new OutputPort(ns6, PortType.SQUARE));
-        ns6.addInputPort(new InputPort(ns6, PortType.TRIANGLE));
-        ns6.addOutputPort(new OutputPort(ns6, PortType.TRIANGLE));
-        addSystem(ns6);
+//        SpySystem ns5 = new SpySystem(new Point(
+//                (int)(650 * Constants.SCALE),
+//                (int)(300 * Constants.SCALE)
+//        ));
+//        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
+//        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
+//        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
+//        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
+//        addSystem(ns5);
 
-        // RooterSystem 1
+
+//        ChaosSystem ns6 = new ChaosSystem(new Point(
+//                (int)(450 * Constants.SCALE),
+//                (int)(200 * Constants.SCALE)
+//        ));
+//        ns6.addInputPort(new InputPort(ns6, PortType.SQUARE));
+//        ns6.addOutputPort(new OutputPort(ns6, PortType.SQUARE));
+//        ns6.addInputPort(new InputPort(ns6, PortType.TRIANGLE));
+//        ns6.addOutputPort(new OutputPort(ns6, PortType.TRIANGLE));
+//        addSystem(ns6);
+
+
         RooterSystem rs1 = new RooterSystem(new Point(
                 (int)(100 * Constants.SCALE),
                 (int)(150 * Constants.SCALE)
@@ -79,7 +78,7 @@ public class Level1 extends Level {
         rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
         addSystem(rs1);
 
-        // RooterSystem 2
+
         RooterSystem rs2 = new RooterSystem(new Point(
                 (int)(780 * Constants.SCALE),
                 (int)(450 * Constants.SCALE)

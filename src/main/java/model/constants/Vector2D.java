@@ -16,6 +16,10 @@ public class Vector2D {
         this.y = endPoint.getY() - startPoint.getY();
     }
 
+    public double getSize(){
+        return Math.sqrt(x*x + y*y);
+    }
+
     public Vector2D() {
         this(0, 0);
     }

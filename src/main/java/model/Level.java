@@ -24,7 +24,7 @@ Level implements Serializable {
         this.number = number;
     }
 
-    public ArrayList<NetworkSystem> getSystems() {
+    protected ArrayList<NetworkSystem> getSystems() {
         return systems;
     }
 

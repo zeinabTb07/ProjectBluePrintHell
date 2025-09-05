@@ -37,6 +37,8 @@ public class GameController {
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
             gameLoop.start();
+            gameState.getConnections().stream()
+                    .forEach(e->{e.setFreeze(true);});
         });
 
         EventBus.subscribe(GameEvents.PauseGameEvent.class, d -> {
