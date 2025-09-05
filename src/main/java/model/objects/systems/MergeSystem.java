@@ -28,7 +28,7 @@ public class MergeSystem extends NetworkSystem implements Serializable {
             if(e.packet() instanceof  MassagerPacket){
                 MassagerPacket p = (MassagerPacket) e.packet();
                 if(p.getParentColossusId()!=null){
-                    colossusPacketLostMap.put(p.getParentColossusId().uuid() , )
+                    colossusPacketLostMap.merge(p.getParentColossusId().uuid(), 1, Integer::sum);
                 }
             }
         });
@@ -39,10 +39,14 @@ public class MergeSystem extends NetworkSystem implements Serializable {
         if (!storage.isEmpty()) trySendingPacket(storage.get(0));
 
          for (GameRecords.ColossusPackets key : packetsMap.keySet()) {
-            ArrayList<MassagerPacket> packets = packetsMap.get(key);
-             ColossusPacket colossusPacket = new ColossusPacket(this , key.type());
-            if(packets.size()>=8){
-                colossusPacket.setId(key.uuid());
+             ArrayList<MassagerPacket> packets = packetsMap.get(key);
+              int expectedSize = key.type().getProperties().size();
+             int lostCount = colossusPacketLostMap.getOrDefault(key.uuid(), 0);
+
+             if (packets.size() == expectedSize - lostCount) {
+                 ColossusPacket colossusPacket = new ColossusPacket(this , key.type());
+
+                 colossusPacket.setId(key.uuid());
                 for (MassagerPacket packet : packets) {
                     EventBus.publish(new GameEvents.SwapPacketEvent(packet , colossusPacket));
                 }

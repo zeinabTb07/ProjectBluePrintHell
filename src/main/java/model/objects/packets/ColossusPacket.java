@@ -20,7 +20,7 @@ public class ColossusPacket extends Packet implements Serializable {
     public void moveNormal(double deltaTime) {
        super.moveNormal(deltaTime);
        if(type==PacketType.RANGAROK){
-           centerOfMass.setLocation(centerOfMass.getX() , centerOfMass.getY()+0.2);
+           centerOfMass.setLocation(centerOfMass.getX() , centerOfMass.getY()+0.5);
        } else if (type==PacketType.TITAN) {
            acceleration = currentConnection.getTangentAt(distance).getSize()*10;
        }
