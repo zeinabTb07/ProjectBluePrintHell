@@ -28,6 +28,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected double velocity;
     protected double acceleration;
     protected NetworkSystem currentSystem;
+    protected NetworkSystem parentSystem ;
     protected Connection currentConnection;
     protected double distance;
     protected Point2D centerOfMass;
@@ -40,13 +41,16 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         super();
         this.type = packetType;
         this.currentSystem = system;
+        this.parentSystem = system;
         this.size = type.getProperties().size();
         this.coin = type.getProperties().coin();
         centerOfMass = new Point();
         dirty = true;
     }
 
-
+    public NetworkSystem getParentSystem() {
+        return parentSystem;
+    }
 
     protected void makeShape() {
         try {

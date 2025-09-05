@@ -4,7 +4,9 @@ import events.EventBus;
 import events.GameEvents;
 import events.ShopEvents;
 import model.constants.Constants;
+import model.enums.PortType;
 import model.objects.other.Connection;
+import model.objects.packets.ColossusPacket;
 import model.objects.packets.Packet;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
@@ -13,6 +15,7 @@ import model.objects.systems.RooterSystem;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PacketController {
     private final List<Packet> packets;
@@ -46,6 +49,11 @@ public class PacketController {
 
                 if (isPacketReachedEnd(packet)) {
                     Connection con = packet.getCurrentConnection();
+                    if(packet instanceof ColossusPacket){
+                        con.getTarget().setPortType(getRandomPortType());
+                        con.getTarget().getParentSystem().setDirty(true);
+                        System.out.println("portType shold change to " + con.getTarget().getPortType());
+                    }
                     NetworkSystem end = con.getTarget().getParentSystem();
                     end.receivePacket(packet);
                     resetPacket(packet);
@@ -88,5 +96,11 @@ public class PacketController {
             con.setBusy(false);
             packet.setCurrentConnection(null);
         }
+    }
+
+    private PortType getRandomPortType(){
+        PortType[] types = PortType.values();
+        Random random = new Random();
+        return types[random.nextInt(0 , types.length)];
     }
 }

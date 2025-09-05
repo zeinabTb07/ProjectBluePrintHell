@@ -38,7 +38,7 @@ public class MergeSystem extends NetworkSystem implements Serializable {
     public void process(){
         if (!storage.isEmpty()) trySendingPacket(storage.get(0));
 
-         for (GameRecords.ColossusPackets key : packetsMap.keySet()) {
+         for (GameRecords.ColossusPackets key : new ArrayList<>(packetsMap.keySet())) {
              ArrayList<MassagerPacket> packets = packetsMap.get(key);
               int expectedSize = key.type().getProperties().size();
              int lostCount = colossusPacketLostMap.getOrDefault(key.uuid(), 0);

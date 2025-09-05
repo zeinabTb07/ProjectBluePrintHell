@@ -39,6 +39,25 @@ public class GameState implements Serializable {
         initialState();
     }
 
+    private void resetPackets(){
+        for (Packet packet : packets){
+            packet.setCurrentSystem(packet.getParentSystem());
+        }
+    }
+
+    public void goToLevel(Level level){
+        this.gameLevel = level;
+        resetPackets();
+        addNewSystems(level.systems);
+        for(NetworkSystem system : level.getSystems()){
+            if(system instanceof RooterSystem){
+                packets.addAll(((RooterSystem) system).getInitialPackets());
+                totalPackets=packets.size();
+            }
+        }
+        lostPackets = 0 ;
+    }
+
     private void setupEventListeners() {
 
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> {

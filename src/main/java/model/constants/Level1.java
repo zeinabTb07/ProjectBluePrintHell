@@ -17,19 +17,19 @@ public class Level1 extends Level {
     public Level1() {
         super();
         setWireLength(6000);
-        setTime(20);
+        setTime(35);
         setNumber(0);
 
-        DistributeSystem ns3 = new DistributeSystem(new Point(
-                (int)(300 * Constants.SCALE),
-                (int)(260 * Constants.SCALE)
-        ));
-        ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
-        ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
-        ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
-        ns3.addOutputPort(new OutputPort(ns3, PortType.BITE));
-        ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
-        addSystem(ns3);
+//        DistributeSystem ns3 = new DistributeSystem(new Point(
+//                (int)(300 * Constants.SCALE),
+//                (int)(260 * Constants.SCALE)
+//        ));
+//        ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
+//        ns3.addInputPort(new InputPort(ns3, PortType.SQUARE));
+//        ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
+//        ns3.addOutputPort(new OutputPort(ns3, PortType.BITE));
+//        ns3.addOutputPort(new OutputPort(ns3, PortType.SQUARE));
+//        addSystem(ns3);
 
 
         MergeSystem ns4 = new MergeSystem(new Point(
@@ -37,22 +37,22 @@ public class Level1 extends Level {
                 (int)(400 * Constants.SCALE)
         ));
         ns4.addInputPort(new InputPort(ns4, PortType.TRIANGLE));
-        ns4.addInputPort(new InputPort(ns4, PortType.BITE));
+  //      ns4.addInputPort(new InputPort(ns4, PortType.BITE));
         ns4.addOutputPort(new OutputPort(ns4, PortType.TRIANGLE));
         ns4.addInputPort(new InputPort(ns4, PortType.SQUARE));
         ns4.addOutputPort(new OutputPort(ns4, PortType.SQUARE));
         addSystem(ns4);
 
 
-//        SpySystem ns5 = new SpySystem(new Point(
-//                (int)(650 * Constants.SCALE),
-//                (int)(300 * Constants.SCALE)
-//        ));
-//        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
-//        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
-//        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
-//        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
-//        addSystem(ns5);
+        DistributeSystem ns5 = new DistributeSystem(new Point(
+                (int)(650 * Constants.SCALE),
+                (int)(300 * Constants.SCALE)
+        ));
+        ns5.addInputPort(new InputPort(ns5, PortType.SQUARE));
+        ns5.addOutputPort(new OutputPort(ns5, PortType.SQUARE));
+        ns5.addInputPort(new InputPort(ns5, PortType.TRIANGLE));
+        ns5.addOutputPort(new OutputPort(ns5, PortType.TRIANGLE));
+        addSystem(ns5);
 
 
 //        ChaosSystem ns6 = new ChaosSystem(new Point(
@@ -64,7 +64,7 @@ public class Level1 extends Level {
 //        ns6.addInputPort(new InputPort(ns6, PortType.TRIANGLE));
 //        ns6.addOutputPort(new OutputPort(ns6, PortType.TRIANGLE));
 //        addSystem(ns6);
-
+//
 
         RooterSystem rs1 = new RooterSystem(new Point(
                 (int)(100 * Constants.SCALE),
@@ -72,10 +72,10 @@ public class Level1 extends Level {
         ));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
         rs1.addOutputPort(new OutputPort(rs1, PortType.SQUARE));
-        rs1.addPacket(new PrivatePacket(rs1, PacketType.PHANTOM));
+        rs1.addPacket(new ColossusPacket(rs1, PacketType.RANGAROK));
         rs1.addPacket(new ColossusPacket(rs1, PacketType.TITAN));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
-        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.SQUARE));
+//        rs1.addPacket(new MassagerPacket(rs1, PacketType.BITE));
         addSystem(rs1);
 
 
