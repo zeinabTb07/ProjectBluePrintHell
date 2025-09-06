@@ -4,6 +4,7 @@ import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
+import model.constants.levels.Level1;
 import utils.GameStateLoader;
 import model.constants.Constants;
 
@@ -20,7 +21,8 @@ public class GameController {
 //        } catch (Exception e) {
 //            gameState = new GameState(new Level1());
 //        }
-        gameState = new GameState(Constants.levels.get(0));
+        gameState = new GameState(new Level1());
+        Constants.initLevels();
         frameManager = new FrameManager(gameState);
         gameStateLoader = new GameStateLoader();
         gameLoop = new GameLoop(gameState);

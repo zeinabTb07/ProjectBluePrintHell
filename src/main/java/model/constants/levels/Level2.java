@@ -1,6 +1,14 @@
 package model.constants.levels;
 
 import model.Level;
+import model.enums.PortType;
+import model.enums.SystemType;
+import model.objects.systems.SpySystem;
+import model.objects.systems.SystemFactory;
+import model.objects.systems.addon.InputPort;
+import model.objects.systems.addon.OutputPort;
+
+import java.util.ArrayList;
 
 public class Level2 extends Level {
     public Level2(){
@@ -9,5 +17,31 @@ public class Level2 extends Level {
         setMessage(" They Are Spying On You");
         setWireLength(4000);
         setTime(2);
+        ArrayList<SpySystem> spySystems = new ArrayList<>();
+        SpySystem spy1 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 370 , 480);
+        spy1.addInputPort(new InputPort(spy1 , PortType.SQUARE));
+        spy1.addOutputPort(new OutputPort(spy1 , PortType.TRIANGLE));
+
+        SpySystem spy2 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 180 , 250);
+        spy2.addInputPort(new InputPort(spy2 , PortType.BITE));
+        spy2.addOutputPort(new OutputPort(spy2 , PortType.SQUARE));
+
+        SpySystem spy3 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 750 , 320);
+        spy3.addInputPort(new InputPort(spy3 , PortType.TRIANGLE));
+        spy3.addOutputPort(new OutputPort(spy3 , PortType.TRIANGLE));
+
+
+
+        spySystems.add(spy1);
+        spySystems.add(spy2);
+        spySystems.add(spy3);
+
+        spy1.setSpies(spySystems);
+        spy2.setSpies(spySystems);
+        spy3.setSpies(spySystems);
+
+        addSystem(spy1);
+        addSystem(spy2);
+        addSystem(spy3);
     }
 }

@@ -15,20 +15,28 @@ public class SystemFactory {
         switch (type){
             case SystemType.LINK:
                 sys = new LinkSystem(point);
+                break;
             case SystemType.VPN:
                 sys = new VPNSystem(point);
+                break;
             case SystemType.CHAOS:
                 sys = new ChaosSystem(point);
+                break;
             case SystemType.SPY:
                 sys = new SpySystem(point);
+                break;
             case SystemType.ANTI_TROJAN:
                 sys = new AntiTrojanSystem(point);
+                break;
             case SystemType.DISTRIBUTE:
                 sys = new DistributeSystem(point);
+                break;
             case SystemType.MERGE:
                 sys = new MergeSystem(point);
+                break;
             case SystemType.ROOTER:
                 sys = new RooterSystem(point);
+                break;
             default:
                 logger.error("Invalid packet type");
         }

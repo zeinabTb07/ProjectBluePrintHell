@@ -26,14 +26,15 @@ public class Constants {
     public static Stroke LINE_STROKE = new BasicStroke((float)(3 * SCALE));
 
     public static ArrayList<Level> levels = new ArrayList<>();
-    static {
-        levels.add(new Level1());
-        levels.add(new Level2());
-        levels.add(new Level3());
-        levels.add(new Level4());
-        levels.add(new Level5());
+    public static void initLevels() {
+        if (levels.isEmpty()) {
+            levels.add(new Level1());
+            levels.add(new Level2());
+            levels.add(new Level3());
+            levels.add(new Level4());
+            levels.add(new Level5());
+        }
     }
-
     public class Colors {
         public static final Color SYSTEM = new Color(0x4FC3F7);
         public static final Color INPUT_PORT = new Color(156, 39, 176);
