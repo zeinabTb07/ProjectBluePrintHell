@@ -1,8 +1,8 @@
 package model.objects.packets;
 import model.constants.Constants;
-import model.constants.PacketRecord;
-import model.constants.PacketSpeedRules;
-import model.constants.Vector2D;
+import utils.PacketRecord;
+import utils.PacketSpeedRules;
+import utils.Vector2D;
 import model.enums.PacketType;
 import model.interfaces.Forceable;
 import model.interfaces.Movable;
@@ -10,14 +10,12 @@ import model.interfaces.Updatable;
 import model.objects.other.Connection;
 import model.objects.GameObject;
 import model.objects.systems.NetworkSystem;
-import model.objects.systems.RooterSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.util.Random;
 
 public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable , Serializable {
     protected static final Logger log = LoggerFactory.getLogger(Packet.class);

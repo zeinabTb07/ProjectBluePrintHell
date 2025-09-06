@@ -3,13 +3,13 @@ package model.objects.systems;
 import events.EventBus;
 import events.GameEvents;
 import model.constants.Constants;
-import model.constants.Vector2D;
+import utils.Vector2D;
 import model.enums.GameShape;
 import model.interfaces.Forceable;
 import model.interfaces.Updatable;
 import model.objects.GameObject;
 import model.objects.other.Connection;
-import model.objects.packets.MassagerPacket;
+import model.objects.packets.MessagerPacket;
 import model.objects.packets.Packet;
 import model.objects.systems.addon.Inductor;
 import model.objects.systems.addon.InputPort;
@@ -79,7 +79,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
             Connection c = output.getConnection();
             if (c!= null && !c.isBusy()) {
                 con = output.getConnection();
-                if(p instanceof MassagerPacket){
+                if(p instanceof MessagerPacket){
                     if(output.getPortType().getShape()==packetPortType){
                         return con;
                     }

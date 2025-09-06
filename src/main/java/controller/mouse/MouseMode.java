@@ -1,7 +1,5 @@
 package controller.mouse;
 
-import controller.NetworkConnectivityChecker;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 

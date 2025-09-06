@@ -1,7 +1,7 @@
 package controller.mouse;
 
 import model.GameState;
-import model.constants.Vector2D;
+import utils.Vector2D;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
 import org.slf4j.Logger;

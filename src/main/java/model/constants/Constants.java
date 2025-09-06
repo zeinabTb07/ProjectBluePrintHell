@@ -25,9 +25,6 @@ public class Constants {
     public static Stroke LINE_STROKE = new BasicStroke((float)(3 * SCALE));
 
     public static ArrayList<Level> levels = new ArrayList<>();
-    static {
-        levels.add(new Level1());
-    }
 
     public class Colors {
         public static final Color SYSTEM = new Color(0x4FC3F7);

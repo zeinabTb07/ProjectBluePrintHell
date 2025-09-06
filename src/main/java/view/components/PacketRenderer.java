@@ -1,9 +1,9 @@
 package view.components;
 
 import model.constants.Constants;
-import model.enums.GameRecords;
-import model.objects.packets.MassagerPacket;
+import model.objects.packets.MessagerPacket;
 import model.objects.packets.Packet;
+import utils.PacketRecord;
 
 import java.awt.*;
 import java.util.UUID;
@@ -13,8 +13,8 @@ public class PacketRenderer {
         packet.update();
         if(packet.isTrojan()){
             g2d.setColor(Constants.Colors.TROJAN_PACKET);
-        } else  if(packet instanceof MassagerPacket){
-            GameRecords.ColossusPackets c = ((MassagerPacket)packet).getParentColossusId();
+        } else  if(packet instanceof MessagerPacket){
+            PacketRecord.ColossusPackets c = ((MessagerPacket)packet).getParentColossusId();
             if(c!=null){
                 g2d.setColor(getColorFromUUID(c.uuid()));
             }

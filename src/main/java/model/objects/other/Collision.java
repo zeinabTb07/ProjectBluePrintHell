@@ -1,7 +1,7 @@
 package model.objects.other;
 
 import model.constants.Constants;
-import model.constants.Vector2D;
+import utils.Vector2D;
 import model.enums.PacketType;
 import model.interfaces.Updatable;
 

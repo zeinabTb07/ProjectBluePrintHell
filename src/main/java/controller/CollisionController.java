@@ -22,7 +22,9 @@ public class CollisionController {
     }
 
     private void setupEventListeners() {
+        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->{
 
+        });
     }
 
 

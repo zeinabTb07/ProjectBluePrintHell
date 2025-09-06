@@ -1,4 +1,4 @@
-package model.constants;
+package utils;
 
 import java.awt.*;
 

@@ -4,11 +4,8 @@ import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
-import model.GameStateLoader;
+import utils.GameStateLoader;
 import model.constants.Constants;
-import model.constants.Level1;
-
-import java.io.IOException;
 
 
 public class GameController {
@@ -23,7 +20,7 @@ public class GameController {
 //        } catch (Exception e) {
 //            gameState = new GameState(new Level1());
 //        }
-        gameState = new GameState(new Level1());
+        gameState = new GameState(Constants.levels.get(0));
         frameManager = new FrameManager(gameState);
         gameStateLoader = new GameStateLoader();
         gameLoop = new GameLoop(gameState);

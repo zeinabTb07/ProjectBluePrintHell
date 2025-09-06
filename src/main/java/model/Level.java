@@ -5,8 +5,7 @@ import model.objects.systems.NetworkSystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class
-Level implements Serializable {
+public  class Level implements Serializable {
     protected ArrayList<NetworkSystem> systems;
     protected double wireLength ;
     protected double time;

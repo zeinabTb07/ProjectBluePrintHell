@@ -1,4 +1,4 @@
-package controller;
+package utils;
 
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.NetworkSystem;

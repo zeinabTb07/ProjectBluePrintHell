@@ -5,17 +5,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ButtonFactory {
-
-    // Removed fixed defaults, will calculate in Builder dynamically
+public class ButtonBuilder {
 
     public static class Builder {
         private String text = "";
         private String iconPath = null;
         private Point position;
-        private Dimension size = null; // will default in build()
+        private Dimension size = null;
         private ActionListener action = null;
-        private Font font = null; // default in build()
+        private Font font = null;
         private Color background = Color.LIGHT_GRAY;
 
         public Builder withText(String text) {
@@ -56,12 +54,11 @@ public class ButtonFactory {
         public JButton build() {
             JButton button = new JButton(text);
 
-            // Icon
             if (iconPath != null) {
                 button.setIcon(new ImageIcon(iconPath));
             }
 
-            // Size
+
             if (size == null) {
                 int width = (int) (300 * Constants.SCALE);
                 int height = (int) (80 * Constants.SCALE);
@@ -69,12 +66,12 @@ public class ButtonFactory {
             }
             button.setSize(size);
 
-            // Position
+
             if (position != null) {
                 button.setLocation(position);
             }
 
-            // Font
+
             if (font == null) {
                 font = new Font("Monospaced", Font.BOLD, (int) (40 * Constants.SCALE));
             }
@@ -82,7 +79,6 @@ public class ButtonFactory {
 
             button.setBackground(background);
 
-            // Action
             if (action != null) {
                 button.addActionListener(action);
             }

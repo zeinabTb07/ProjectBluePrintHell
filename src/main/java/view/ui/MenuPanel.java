@@ -63,7 +63,7 @@ public class MenuPanel extends JPanel {
         add(titlePanel);
 
         // ===== BUTTONS =====
-        JButton exit = new ButtonFactory.Builder()
+        JButton exit = new ButtonBuilder.Builder()
                 .withText("Exit")
                 .atPosition(new Point(
                         (int)(150 * Constants.SCALE),
@@ -72,7 +72,7 @@ public class MenuPanel extends JPanel {
                 .withAction(e -> System.exit(0))
                 .build();
 
-        JButton replay = new ButtonFactory.Builder()
+        JButton replay = new ButtonBuilder.Builder()
                 .withText("Replay")
                 .atPosition(new Point(
                         (int)(550 * Constants.SCALE),
@@ -81,7 +81,7 @@ public class MenuPanel extends JPanel {
                 .withAction(e -> EventBus.publish(new ReplayEvent()))
                 .build();
 
-        JButton play = new ButtonFactory.Builder()
+        JButton play = new ButtonBuilder.Builder()
                 .withText("Continue")
                 .atPosition(new Point(
                         (int)(550 * Constants.SCALE),
@@ -90,7 +90,7 @@ public class MenuPanel extends JPanel {
                 .withAction(e -> EventBus.publish(new OpenGameEvent()))
                 .build();
 
-        JButton settings = new ButtonFactory.Builder()
+        JButton settings = new ButtonBuilder.Builder()
                 .withText("Setting")
                 .atPosition(new Point(
                         (int)(150 * Constants.SCALE),

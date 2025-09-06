@@ -4,7 +4,7 @@ import events.EventBus;
 import events.GameEvents;
 import model.enums.GameShape;
 import model.objects.other.Connection;
-import model.objects.packets.MassagerPacket;
+import model.objects.packets.MessagerPacket;
 import model.objects.packets.Packet;
 import model.objects.packets.ProtectedPacket;
 import model.objects.systems.addon.OutputPort;
@@ -37,7 +37,7 @@ public class ChaosSystem extends NetworkSystem implements Serializable {
             Connection c = output.getConnection();
             if (c!= null && !c.isBusy()) {
                 con = output.getConnection();
-                if(p instanceof MassagerPacket){
+                if(p instanceof MessagerPacket){
                     if(output.getPortType().getShape()!=packetPortType){
                         return con;
                     }

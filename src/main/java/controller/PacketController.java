@@ -52,7 +52,6 @@ public class PacketController {
                     if(packet instanceof ColossusPacket){
                         con.getTarget().setPortType(getRandomPortType());
                         con.getTarget().getParentSystem().setDirty(true);
-                        System.out.println("portType shold change to " + con.getTarget().getPortType());
                     }
                     NetworkSystem end = con.getTarget().getParentSystem();
                     end.receivePacket(packet);

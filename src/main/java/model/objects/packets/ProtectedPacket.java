@@ -1,16 +1,12 @@
 package model.objects.packets;
 
-import events.EventBus;
-import events.GameEvents;
 import model.constants.Constants;
-import model.constants.PacketRecord;
-import model.constants.PacketSpeedRules;
+import utils.PacketRecord;
+import utils.PacketSpeedRules;
 import model.enums.PacketType;
 import model.objects.other.Connection;
-import model.objects.systems.RooterSystem;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class ProtectedPacket extends Packet implements Serializable {

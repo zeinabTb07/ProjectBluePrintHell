@@ -1,6 +1,6 @@
 package model.enums;
 
-import model.constants.PacketRecord;
+import utils.PacketRecord;
 
 public enum PacketType {
     SQUARE(GameShape.SQUARE, new PacketRecord.PacketProperties(2, 2)),

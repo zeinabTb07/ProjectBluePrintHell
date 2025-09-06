@@ -2,21 +2,20 @@ package model.objects.packets;
 
 
 import model.constants.Constants;
-import model.constants.PacketRecord;
-import model.constants.PacketSpeedRules;
-import model.enums.GameRecords;
+import utils.PacketRecord;
+import utils.PacketSpeedRules;
 import model.enums.PacketType;
 import model.objects.other.Connection;
 import model.objects.systems.NetworkSystem;
-import model.objects.systems.RooterSystem;
+
 
 import java.io.Serializable;
-import java.util.UUID;
 
 
-public class MassagerPacket extends Packet implements Serializable {
-    private GameRecords.ColossusPackets parentColossus;
-    public MassagerPacket(NetworkSystem system, PacketType type) {
+
+public class MessagerPacket extends Packet implements Serializable {
+    private PacketRecord.ColossusPackets parentColossus;
+    public MessagerPacket(NetworkSystem system, PacketType type) {
         super(system,type);
     }
 
@@ -31,11 +30,11 @@ public class MassagerPacket extends Packet implements Serializable {
         dirty = true;
     }
 
-    public GameRecords.ColossusPackets getParentColossusId() {
+    public PacketRecord.ColossusPackets getParentColossusId() {
         return parentColossus;
     }
 
-    public void setParentColossusId(GameRecords.ColossusPackets parentColossusId) {
+    public void setParentColossusId(PacketRecord.ColossusPackets parentColossusId) {
         this.parentColossus = parentColossusId;
     }
 }

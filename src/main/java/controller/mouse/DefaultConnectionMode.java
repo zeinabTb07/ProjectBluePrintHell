@@ -5,7 +5,7 @@ import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
 import model.constants.Constants;
-import model.constants.Line;
+import utils.Line;
 import model.objects.other.Connection;
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.addon.OutputPort;

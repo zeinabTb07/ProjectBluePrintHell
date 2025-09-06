@@ -1,6 +1,6 @@
 package view.ui;
 
-import controller.NetworkConnectivityChecker;
+import utils.NetworkConnectivityChecker;
 import events.EventBus;
 import events.GameEvents;
 import events.UIEvents;
@@ -32,7 +32,7 @@ public class InfoBar extends JLabel {
 
         add(Box.createHorizontalStrut(20));
 
-        JButton back = new ButtonFactory.Builder()
+        JButton back = new ButtonBuilder.Builder()
                 .withText("Back")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
@@ -68,7 +68,7 @@ public class InfoBar extends JLabel {
         add(Box.createHorizontalStrut(20));
 
 
-        JButton run = new ButtonFactory.Builder()
+        JButton run = new ButtonBuilder.Builder()
                 .withText("Run")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
@@ -80,7 +80,7 @@ public class InfoBar extends JLabel {
         add(run);
         add(Box.createHorizontalStrut(20));
 
-        JButton shop = new ButtonFactory.Builder()
+        JButton shop = new ButtonBuilder.Builder()
                 .withText("Shop")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
