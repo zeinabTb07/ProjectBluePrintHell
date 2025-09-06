@@ -30,6 +30,13 @@ public class GameEvents {
         }
     }
 
+    public record GoToLevel(int n){
+        public GoToLevel{
+            log.info("Game level goes to : {}", n);
+        }
+    }
+
+
     public record ConnectionEvent(double lengthChange){
         public ConnectionEvent{
             log.info("Connection Length Change : {}" , lengthChange);

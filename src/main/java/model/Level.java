@@ -5,11 +5,13 @@ import model.objects.systems.NetworkSystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public  class Level implements Serializable {
+public abstract class Level implements Serializable {
     protected ArrayList<NetworkSystem> systems;
     protected double wireLength ;
     protected double time;
     protected int number ;
+    protected String message;
+
     public Level(){
         systems = new ArrayList<>();
         wireLength = 0 ;
@@ -44,6 +46,14 @@ public  class Level implements Serializable {
     }
     public void removeSystem(NetworkSystem system){
         systems.remove(system);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public double getTime() {

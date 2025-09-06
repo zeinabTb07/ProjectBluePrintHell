@@ -1,5 +1,6 @@
 package view.components;
 
+import model.Level;
 import model.constants.Constants;
 import model.objects.other.Collision;
 import model.GameState;
@@ -33,7 +34,8 @@ public class GameStateRenderer {
         g.setColor(Color.white);
         g.setStroke(Constants.LINE_STROKE);
         g.setFont(new Font("Press Start 2P", Font.PLAIN, (int)(20*Constants.SCALE)));
-        g.drawString(String.valueOf("Level : "+gameState.getGameLevel().getNumber()), 15, 70);
+        Level level = gameState.getGameLevel();
+        g.drawString("Level : "+level.getNumber() +level.getMessage(), 15, 70);
 
         for(Collision collision : new ArrayList<>(gameState.getCollisions())){
             g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));

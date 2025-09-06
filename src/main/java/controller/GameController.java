@@ -37,6 +37,10 @@ public class GameController {
             gameState.getConnections().stream()
                     .forEach(e->{e.setFreeze(true);});
         });
+        EventBus.subscribe(GameEvents.GoToLevel.class , e->{
+            gameState.goToLevel(Constants.levels.get(e.n()));
+            gameLoop = new GameLoop(gameState);
+        });
 
         EventBus.subscribe(GameEvents.PauseGameEvent.class, d -> {
             gameLoop.pauseGame(d.b());

@@ -1,5 +1,6 @@
 package model.constants;
 import model.Level;
+import model.constants.levels.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,6 +26,13 @@ public class Constants {
     public static Stroke LINE_STROKE = new BasicStroke((float)(3 * SCALE));
 
     public static ArrayList<Level> levels = new ArrayList<>();
+    static {
+        levels.add(new Level1());
+        levels.add(new Level2());
+        levels.add(new Level3());
+        levels.add(new Level4());
+        levels.add(new Level5());
+    }
 
     public class Colors {
         public static final Color SYSTEM = new Color(0x4FC3F7);

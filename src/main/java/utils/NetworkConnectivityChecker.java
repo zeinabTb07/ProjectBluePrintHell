@@ -13,7 +13,7 @@ public class NetworkConnectivityChecker {
         this.systems = systems;
     }
     public boolean check(){
-        return isConnected() && checkAllPortConnected();
+        return isConnected() ;
     }
     private boolean isConnected() {
         if (systems.isEmpty()) {

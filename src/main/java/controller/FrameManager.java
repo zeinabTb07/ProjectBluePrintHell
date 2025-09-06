@@ -36,7 +36,7 @@ public class FrameManager {
         EventBus.subscribe(OpenShopEvent.class, e -> {shop.setVisible(true);});
 
         EventBus.subscribe(GameEvents.CheckGameEndEvent.class, e -> {
-            String[] options = {"Back to Menu"};
+            String[] options = {"Back to Menu" , "Go To Next Level"};
             int choice = JOptionPane.showOptionDialog(
                     null,
                     e.b() ? "You win!" : "You lost!",
@@ -51,6 +51,14 @@ public class FrameManager {
             if (choice == 0) {
                 EventBus.publish(new OpenMenuEvent());
             }
+            if(choice == 1){
+                int n = gameState.getGameLevel().getNumber();
+                n++;
+                if(n<Constants.levels.size()){
+                    EventBus.publish(new GameEvents.GoToLevel(n));
+                }  else EventBus.publish(new OpenMenuEvent());
+            }
+
         });
     }
     public void goToMenu() {
