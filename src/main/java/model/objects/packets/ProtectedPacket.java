@@ -38,4 +38,8 @@ public class ProtectedPacket extends Packet implements Serializable {
     public void setBasePacket(Packet basePacket) {
         this.basePacket = basePacket;
     }
+    @Override
+    public Packet clon() {
+        return new ProtectedPacket(basePacket);
+    }
 }

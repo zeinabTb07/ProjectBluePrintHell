@@ -28,6 +28,7 @@ public class Connection extends GameObject implements Updatable , Serializable {
     private boolean isBusy;
     private boolean dirty;
     private boolean freeze;
+    private int connectionStrength = 3 ;
 
     public Connection(InputPort target, OutputPort source) {
         super();
@@ -59,6 +60,10 @@ public class Connection extends GameObject implements Updatable , Serializable {
             logger.error("Error removing helper point", e);
         }
         dirty = true;
+    }
+
+    public void decreaseStrength(){
+        connectionStrength--;
     }
 
     public List<Point2D> getHelperPoints(){

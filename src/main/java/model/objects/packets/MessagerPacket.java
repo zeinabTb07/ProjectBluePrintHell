@@ -37,4 +37,8 @@ public class MessagerPacket extends Packet implements Serializable {
     public void setParentColossusId(PacketRecord.ColossusPackets parentColossusId) {
         this.parentColossus = parentColossusId;
     }
+    @Override
+    public Packet clon() {
+        return new MessagerPacket(currentSystem , type);
+    }
 }

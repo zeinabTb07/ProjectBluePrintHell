@@ -11,17 +11,28 @@ import java.util.UUID;
 public class PacketRenderer {
     public void render(Graphics2D g2d , Packet packet){
         packet.update();
+        g2d.setColor(getPacketColor(packet));
+        g2d.draw(packet.getShape());
+    }
+    private Color getPacketColor(Packet packet){
+        double resolution = 1 - 0.8*Math.divideExact(packet.getNoise(),packet.getSize());
+        Color color ;
         if(packet.isTrojan()){
-            g2d.setColor(Constants.Colors.TROJAN_PACKET);
+            color = Constants.Colors.TROJAN_PACKET;
         } else  if(packet instanceof MessagerPacket){
             PacketRecord.ColossusPackets c = ((MessagerPacket)packet).getParentColossusId();
             if(c!=null){
-                g2d.setColor(getColorFromUUID(c.uuid()));
-            }
-        } else g2d.setColor(Constants.Colors.PACKET);
-        g2d.draw(packet.getShape());
+                color = getColorFromUUID(c.uuid());
+            } else color = Constants.Colors.PACKET;
+        } else color = Constants.Colors.PACKET;
+        return new Color(
+                (float) color.getRed() / 255f,
+                (float) color.getGreen() / 255f,
+                (float) color.getBlue() / 255f,
+                (float) resolution
+        );
     }
-    public  Color getColorFromUUID(UUID uuid) {
+    private  Color getColorFromUUID(UUID uuid) {
         if(uuid==null) return Constants.Colors.PACKET;
         long msb = uuid.getMostSignificantBits();
         long lsb = uuid.getLeastSignificantBits();

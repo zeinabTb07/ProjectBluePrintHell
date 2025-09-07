@@ -21,4 +21,8 @@ public class PrivatePacket extends Packet implements Serializable {
         } else distance += velocity * deltaTime;
         dirty = true;
     }
+    @Override
+    public Packet clon() {
+        return new PrivatePacket(currentSystem , type);
+    }
 }

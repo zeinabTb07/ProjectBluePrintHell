@@ -20,4 +20,9 @@ public class ColossusPacket extends Packet implements Serializable {
            acceleration = currentConnection.getTangentAt(distance).getSize()*30;
        }
     }
+
+    @Override
+    public Packet clon() {
+       return new ColossusPacket(currentSystem , type);
+    }
 }

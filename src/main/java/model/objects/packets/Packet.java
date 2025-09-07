@@ -1,5 +1,6 @@
 package model.objects.packets;
 import model.constants.Constants;
+import model.interfaces.Cloneable;
 import utils.PacketRecord;
 import utils.PacketSpeedRules;
 import utils.Vector2D;
@@ -17,7 +18,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
-public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable , Serializable {
+public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable , Serializable , Cloneable<Packet> {
     protected static final Logger log = LoggerFactory.getLogger(Packet.class);
 
     protected int size;
@@ -26,7 +27,6 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected double velocity;
     protected double acceleration;
     protected NetworkSystem currentSystem;
-    protected NetworkSystem parentSystem ;
     protected Connection currentConnection;
     protected double distance;
     protected Point2D centerOfMass;
@@ -39,15 +39,10 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
         super();
         this.type = packetType;
         this.currentSystem = system;
-        this.parentSystem = system;
         this.size = type.getProperties().size();
         this.coin = type.getProperties().coin();
         centerOfMass = new Point();
         dirty = true;
-    }
-
-    public NetworkSystem getParentSystem() {
-        return parentSystem;
     }
 
     protected void makeShape() {

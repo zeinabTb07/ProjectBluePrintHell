@@ -68,7 +68,8 @@ public class GameLoop extends Thread {
 
     private boolean checkWinCondition(){
         packetController.timesUp();
-        return gameState.getCoin()>=0 && gameState.getPacketLossPercentage() <=50;
+        return true;
+        //return gameState.getCoin()>=0 && gameState.getPacketLossPercentage() <=50;
     }
 
     public void finishGame() {

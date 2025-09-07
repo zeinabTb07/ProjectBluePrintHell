@@ -58,6 +58,13 @@ public class PacketController {
                     resetPacket(packet);
                 }
 
+                if(isPacketComingBack(packet)){
+                    Connection con = packet.getCurrentConnection();
+                    NetworkSystem head = con.getSource().getParentSystem();
+                    head.receivePacket(packet);
+                    resetPacket(packet);
+                }
+
                 if (isPacketFallen(packet) || isPacketDisruptedByNoise(packet)) {
                     resetPacket(packet);
                     EventBus.publish(new GameEvents.PacketLostEvent(packet));
@@ -76,6 +83,10 @@ public class PacketController {
 
     private boolean isPacketDisruptedByNoise(Packet packet) {
         return packet.getNoise() > packet.getSize();
+    }
+
+    private boolean isPacketComingBack(Packet packet){
+        return packet.getDistancePassedOnConnection()<0&&packet.getVelocity()<0;
     }
 
     private boolean isPacketReachedEnd(Packet packet) {

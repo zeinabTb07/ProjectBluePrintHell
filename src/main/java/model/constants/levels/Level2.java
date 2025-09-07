@@ -16,17 +16,24 @@ public class Level2 extends Level {
         setNumber(1);
         setMessage(" They Are Spying On You");
         setWireLength(4000);
-        setTime(2);
+        setTime(1);
         ArrayList<SpySystem> spySystems = new ArrayList<>();
-        SpySystem spy1 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 370 , 480);
-        spy1.addInputPort(new InputPort(spy1 , PortType.SQUARE));
+        SpySystem spy1 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 510 , 490);
         spy1.addOutputPort(new OutputPort(spy1 , PortType.TRIANGLE));
+        spy1.addOutputPort(new OutputPort(spy1 , PortType.SQUARE));
+        spy1.addOutputPort(new OutputPort(spy1 , PortType.BITE));
+        spy1.addInputPort(new InputPort(spy1 , PortType.BITE));
+        spy1.addInputPort(new InputPort(spy1 , PortType.SQUARE));
 
-        SpySystem spy2 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 180 , 250);
+        SpySystem spy2 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 230 , 300);
         spy2.addInputPort(new InputPort(spy2 , PortType.BITE));
+        spy2.addOutputPort(new OutputPort(spy2 , PortType.TRIANGLE));
         spy2.addOutputPort(new OutputPort(spy2 , PortType.SQUARE));
 
-        SpySystem spy3 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 750 , 320);
+
+        SpySystem spy3 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 550 , 220);
+        spy3.addInputPort(new InputPort(spy3 , PortType.TRIANGLE));
+        spy3.addOutputPort(new OutputPort(spy3 , PortType.TRIANGLE));
         spy3.addInputPort(new InputPort(spy3 , PortType.TRIANGLE));
         spy3.addOutputPort(new OutputPort(spy3 , PortType.TRIANGLE));
 

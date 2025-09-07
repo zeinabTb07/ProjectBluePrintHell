@@ -2,6 +2,7 @@ package model.objects.systems;
 
 import events.EventBus;
 import events.GameEvents;
+import model.objects.packets.MessagerPacket;
 import model.objects.packets.Packet;
 
 import java.awt.*;
@@ -29,6 +30,12 @@ public class RooterSystem extends NetworkSystem implements Serializable {
 
     @Override
     public void receivePacket(Packet p) {
+        if(p instanceof MessagerPacket){
+            MessagerPacket packet =(MessagerPacket) p;
+            if(packet.getParentColossusId()!=null){
+                EventBus.publish(new GameEvents.PacketLostEvent(p));
+            }
+        }
         p.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
     }

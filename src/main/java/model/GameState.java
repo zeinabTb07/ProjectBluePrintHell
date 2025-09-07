@@ -18,6 +18,7 @@ public class GameState implements Serializable {
     private Level gameLevel;
     private ArrayList<Connection> connections;
     private ArrayList<Packet> packets;
+    private ArrayList<Packet> initialPackets;
     private ArrayList<Collision> collisions;
     private ArrayList<NetworkSystem> networkSystems;
     private int coin;
@@ -31,6 +32,7 @@ public class GameState implements Serializable {
         this.packets = new ArrayList<>();
         this.collisions = new ArrayList<>();
         this.networkSystems = new ArrayList<>();
+        this.initialPackets = new ArrayList<>();
     }
 
     public GameState(Level level) {
@@ -39,23 +41,24 @@ public class GameState implements Serializable {
         initialState();
     }
 
-    private void resetPackets(){
-        for (Packet packet : packets){
-            packet.setCurrentSystem(packet.getParentSystem());
-        }
-    }
 
     public void goToLevel(Level level){
         this.gameLevel = level;
-        resetPackets();
+
         addNewSystems(level.systems);
+        packets = initialPackets;
+        for(Packet packet : packets){
+            RooterSystem rooterSystem =(RooterSystem) packet.getCurrentSystem();
+            rooterSystem.addPacket(packet);
+        }
         for(NetworkSystem system : level.getSystems()){
             if(system instanceof RooterSystem){
                 packets.addAll(((RooterSystem) system).getInitialPackets());
-                totalPackets=packets.size();
             }
         }
+        totalPackets=packets.size();
         lostPackets = 0 ;
+        clonePackets();
     }
 
     private void setupEventListeners() {
@@ -106,6 +109,14 @@ public class GameState implements Serializable {
                 totalPackets += ((RooterSystem) system).getInitialPackets().size();
             }
         });
+        clonePackets();
+    }
+
+    private void clonePackets(){
+        initialPackets = new ArrayList<>();
+        for(Packet p : packets){
+            initialPackets.add(p.clon());
+        }
     }
 
     private void addNewSystems(ArrayList<NetworkSystem> newSystems){
