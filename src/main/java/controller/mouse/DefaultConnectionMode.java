@@ -64,15 +64,10 @@ public class DefaultConnectionMode implements MouseMode {
             if (!sourcePort.getParentSystem().equals(targetPort.getParentSystem()) &&
                     !targetPort.isConnected()) {
                 Connection connection = new Connection(targetPort, sourcePort);
-                if (gameState.getCurrentLengthUsed() + connection.getLength() <= gameState.getGameLevel().getWireLength()) {
-                    gameState.addConnection(connection);
-                    EventBus.publish(new GameEvents.ConnectionEvent(connection.getLength()));
-                    log.info("Connection created: {}", connection.getId());
-                    EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/connect.wav"));
-                } else {
-                    connection.disconnect();
-                    EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/error.wav"));
-                }
+                gameState.addConnection(connection);
+                EventBus.publish(new GameEvents.ConnectionEvent(connection.getLength()));
+                log.info("Connection created: {}", connection.getId());
+                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/connect.wav"));
             }
         });
         clearDragState();

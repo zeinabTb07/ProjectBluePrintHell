@@ -15,7 +15,6 @@ public class Level2 extends Level {
         super();
         setNumber(1);
         setMessage(" They Are Spying On You");
-        setWireLength(4000);
         setTime(1);
         ArrayList<SpySystem> spySystems = new ArrayList<>();
         SpySystem spy1 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 510 , 490);

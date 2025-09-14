@@ -16,7 +16,6 @@ public class Level3 extends Level {
      super();
         setNumber(2);
         setMessage(" Chaos Fight VPN");
-        setWireLength(5500);
         setTime(1);
 
 

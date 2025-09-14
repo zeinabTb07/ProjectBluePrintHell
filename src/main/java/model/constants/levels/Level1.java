@@ -4,23 +4,19 @@ import model.Level;
 import model.enums.PacketType;
 import model.enums.PortType;
 import model.enums.SystemType;
-import model.objects.packets.MessagerPacket;
 import model.objects.packets.PacketFactory;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
-import model.objects.systems.SpySystem;
 import model.objects.systems.SystemFactory;
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.addon.OutputPort;
 
-import java.util.ArrayList;
 
 public class Level1 extends Level {
     public Level1(){
         super();
         setNumber(0);
         setMessage(" Warming Up");
-        setWireLength(3000);
         setTime(1);
 
         RooterSystem rooter1 = (RooterSystem) SystemFactory.createSystem(SystemType.ROOTER , 50 , 150);

@@ -63,22 +63,12 @@ public class HelperPointMode implements MouseMode {
                     }
 
                     conn.update();
-                    double newLength = conn.getLength();
-                    double lengthIncrease = newLength - oldLength;
-                    if (gameState.getCurrentLengthUsed() + lengthIncrease <= gameState.getGameLevel().getWireLength()) {
-                        gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + lengthIncrease);
-                        log.info("Added helper point to connection {} at {}", conn.getId(), clickPoint);
-                        draggingHelper = clickPoint;
-                        helperConnection = conn;
-                        dragStartPoint = clickPoint;
-                        addHelperActive = false;
-                    } else {
-                        conn.removeHelperPoint(clickPoint);
-                        conn.setDirty(true);
-                        conn.update();
-                        EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/error.wav"));
-                        log.warn("Cannot add helper point: exceeds wire length limit.");
-                    }
+                    log.info("Added helper point to connection {} at {}", conn.getId(), clickPoint);
+                    draggingHelper = clickPoint;
+                    helperConnection = conn;
+                    dragStartPoint = clickPoint;
+                    addHelperActive = false;
+
                 } else {
                     log.debug("No connection found at point {}", clickPoint);
                 }
@@ -94,13 +84,10 @@ public class HelperPointMode implements MouseMode {
             double newX = draggingHelper.getX() + dx;
             double newY = draggingHelper.getY() + dy;
             draggingHelper.setLocation(newX, newY);
-            double oldLength = helperConnection.getLength();
             helperConnection.setDirty(true);
             helperConnection.update();
-            double newLength = helperConnection.getLength();
-            gameState.setCurrentLengthUsed(gameState.getCurrentLengthUsed() + (newLength - oldLength));
-
             dragStartPoint = e.getPoint();
+
             log.debug("Dragging helper point to: ({}, {})", newX, newY);
         }
     }

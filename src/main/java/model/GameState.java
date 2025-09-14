@@ -22,7 +22,6 @@ public class GameState implements Serializable {
     private ArrayList<Collision> collisions;
     private ArrayList<NetworkSystem> networkSystems;
     private int coin;
-    private double currentLengthUsed;
     private int totalPackets;
     private int lostPackets;
 
@@ -92,12 +91,10 @@ public class GameState implements Serializable {
 
     public void addConnection(Connection connection) {
         connections.add(connection);
-        currentLengthUsed += connection.getLength();
     }
 
     public void removeConnection(Connection connection) {
         connections.remove(connection);
-        currentLengthUsed -= connection.getLength();
     }
 
     private void initialState() {
@@ -151,14 +148,6 @@ public class GameState implements Serializable {
         this.coin = coin;
     }
 
-
-    public double getCurrentLengthUsed() {
-        return currentLengthUsed;
-    }
-
-    public void setCurrentLengthUsed(double currentLengthUsed) {
-        this.currentLengthUsed = currentLengthUsed;
-    }
     public ArrayList<NetworkSystem> getNetworkSystems() {
         return networkSystems;
     }

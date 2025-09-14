@@ -15,7 +15,6 @@ import model.GameState;
 
 public class InfoBar extends JLabel {
     private JLabel coin;
-    private JProgressBar wireRemain;
     private JProgressBar packetLoss;
     private final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 20);
     private final GameState gameState;
@@ -45,16 +44,6 @@ public class InfoBar extends JLabel {
         coin.setForeground(Color.lightGray);
         coin.setFont(DEFAULT_FONT);
         add(coin);
-        add(Box.createHorizontalStrut(20));
-
-        wireRemain = new JProgressBar(0, 100);
-        wireRemain.setString("Wire Length");
-        wireRemain.setValue(calculateWireRemain());
-        wireRemain.setStringPainted(true);
-        wireRemain.setFont(DEFAULT_FONT);
-        wireRemain.setBackground(Color.red.brighter());
-        wireRemain.setForeground(Color.lightGray);
-        add(wireRemain);
         add(Box.createHorizontalStrut(20));
 
         packetLoss = new JProgressBar(0, 100);
@@ -95,8 +84,6 @@ public class InfoBar extends JLabel {
     private void setupGameStateListeners() {
         EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> updateCoinDisplay());
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
-        EventBus.subscribe(GameEvents.ConnectionEvent.class, e -> updateWireRemain());
-
     }
 
      private void updateCoinDisplay() {
@@ -106,17 +93,6 @@ public class InfoBar extends JLabel {
     public void reset(){
         updateCoinDisplay();
         updatePacketLoss();
-        updateWireRemain();
-    }
-
-    private void updateWireRemain() {
-        wireRemain.setValue(calculateWireRemain());
-    }
-
-    private int calculateWireRemain() {
-        double maxWireLength = gameState.getGameLevel().getWireLength();
-        double usedLength = gameState.getCurrentLengthUsed();
-        return (int) ((maxWireLength - usedLength) / maxWireLength * 100);
     }
 
     private void updatePacketLoss() {
