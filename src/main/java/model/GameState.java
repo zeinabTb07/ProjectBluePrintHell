@@ -68,8 +68,8 @@ public class GameState implements Serializable {
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> {
             packets.remove(e.packet());
             lostPackets++;
-            if(lostPackets == totalPackets) EventBus.publish(new GameEvents.CheckGameEndEvent(false));
         });
+
         EventBus.subscribe(GameEvents.SwapPacketEvent.class, e -> {
             if(packets.contains(e.from())){
                 packets.remove(e.from());
@@ -79,7 +79,10 @@ public class GameState implements Serializable {
             }
         });
 
-
+        EventBus.subscribe(GameEvents.ConnectionDestroyEvent.class , e->{
+            e.connection().disconnect();
+            connections.remove(e.connection());
+        });
         EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
             coin += e.n();
         });

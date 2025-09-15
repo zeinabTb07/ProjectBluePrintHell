@@ -1,5 +1,6 @@
 package events;
 
+import model.objects.other.Connection;
 import model.objects.packets.Packet;
 
 
@@ -37,10 +38,9 @@ public class GameEvents {
     }
 
 
-    public record ConnectionEvent(double lengthChange){
-        public ConnectionEvent{
-            log.info("Connection Length Change : {}" , lengthChange);
-
+    public record ConnectionDestroyEvent(Connection connection){
+        public ConnectionDestroyEvent{
+            log.info("Connection Destroyed : {}" , connection.getId());
         }
     }
 

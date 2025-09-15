@@ -44,10 +44,9 @@ public class CollisionController {
                     if (checkCollision(packet, packet1)) {
                         Point p = packet.getAbsolutePoint();
                         Point p1 = packet1.getAbsolutePoint();
-                        packet.increaseNoise(packet1.getSize());
-                        packet1.increaseNoise(packet.getNoise());
+                        packet.increaseNoise(packet1.getSize()/2);
+                        packet1.increaseNoise(packet.getSize()/2);
                         if(packet.getType()== PacketType.BITE){
-                            packet.setNoise(0);
                             packet.setVelocity(-packet.getVelocity());
                             packet.setAcceleration(-packet.getAcceleration());
                         }

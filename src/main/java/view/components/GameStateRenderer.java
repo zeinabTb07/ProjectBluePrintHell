@@ -39,13 +39,10 @@ public class GameStateRenderer {
 
         for(Collision collision : new ArrayList<>(gameState.getCollisions())){
             g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));
-            double r = collision.getRadius();
-            Point p = collision.getPoint();
-            g.draw(new Ellipse2D.Double(p.x - r/2, p.y - r/2, r, r));
+            g.draw(collision.getShape());
         }
         for(NetworkSystem system :new ArrayList<>( gameState.getNetworkSystems())){
             systemRenderer.render(g , system);
-
         }
         for (Connection connection : new ArrayList<>(gameState.getConnections())){
             connectionRenderer.render(g , connection);

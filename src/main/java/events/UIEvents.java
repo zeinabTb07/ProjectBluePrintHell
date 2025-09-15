@@ -21,6 +21,12 @@ public class UIEvents {
         }
     }
 
+    public record SaveGameEvent() {
+        public SaveGameEvent {
+            log.info("Game saved");
+        }
+    }
+
     public record OpenSettingsEvent() {
         public OpenSettingsEvent {
             log.info("User opened the settings panel.");

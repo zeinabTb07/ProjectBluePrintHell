@@ -1,6 +1,8 @@
 package model.objects.other;
 
 
+import events.EventBus;
+import events.GameEvents;
 import utils.Vector2D;
 import model.objects.GameObject;
 import org.slf4j.Logger;
@@ -45,13 +47,12 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
     public void addHelperPoint(Point2D point){
         logger.info("Helper point added: {}", point);
-                helperPoint.add(point);
-                update();
-        length = GeometryUtils.calcPathLength((Path2D) shape);
+        helperPoint.add(point);
         dirty = true;
+        update();
     }
 
-    public void removeHelperPoint(Point2D point){
+    public void removeHelperPoint(Point2D point) {
         try {
             helperPoint.remove(point);
 
@@ -60,10 +61,6 @@ public class Connection extends GameObject implements Updatable , Serializable {
             logger.error("Error removing helper point", e);
         }
         dirty = true;
-    }
-
-    public void decreaseStrength(){
-        connectionStrength--;
     }
 
     public List<Point2D> getHelperPoints(){
@@ -108,17 +105,11 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
                 path.curveTo(ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, p2.getX(), p2.getY());
             }
+            length = GeometryUtils.calcPathLength((Path2D) shape);
+            logger.info("Connection with ID : {} reshaped with length {}"  , id , length);
         }
 
         super.shape = path;
-    }
-
-
-
-    public void updateLength() {
-        if (shape != null)
-            length = GeometryUtils.calcPathLength( (Path2D)shape);
-        logger.debug("Connection length updated: {}", length);
     }
 
     public Point2D getRelativePoint(double t) {
@@ -129,7 +120,28 @@ public class Connection extends GameObject implements Updatable , Serializable {
         return  shape != null ? GeometryUtils.getTangent((Path2D)shape, dist) : null;
     }
 
-    public double getLength() { return length; }
+    public void decreaseStrength(){
+        connectionStrength--;
+        if(connectionStrength<=0){
+            EventBus.publish(new GameEvents.ConnectionDestroyEvent(this));
+        }
+    }
+
+    public List<Point2D> getHelperPoint() {
+        return helperPoint;
+    }
+
+    public void setHelperPoint(List<Point2D> helperPoint) {
+        this.helperPoint = helperPoint;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
 
     public InputPort getTarget() {
         return target;
@@ -137,14 +149,6 @@ public class Connection extends GameObject implements Updatable , Serializable {
 
     public void setTarget(InputPort target) {
         this.target = target;
-    }
-
-    public boolean isFreeze() {
-        return freeze;
-    }
-
-    public void setFreeze(boolean freeze) {
-        this.freeze = freeze;
     }
 
     public OutputPort getSource() {
@@ -163,14 +167,6 @@ public class Connection extends GameObject implements Updatable , Serializable {
         isBusy = busy;
     }
 
-    @Override
-    public void update() {
-        if (dirty){
-            makeShape();
-            length = GeometryUtils.calcPathLength((Path2D) shape);
-        }
-    }
-
     public boolean isDirty() {
         return dirty;
     }
@@ -178,5 +174,27 @@ public class Connection extends GameObject implements Updatable , Serializable {
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
-}
 
+    public boolean isFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(boolean freeze) {
+        this.freeze = freeze;
+    }
+
+    public int getConnectionStrength() {
+        return connectionStrength;
+    }
+
+    public void setConnectionStrength(int connectionStrength) {
+        this.connectionStrength = connectionStrength;
+    }
+
+    @Override
+    public void update() {
+        if (dirty){
+            makeShape();
+        }
+    }
+}

@@ -3,6 +3,7 @@ package model.objects.systems;
 import events.EventBus;
 import events.GameEvents;
 import model.constants.Constants;
+import model.objects.packets.ColossusPacket;
 import utils.Vector2D;
 import model.enums.GameShape;
 import model.interfaces.Forceable;
@@ -76,14 +77,17 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         GameShape packetPortType = p.getType().getShape();
         Connection con = null;
         for (OutputPort output : outputPorts){
-            Connection c = output.getConnection();
-            if (c!= null && !c.isBusy()) {
+           Connection c = output.getConnection();
+            if (c!= null && !c.isBusy() && c.getTarget().getParentSystem().isActive()) {
                 con = output.getConnection();
                 if(p instanceof MessagerPacket){
                     if(output.getPortType().getShape()==packetPortType){
                         return con;
                     }
                 } else {
+                    if(p instanceof ColossusPacket){
+                        con.decreaseStrength();
+                    }
                     return con;
                 }
             }

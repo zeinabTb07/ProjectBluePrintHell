@@ -1,6 +1,7 @@
 package model.objects.other;
 
 import model.constants.Constants;
+import model.objects.GameObject;
 import utils.Vector2D;
 import model.enums.PacketType;
 import model.interfaces.Updatable;
@@ -8,24 +9,31 @@ import model.interfaces.Updatable;
 import java.awt.*;
 import model.objects.packets.Packet;
 
+import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Collision implements Updatable , Serializable {
+public class Collision extends GameObject implements Updatable , Serializable {
     private Point p;
     private double radius;
     private Set<Packet> affectedPackets;
 
     public Collision(Point p) {
+        super();
         this.p = p;
         this.radius = 0;
         this.affectedPackets = new HashSet<>();
     }
 
+    private void makeShape(){
+        shape = new  Ellipse2D.Double(p.x - radius/2, p.y - radius/2, radius, radius);
+    }
+
     @Override
     public void update() {
         radius += Constants.WAVE_SPEED;
+        makeShape();
     }
 
     public Point getPoint() {

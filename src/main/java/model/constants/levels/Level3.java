@@ -16,7 +16,7 @@ public class Level3 extends Level {
      super();
         setNumber(2);
         setMessage(" Chaos Fight VPN");
-        setTime(40);
+        setTime(25);
 
 
         NetworkSystem ns1 =  SystemFactory.createSystem(SystemType.CHAOS , 100  , 550);

@@ -4,6 +4,7 @@ import events.EventBus;
 import events.GameEvents;
 import model.enums.GameShape;
 import model.objects.other.Connection;
+import model.objects.packets.ColossusPacket;
 import model.objects.packets.MessagerPacket;
 import model.objects.packets.Packet;
 import model.objects.packets.ProtectedPacket;
@@ -35,16 +36,22 @@ public class ChaosSystem extends NetworkSystem implements Serializable {
         Connection con = null;
         for (OutputPort output : outputPorts){
             Connection c = output.getConnection();
-            if (c!= null && !c.isBusy()) {
+            if (c!= null && !c.isBusy() && c.getTarget().getParentSystem().isActive()) {
                 con = output.getConnection();
                 if(p instanceof MessagerPacket){
                     if(output.getPortType().getShape()!=packetPortType){
                         return con;
                     }
                 } else {
+                    if(p instanceof ColossusPacket){
+                        con.decreaseStrength();
+                    }
                     return con;
                 }
             }
+        }
+        if(p instanceof ColossusPacket){
+            con.decreaseStrength();
         }
         return con;
     }

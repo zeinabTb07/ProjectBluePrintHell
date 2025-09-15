@@ -52,9 +52,13 @@ public class PacketController {
                     if(packet instanceof ColossusPacket){
                         con.getTarget().setPortType(getRandomPortType());
                         con.getTarget().getParentSystem().setDirty(true);
+                        con.getTarget().getParentSystem().setStorage(new ArrayList<>());
                     }
                     NetworkSystem end = con.getTarget().getParentSystem();
                     end.receivePacket(packet);
+                    if(packet.getVelocity()>150){
+                        end.setActive(false);
+                    }
                     resetPacket(packet);
                 }
 

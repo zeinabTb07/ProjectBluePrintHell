@@ -15,7 +15,7 @@ public class PacketRenderer {
         g2d.draw(packet.getShape());
     }
     private Color getPacketColor(Packet packet){
-        double resolution = 1 - 0.8*Math.divideExact(packet.getNoise(),packet.getSize());
+        double resolution = 1 - 0.8*(Math.min(1 , Math.divideExact(packet.getNoise(),packet.getSize())));
         Color color ;
         if(packet.isTrojan()){
             color = Constants.Colors.TROJAN_PACKET;
@@ -26,9 +26,9 @@ public class PacketRenderer {
             } else color = Constants.Colors.PACKET;
         } else color = Constants.Colors.PACKET;
         return new Color(
-                (float) color.getRed() / 256f,
-                (float) color.getGreen() / 256f,
-                (float) color.getBlue() / 256f,
+                (float) color.getRed() / 255f,
+                (float) color.getGreen() / 255f,
+                (float) color.getBlue() / 255f,
                 (float) resolution
         );
     }

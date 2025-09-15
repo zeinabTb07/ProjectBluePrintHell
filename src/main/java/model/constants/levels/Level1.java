@@ -17,7 +17,7 @@ public class Level1 extends Level {
         super();
         setNumber(0);
         setMessage(" Warming Up");
-        setTime(30);
+        setTime(25);
 
         RooterSystem rooter1 = (RooterSystem) SystemFactory.createSystem(SystemType.ROOTER , 50 , 150);
         rooter1.addOutputPort(new OutputPort(rooter1 , PortType.SQUARE));

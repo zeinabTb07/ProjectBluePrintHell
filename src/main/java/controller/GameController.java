@@ -5,22 +5,22 @@ import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
 import model.constants.levels.Level1;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.GameStateLoader;
 import model.constants.Constants;
 
+import java.io.IOException;
+
 
 public class GameController {
+    private static final Logger log = LoggerFactory.getLogger(GameController.class);
     private GameState gameState;
     private FrameManager frameManager;
     private GameLoop gameLoop ;
     private GameStateLoader gameStateLoader;
     public GameController(){
-//        gameStateLoader = new GameStateLoader();
-//        try {
-//            gameState = gameStateLoader.loadGameState();
-//        } catch (Exception e) {
-//            gameState = new GameState(new Level1());
-//        }
+        gameStateLoader = new GameStateLoader();
         gameState = new GameState(new Level1());
         Constants.initLevels();
         frameManager = new FrameManager(gameState);
@@ -35,7 +35,9 @@ public class GameController {
             frameManager.getGamePanel().reset();
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
-            gameLoop.start();
+            if(!gameLoop.isRunning()){
+                gameLoop.start();
+            }
             gameState.getConnections().stream()
                     .forEach(e->{e.setFreeze(true);});
         });
@@ -49,15 +51,27 @@ public class GameController {
         });
         EventBus.subscribe(UIEvents.OpenMenuEvent.class, e ->{
             frameManager.goToMenu();
-//            try {
-//                gameStateLoader.saveGameState(gameState);
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            }
-
+           // save();
+        });
+        EventBus.subscribe(UIEvents.SaveGameEvent.class , e-> {
+           save();
         });
         EventBus.subscribe(UIEvents.OpenGameEvent.class, e -> {
             frameManager.goToGame();
         });
+    }
+    private void save(){
+        try {
+            gameStateLoader.saveGameState(gameState);
+        } catch (IOException ex) {
+            log.error("Saving game failed");
+        }
+    }
+    private void load(){
+        try {
+            gameState = gameStateLoader.loadGameState();
+        } catch (Exception e) {
+            gameState = new GameState(new Level1());
+        }
     }
 }

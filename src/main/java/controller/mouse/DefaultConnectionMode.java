@@ -65,7 +65,6 @@ public class DefaultConnectionMode implements MouseMode {
                     !targetPort.isConnected()) {
                 Connection connection = new Connection(targetPort, sourcePort);
                 gameState.addConnection(connection);
-                EventBus.publish(new GameEvents.ConnectionEvent(connection.getLength()));
                 log.info("Connection created: {}", connection.getId());
                 EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/connect.wav"));
             }
@@ -108,7 +107,6 @@ public class DefaultConnectionMode implements MouseMode {
                   connection.disconnect();
                   gameState.removeConnection(connection);
                   EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/disconnect.wav"));
-                  EventBus.publish(new GameEvents.ConnectionEvent(-connection.getLength()));
                   log.info("Connection removed: {}", connection.getId());
                   break;
               }

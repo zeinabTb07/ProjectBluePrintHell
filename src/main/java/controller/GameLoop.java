@@ -34,6 +34,7 @@ public class GameLoop extends Thread {
     public void run() {
         logger.info("GameLoop started");
         long lastTime = System.nanoTime();
+        int frameSave = 0 ;
 
         while (running) {
             long now = System.nanoTime();
@@ -47,6 +48,12 @@ public class GameLoop extends Thread {
                 collisionController.checkForCollision();
                 collisionController.applyCollisions();
                 gameState.timePass(realDelta);
+                frameSave++;
+                if(frameSave>=40){
+                    EventBus.publish(new UIEvents.SaveGameEvent());
+                    frameSave = 0 ;
+                }
+
                 if(gameState.getTimePassed()>gameState.getGameLevel().getTime()){
                     finishGame();
                     EventBus.publish(new GameEvents.CheckGameEndEvent(checkWinCondition()));
@@ -55,6 +62,10 @@ public class GameLoop extends Thread {
                 delta--;
             }
         }
+    }
+
+    public boolean isRunning(){
+        return running;
     }
 
     public void pauseGame(boolean b) {

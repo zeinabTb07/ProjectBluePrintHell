@@ -30,6 +30,4 @@ public abstract class GameObject implements Serializable {
         this.shape = shape;
     }
 
-
-
 }

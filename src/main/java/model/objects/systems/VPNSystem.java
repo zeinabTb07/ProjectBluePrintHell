@@ -22,7 +22,7 @@ public class VPNSystem extends NetworkSystem implements Serializable {
     public void receivePacket(Packet p){
         Packet packet ;
         if(p instanceof ProtectedPacket){
-             packet = new PrivatePacket(this , PacketType.PHANTOM);
+             packet = new PrivatePacket(this , PacketType.SPIRIT);
         } else {
              packet = new ProtectedPacket(p);
         }
