@@ -1,5 +1,6 @@
 package utils;
 
+import model.objects.systems.addon.Inductor;
 import model.objects.systems.addon.InputPort;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.addon.OutputPort;
@@ -13,8 +14,8 @@ public class NetworkConnectivityChecker {
         this.systems = systems;
     }
     public boolean check(){
-        return true;
-       // return isConnected() ;
+
+        return isConnected() && checkAllPortConnected();
     }
     private boolean isConnected() {
         if (systems.isEmpty()) {
@@ -45,12 +46,8 @@ public class NetworkConnectivityChecker {
 
     private boolean checkAllPortConnected(){
         for(NetworkSystem system: systems){
-            for(InputPort port: system.getInputPorts()){
-                if(!port.isConnected()) return false;
-            }
-            for(OutputPort port: system.getOutputPorts()){
-                if(!port.isConnected()) return false;
-            }
+            Inductor inductor = system.getInductor();
+            if(!inductor.checkConnections()){return false;}
         }
         return true;
     }

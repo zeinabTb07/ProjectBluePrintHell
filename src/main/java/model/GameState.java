@@ -24,6 +24,8 @@ public class GameState implements Serializable {
     private int coin;
     private int totalPackets;
     private int lostPackets;
+    private double timePassed;
+
 
     public GameState() {
         setupEventListeners();
@@ -43,6 +45,7 @@ public class GameState implements Serializable {
 
     public void goToLevel(Level level){
         this.gameLevel = level;
+        timePassed = 0 ;
 
         addNewSystems(level.systems);
         packets = initialPackets;
@@ -65,6 +68,7 @@ public class GameState implements Serializable {
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> {
             packets.remove(e.packet());
             lostPackets++;
+            if(lostPackets == totalPackets) EventBus.publish(new GameEvents.CheckGameEndEvent(false));
         });
         EventBus.subscribe(GameEvents.SwapPacketEvent.class, e -> {
             if(packets.contains(e.from())){
@@ -124,8 +128,28 @@ public class GameState implements Serializable {
         return gameLevel;
     }
 
+    public void timePass(double delta){
+        timePassed+=delta;
+    }
+
+    public void setGameLevel(Level gameLevel) {
+        this.gameLevel = gameLevel;
+    }
+
     public ArrayList<Connection> getConnections() {
         return connections;
+    }
+
+    public void setConnections(ArrayList<Connection> connections) {
+        this.connections = connections;
+    }
+
+    public ArrayList<Packet> getInitialPackets() {
+        return initialPackets;
+    }
+
+    public void setInitialPackets(ArrayList<Packet> initialPackets) {
+        this.initialPackets = initialPackets;
     }
 
     public ArrayList<Packet> getPackets() {
@@ -140,6 +164,18 @@ public class GameState implements Serializable {
         return collisions;
     }
 
+    public void setCollisions(ArrayList<Collision> collisions) {
+        this.collisions = collisions;
+    }
+
+    public ArrayList<NetworkSystem> getNetworkSystems() {
+        return networkSystems;
+    }
+
+    public void setNetworkSystems(ArrayList<NetworkSystem> networkSystems) {
+        this.networkSystems = networkSystems;
+    }
+
     public int getCoin() {
         return coin;
     }
@@ -148,8 +184,28 @@ public class GameState implements Serializable {
         this.coin = coin;
     }
 
-    public ArrayList<NetworkSystem> getNetworkSystems() {
-        return networkSystems;
+    public int getTotalPackets() {
+        return totalPackets;
+    }
+
+    public void setTotalPackets(int totalPackets) {
+        this.totalPackets = totalPackets;
+    }
+
+    public int getLostPackets() {
+        return lostPackets;
+    }
+
+    public void setLostPackets(int lostPackets) {
+        this.lostPackets = lostPackets;
+    }
+
+    public double getTimePassed() {
+        return timePassed;
+    }
+
+    public void setTimePassed(double timePassed) {
+        this.timePassed = timePassed;
     }
 
     public double getPacketLossPercentage() {

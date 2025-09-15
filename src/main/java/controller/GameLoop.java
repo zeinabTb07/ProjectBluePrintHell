@@ -34,7 +34,6 @@ public class GameLoop extends Thread {
     public void run() {
         logger.info("GameLoop started");
         long lastTime = System.nanoTime();
-        double gamePassedTime = 0 ;
 
         while (running) {
             long now = System.nanoTime();
@@ -47,8 +46,8 @@ public class GameLoop extends Thread {
                 packetController.updatePackets(realDelta);
                 collisionController.checkForCollision();
                 collisionController.applyCollisions();
-                gamePassedTime+=realDelta;
-                if(gamePassedTime>gameState.getGameLevel().getTime()){
+                gameState.timePass(realDelta);
+                if(gameState.getTimePassed()>gameState.getGameLevel().getTime()){
                     finishGame();
                     EventBus.publish(new GameEvents.CheckGameEndEvent(checkWinCondition()));
                 }
@@ -68,8 +67,7 @@ public class GameLoop extends Thread {
 
     private boolean checkWinCondition(){
         packetController.timesUp();
-        return true;
-        //return gameState.getCoin()>=0 && gameState.getPacketLossPercentage() <=50;
+        return gameState.getCoin()>=0 && gameState.getPacketLossPercentage() <=50;
     }
 
     public void finishGame() {

@@ -26,9 +26,9 @@ public class PacketRenderer {
             } else color = Constants.Colors.PACKET;
         } else color = Constants.Colors.PACKET;
         return new Color(
-                (float) color.getRed() / 255f,
-                (float) color.getGreen() / 255f,
-                (float) color.getBlue() / 255f,
+                (float) color.getRed() / 256f,
+                (float) color.getGreen() / 256f,
+                (float) color.getBlue() / 256f,
                 (float) resolution
         );
     }

@@ -20,7 +20,6 @@ public class MenuPanel extends JPanel {
         setLayout(null);
         setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
 
-        // Load background image
         try {
             backgroundImage = new ImageIcon("src/main/resources/edited_background.jpg").getImage();
         } catch (Exception e) {
@@ -28,7 +27,6 @@ public class MenuPanel extends JPanel {
         }
         repaint();
 
-        // ===== TITLE PANEL =====
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
         titlePanel.setOpaque(false);
@@ -62,7 +60,6 @@ public class MenuPanel extends JPanel {
 
         add(titlePanel);
 
-        // ===== BUTTONS =====
         JButton exit = new ButtonBuilder.Builder()
                 .withText("Exit")
                 .atPosition(new Point(

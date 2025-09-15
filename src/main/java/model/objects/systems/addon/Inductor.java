@@ -7,7 +7,6 @@ import model.objects.systems.NetworkSystem;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.List;
 
 public class Inductor extends GameObject implements Updatable , Serializable {
     protected NetworkSystem system ;
@@ -28,13 +27,12 @@ public class Inductor extends GameObject implements Updatable , Serializable {
     }
 
     public boolean checkConnections() {
-        boolean inputsConnected = system.getInputPorts()
+        boolean inputsConnected = !system.getInputPorts()
                 .stream()
-                .allMatch(InputPort::isConnected);
-        if (!inputsConnected) return false;
-
-        return system.getOutputPorts().stream()
-                .allMatch(OutputPort::isConnected);
+                .noneMatch(InputPort::isConnected) ||  system.getInputPorts().isEmpty() ;
+        boolean outputsConnected = !system.getOutputPorts().stream()
+                .noneMatch(OutputPort::isConnected) || system.getOutputPorts().isEmpty();
+        return inputsConnected && outputsConnected;
     }
 
     public NetworkSystem getSystem() {

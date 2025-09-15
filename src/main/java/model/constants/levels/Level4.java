@@ -17,7 +17,7 @@ public class Level4 extends Level {
         super();
         setNumber(3);
         setMessage(" Can Your Network Handel Colossus Attack?");
-        setTime(1);
+        setTime(45);
 
         RooterSystem rooter1 = (RooterSystem) SystemFactory.createSystem(SystemType.ROOTER , 40 , 300);
         rooter1.addOutputPort(new OutputPort(rooter1 , PortType.SQUARE));

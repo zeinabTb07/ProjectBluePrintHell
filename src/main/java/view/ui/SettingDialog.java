@@ -36,13 +36,4 @@ public class SettingDialog extends JDialog {
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         this.setVisible(false);
     }
-
-    public int getSoundValume() {
-        return soundValume.getValue();
-    }
-
-    public  void setSoundValume(int val ) {
-        soundValume.setValue(val);
-    }
-
 }

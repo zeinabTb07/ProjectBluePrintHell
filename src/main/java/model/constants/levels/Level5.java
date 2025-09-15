@@ -15,7 +15,7 @@ public class Level5 extends Level {
         super();
         setNumber(4);
         setMessage(" The Last Step");
-        setTime(1);
+        setTime(40);
         NetworkSystem ns1 =  SystemFactory.createSystem(SystemType.ANTI_TROJAN , 750  , 180);
         ns1.addInputPort(new InputPort(ns1 , PortType.TRIANGLE));
         ns1.addInputPort(new InputPort(ns1 , PortType.SQUARE));

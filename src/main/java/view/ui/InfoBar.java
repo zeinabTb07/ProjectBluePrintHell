@@ -14,7 +14,9 @@ import model.GameState;
 
 
 public class InfoBar extends JLabel {
+    private  int framePassed;
     private JLabel coin;
+    private JLabel time;
     private JProgressBar packetLoss;
     private final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 20);
     private final GameState gameState;
@@ -56,6 +58,12 @@ public class InfoBar extends JLabel {
         add(packetLoss);
         add(Box.createHorizontalStrut(20));
 
+        time = new JLabel("Time Passed");
+        time.setForeground(Color.lightGray);
+        time.setFont(DEFAULT_FONT);
+        add(time);
+        add(Box.createHorizontalStrut(20));
+
 
         JButton run = new ButtonBuilder.Builder()
                 .withText("Run")
@@ -84,6 +92,13 @@ public class InfoBar extends JLabel {
     private void setupGameStateListeners() {
         EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> updateCoinDisplay());
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
+        EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> updateTime());
+    }
+    private void updateTime() {
+        if(framePassed>5){
+            time.setText("Time Passed "+ Math.round(gameState.getTimePassed()*10.0) / 10.0+" : "+ gameState.getGameLevel().getTime());
+            framePassed = 0 ;
+        } else framePassed++;
     }
 
      private void updateCoinDisplay() {
