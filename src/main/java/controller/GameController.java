@@ -6,7 +6,6 @@ import events.UIEvents;
 import model.GameState;
 import model.constants.levels.Level1;
 
-import model.constants.levels.TestLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.GameStateLoader;
@@ -34,6 +33,7 @@ public class GameController {
             gameState = new GameState(Constants.levels.getFirst());
             gameLoop = new GameLoop(gameState);
             frameManager = new FrameManager(gameState);
+            save();
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
             if(!gameLoop.isRunning()){
