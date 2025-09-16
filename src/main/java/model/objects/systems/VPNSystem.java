@@ -3,6 +3,7 @@ package model.objects.systems;
 import events.EventBus;
 import events.GameEvents;
 import model.enums.PacketType;
+import model.objects.packets.ColossusPacket;
 import model.objects.packets.Packet;
 import model.objects.packets.PrivatePacket;
 import model.objects.packets.ProtectedPacket;
@@ -20,17 +21,22 @@ public class VPNSystem extends NetworkSystem implements Serializable {
     }
     @Override
     public void receivePacket(Packet p){
+        if(p instanceof ColossusPacket){
+            p.getCurrentConnection().decreaseStrength();
+        }
         Packet packet ;
         if(p instanceof ProtectedPacket){
              packet = new PrivatePacket(this , PacketType.SPIRIT);
         } else {
-             packet = new ProtectedPacket(p);
+            packet = new ProtectedPacket(p);
+            packets.add((ProtectedPacket) packet);
         }
-
         EventBus.publish(new GameEvents.SwapPacketEvent(p , packet));
         storage.add(packet);
         packet.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
+        System.out.println("straoge:" +storage.size());
+
     }
     @Override
     public void update() {
@@ -38,9 +44,14 @@ public class VPNSystem extends NetworkSystem implements Serializable {
         if(!isActive()&&!packets.isEmpty()){
             for(ProtectedPacket p : packets){
                 Packet base = p.getBasePacket();
-                base.setCurrentSystem(p.getCurrentSystem());
-                base.setCurrentConnection(p.getCurrentConnection());
-                base.setDistancePassedOnConnection(p.getDistancePassedOnConnection());
+                NetworkSystem sys = p.getCurrentSystem();
+                sys.getStorage().add(base);
+                base.setCurrentSystem(sys);
+                if(p.getCurrentConnection()!=null){
+                    base.setCurrentConnection(p.getCurrentConnection());
+                    base.setDistancePassedOnConnection(p.getDistancePassedOnConnection());
+                    base.setVelocity(20);
+                }
                 EventBus.publish(new GameEvents.SwapPacketEvent(p , base));
             }
             packets = new ArrayList<>();

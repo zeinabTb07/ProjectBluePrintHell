@@ -4,7 +4,6 @@ import events.EventBus;
 import events.GameEvents;
 import model.constants.Constants;
 import model.objects.packets.ColossusPacket;
-import utils.NetworkConnectivityChecker;
 import utils.Vector2D;
 import model.enums.GameShape;
 import model.interfaces.Forceable;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 
 public abstract class NetworkSystem extends GameObject implements Updatable , Forceable , Serializable {
-    protected static final Logger log = LoggerFactory.getLogger(NetworkSystem.class);
+    protected static transient final Logger log = LoggerFactory.getLogger(NetworkSystem.class);
     protected ArrayList<InputPort> inputPorts;
     protected ArrayList<OutputPort> outputPorts;
 
@@ -87,9 +86,6 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
                         return con;
                     }
                 } else {
-                    if(p instanceof ColossusPacket){
-                        con.decreaseStrength();
-                    }
                     return con;
                 }
             } else {
@@ -110,6 +106,9 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     }
 
     public void receivePacket(Packet p){
+        if(p instanceof ColossusPacket){
+            p.getCurrentConnection().decreaseStrength();
+        }
         storage.add(p);
         p.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));

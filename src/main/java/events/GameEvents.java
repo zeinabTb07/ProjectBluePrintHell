@@ -7,6 +7,8 @@ import model.objects.packets.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+
 
 public class GameEvents {
     private static final Logger log = LoggerFactory.getLogger(GameEvents.class);
@@ -63,6 +65,12 @@ public class GameEvents {
     public record CoinGeneratedEvent(int n) {
         public CoinGeneratedEvent {
             log.info("Coins increased : {} " , n);
+        }
+    }
+
+    public record SetPowerUpPoint(ShopEvents.PowerUpType type , Point point){
+        public SetPowerUpPoint {
+            log.info("PowerUp : {} will happen at {} " , type , point);
         }
     }
 }

@@ -19,7 +19,7 @@ public class OutputPort extends Port<InputPort>  implements Serializable {
     @Override
     public Point getPoint() {
         Point p = getParentSystem().getPoint();
-        return new Point(p.x + Constants.SYSTEMS_WIDTH +5 ,
+        return new Point(p.x + Constants.SYSTEMS_WIDTH +5,
                 p.y + n*Constants.PORT_GAP +2*Constants.INDUCTOR_HEIGHT);
     }
 }

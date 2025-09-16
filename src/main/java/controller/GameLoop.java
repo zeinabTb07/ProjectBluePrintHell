@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GameLoop extends Thread {
-    private static final Logger logger = LoggerFactory.getLogger(GameLoop.class);
+    private static transient final Logger logger = LoggerFactory.getLogger(GameLoop.class);
     private static final int FRAME_RATE = 30;
     private volatile boolean running ;
     private volatile boolean paused;

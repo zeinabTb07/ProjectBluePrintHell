@@ -9,60 +9,40 @@ import model.objects.packets.Packet;
 import model.objects.systems.NetworkSystem;
 import model.objects.systems.RooterSystem;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class GameState implements Serializable {
     private Level gameLevel;
-    private ArrayList<Connection> connections;
-    private ArrayList<Packet> packets;
-    private ArrayList<Packet> initialPackets;
-    private ArrayList<Collision> collisions;
-    private ArrayList<NetworkSystem> networkSystems;
+    private final List<Connection> connections = new ArrayList<>();
+    private final List<Packet> packets = new ArrayList<>();
+    private final List<Packet> initialPackets = new ArrayList<>();
+    private final List<Collision> collisions = new ArrayList<>();
+    private final List<NetworkSystem> networkSystems = new ArrayList<>();
     private int coin;
     private int totalPackets;
     private int lostPackets;
     private double timePassed;
 
-
     public GameState() {
         setupEventListeners();
-        this.connections = new ArrayList<>();
-        this.packets = new ArrayList<>();
-        this.collisions = new ArrayList<>();
-        this.networkSystems = new ArrayList<>();
-        this.initialPackets = new ArrayList<>();
     }
 
     public GameState(Level level) {
         this();
         this.gameLevel = level;
-        initialState();
+        initializeState();
     }
 
-
-    public void goToLevel(Level level){
+    public void goToLevel(Level level) {
         this.gameLevel = level;
-        timePassed = 0 ;
-
-        addNewSystems(level.systems);
-        packets = initialPackets;
-        for(Packet packet : packets){
-            RooterSystem rooterSystem =(RooterSystem) packet.getCurrentSystem();
-            rooterSystem.addPacket(packet);
-            if(packet.getCurrentConnection()!=null){
-                packet.getCurrentConnection().setBusy(false);
-            }
-        }
-        for(NetworkSystem system : level.getSystems()){
-            if(system instanceof RooterSystem){
-                packets.addAll(((RooterSystem) system).getInitialPackets());
-            }
-        }
-        totalPackets=packets.size();
-        lostPackets = 0 ;
+        timePassed = 0;
+        addNewSystems(level.getSystems());
+        resetPacketsToInitial();
+        addInitialPacketsFromLevelSystems(level.getSystems());
+        totalPackets = packets.size();
+        lostPackets = 0;
         clonePackets();
     }
 
@@ -71,14 +51,15 @@ public class GameState implements Serializable {
             packets.remove(e.packet());
             lostPackets++;
         });
+
         EventBus.subscribe(GameEvents.SwapPacketEvent.class, e -> {
             packets.remove(e.from());
-            if(!packets.contains(e.to())){
+            if (!packets.contains(e.to())) {
                 packets.add(e.to());
             }
         });
 
-        EventBus.subscribe(GameEvents.ConnectionDestroyEvent.class , e->{
+        EventBus.subscribe(GameEvents.ConnectionDestroyEvent.class, e -> {
             e.connection().disconnect();
             connections.remove(e.connection());
         });
@@ -87,13 +68,9 @@ public class GameState implements Serializable {
             coin += e.n();
         });
 
-        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->
-        {coin-=e.powerUpType().getPrice();});
-    }
-
-    public void resetLevel(Level level) {
-        this.gameLevel = level;
-        initialState();
+        EventBus.subscribe(ShopEvents.PowerUpEvent.class, e -> {
+            coin -= e.powerUpType().getPrice();
+        });
     }
 
     public void addConnection(Connection connection) {
@@ -104,26 +81,44 @@ public class GameState implements Serializable {
         connections.remove(connection);
     }
 
-    private void initialState() {
-        addNewSystems(gameLevel.systems);
-
-        gameLevel.getSystems().forEach(system -> {
-            if (system instanceof RooterSystem) {
-                packets.addAll(((RooterSystem) system).getInitialPackets());
-                totalPackets += ((RooterSystem) system).getInitialPackets().size();
-            }
-        });
+    private void initializeState() {
+        addNewSystems(gameLevel.getSystems());
+        addInitialPacketsFromLevelSystems(gameLevel.getSystems());
+        totalPackets = packets.size();
         clonePackets();
     }
 
-    private void clonePackets(){
-        initialPackets = new ArrayList<>();
-        for(Packet p : packets){
-            initialPackets.add(p.clon());
+    private void addInitialPacketsFromLevelSystems(List<NetworkSystem> systems) {
+        for (NetworkSystem system : systems) {
+            if (system instanceof RooterSystem) {
+                List<Packet> initial = ((RooterSystem) system).getInitialPackets();
+                packets.addAll(initial);
+                totalPackets += initial.size();
+            }
         }
     }
 
-    private void addNewSystems(ArrayList<NetworkSystem> newSystems){
+    private void resetPacketsToInitial() {
+        packets.clear();
+        packets.addAll(initialPackets);
+        for (Packet packet : packets) {
+            RooterSystem rooterSystem = (RooterSystem) packet.getCurrentSystem();
+            rooterSystem.addPacket(packet);
+            if (packet.getCurrentConnection() != null) {
+                packet.getCurrentConnection().setBusy(false);
+            }
+        }
+    }
+
+    private void clonePackets() {
+        initialPackets.clear();
+        for (Packet p : packets) {
+            Packet clone = p.clon();
+            initialPackets.add(clone);
+        }
+    }
+
+    private void addNewSystems(List<NetworkSystem> newSystems) {
         networkSystems.addAll(newSystems);
     }
 
@@ -131,52 +126,63 @@ public class GameState implements Serializable {
         return gameLevel;
     }
 
-    public void timePass(double delta){
-        timePassed+=delta;
-    }
-
     public void setGameLevel(Level gameLevel) {
         this.gameLevel = gameLevel;
     }
 
-    public ArrayList<Connection> getConnections() {
+    public List<Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(ArrayList<Connection> connections) {
-        this.connections = connections;
+    public void setConnections(List<Connection> connections) {
+        this.connections.clear();
+        if (connections != null) {
+            this.connections.addAll(connections);
+        }
     }
 
-    public ArrayList<Packet> getInitialPackets() {
+    public List<Packet> getInitialPackets() {
         return initialPackets;
     }
 
-    public void setInitialPackets(ArrayList<Packet> initialPackets) {
-        this.initialPackets = initialPackets;
+    public void setInitialPackets(List<Packet> initialPackets) {
+        this.initialPackets.clear();
+        if (initialPackets != null) {
+            this.initialPackets.addAll(initialPackets);
+        }
     }
 
-    public ArrayList<Packet> getPackets() {
+    public List<Packet> getPackets() {
         return packets;
     }
 
-    public void setPackets(ArrayList<Packet> packets) {
-        this.packets = packets;
+    public void setPackets(List<Packet> packets) {
+        this.packets.clear();
+        if (packets != null) {
+            this.packets.addAll(packets);
+        }
     }
 
-    public ArrayList<Collision> getCollisions() {
+    public List<Collision> getCollisions() {
         return collisions;
     }
 
-    public void setCollisions(ArrayList<Collision> collisions) {
-        this.collisions = collisions;
+    public void setCollisions(List<Collision> collisions) {
+        this.collisions.clear();
+        if (collisions != null) {
+            this.collisions.addAll(collisions);
+        }
     }
 
-    public ArrayList<NetworkSystem> getNetworkSystems() {
+    public List<NetworkSystem> getNetworkSystems() {
         return networkSystems;
     }
 
-    public void setNetworkSystems(ArrayList<NetworkSystem> networkSystems) {
-        this.networkSystems = networkSystems;
+    public void setNetworkSystems(List<NetworkSystem> networkSystems) {
+        this.networkSystems.clear();
+        if (networkSystems != null) {
+            this.networkSystems.addAll(networkSystems);
+        }
     }
 
     public int getCoin() {
@@ -209,6 +215,10 @@ public class GameState implements Serializable {
 
     public void setTimePassed(double timePassed) {
         this.timePassed = timePassed;
+    }
+
+    public void timePass(double delta) {
+        timePassed += delta;
     }
 
     public double getPacketLossPercentage() {

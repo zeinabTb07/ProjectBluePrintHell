@@ -2,6 +2,7 @@ package model.objects.systems;
 
 import events.EventBus;
 import events.GameEvents;
+import model.objects.packets.ColossusPacket;
 import model.objects.packets.Packet;
 import model.objects.packets.PrivatePacket;
 
@@ -30,13 +31,21 @@ public class SpySystem extends NetworkSystem implements Serializable {
 
     @Override
     public void receivePacket(Packet p){
+        if(p instanceof ColossusPacket){
+            p.getCurrentConnection().decreaseStrength();
+        }
         if(p instanceof PrivatePacket){
             EventBus.publish(new GameEvents.PacketLostEvent(p));
             return;
         }
         SpySystem spySystem = spies.get(random.nextInt(0 , spies.size()));
-        spySystem.storage.add(p);
-        p.setCurrentSystem(spySystem);
+        if(spySystem.isActive()){
+            spySystem.storage.add(p);
+            p.setCurrentSystem(spySystem);
+        } else {
+            this.storage.add(p);
+            p.setCurrentSystem(this);
+        }
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
     }
 

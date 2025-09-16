@@ -19,7 +19,7 @@ import java.util.Random;
 public class PacketController {
     private final List<Packet> packets;
 
-    public PacketController(ArrayList<Packet> packets) {
+    public PacketController(List<Packet> packets) {
         this.packets = packets;
         setupEventListeners();
     }

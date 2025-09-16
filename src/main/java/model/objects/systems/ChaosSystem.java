@@ -43,9 +43,6 @@ public class ChaosSystem extends NetworkSystem implements Serializable {
                         return con;
                     }
                 } else {
-                    if(p instanceof ColossusPacket){
-                        con.decreaseStrength();
-                    }
                     return con;
                 }
             } else {

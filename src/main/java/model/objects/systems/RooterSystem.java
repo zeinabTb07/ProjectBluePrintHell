@@ -2,6 +2,7 @@ package model.objects.systems;
 
 import events.EventBus;
 import events.GameEvents;
+import model.objects.packets.ColossusPacket;
 import model.objects.packets.MessagerPacket;
 import model.objects.packets.Packet;
 
@@ -30,6 +31,9 @@ public class RooterSystem extends NetworkSystem implements Serializable {
 
     @Override
     public void receivePacket(Packet p) {
+        if(p instanceof ColossusPacket){
+            p.getCurrentConnection().decreaseStrength();
+        }
         if(p instanceof MessagerPacket){
             MessagerPacket packet =(MessagerPacket) p;
             if(packet.getParentColossusId()!=null){

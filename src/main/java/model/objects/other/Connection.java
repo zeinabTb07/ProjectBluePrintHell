@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Connection extends GameObject implements Updatable , Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(Connection.class);
+    private static transient final Logger logger = LoggerFactory.getLogger(Connection.class);
 
     private List<Point2D> helperPoint;
     private double length;

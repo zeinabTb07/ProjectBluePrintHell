@@ -77,6 +77,10 @@ public class FrameManager {
         frame.repaint();
     }
 
+    public void reset(){
+        gamePanel= new GamePanel(gameState);
+    }
+
     public JFrame getFrame() {
         return frame;
     }

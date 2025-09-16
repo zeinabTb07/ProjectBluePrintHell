@@ -24,6 +24,7 @@ public class Collision extends GameObject implements Updatable , Serializable {
         this.p = p;
         this.radius = 0;
         this.affectedPackets = new HashSet<>();
+        makeShape();
     }
 
     private void makeShape(){

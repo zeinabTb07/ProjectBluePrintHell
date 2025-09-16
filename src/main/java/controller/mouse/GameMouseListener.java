@@ -17,11 +17,13 @@ public class GameMouseListener extends MouseAdapter {
     private final MouseMode defaultMode;
     private final MouseMode relocateMode;
     private final MouseMode helperPointMode;
+    private final PointPickerMod pointPickerMod;
 
     public GameMouseListener(GameState gameState) {
         this.defaultMode = new DefaultConnectionMode(gameState);
         this.relocateMode = new RelocateSystemMode(gameState);
         this.helperPointMode = new HelperPointMode(gameState);
+        this.pointPickerMod = new PointPickerMod();
         this.currentMode = defaultMode;
 
 
@@ -33,6 +35,10 @@ public class GameMouseListener extends MouseAdapter {
             } else if (type == ShopEvents.PowerUpType.HELPER_POINT) {
                 currentMode = helperPointMode;
                 log.info("Switched to HelperPointMode.");
+            } else if (type== ShopEvents.PowerUpType.ALIGN_CENTER||type== ShopEvents.PowerUpType.ZERO_ACCELERATION) {
+               pointPickerMod.event = type;
+                currentMode = pointPickerMod;
+                log.info("Switched to PointPickerMode.");
             }
         });
     }

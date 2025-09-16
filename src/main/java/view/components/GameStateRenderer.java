@@ -29,7 +29,6 @@ public class GameStateRenderer {
         g.drawString("Level : "+level.getNumber() +level.getMessage(), 15, 70);
 
         for(Collision collision : new ArrayList<>(gameState.getCollisions())){
-            collision.update();
             g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));
             g.draw(collision.getShape());
         }

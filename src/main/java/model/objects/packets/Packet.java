@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 public abstract class Packet extends GameObject implements Updatable , Movable  , Forceable , Serializable , Cloneable<Packet> {
-    protected static final Logger log = LoggerFactory.getLogger(Packet.class);
+    protected static transient final Logger log = LoggerFactory.getLogger(Packet.class);
 
     protected int size;
     protected int coin;

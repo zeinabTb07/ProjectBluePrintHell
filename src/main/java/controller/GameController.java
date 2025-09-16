@@ -5,6 +5,7 @@ import events.GameEvents;
 import events.UIEvents;
 import model.GameState;
 import model.constants.levels.Level1;
+
 import model.constants.levels.TestLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,31 +17,30 @@ import java.io.IOException;
 
 public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
-    private GameState gameState;
-    private FrameManager frameManager;
+    private final GameStateLoader gameStateLoader;
+    private  FrameManager frameManager;
+    private  GameState gameState;
     private GameLoop gameLoop ;
-    private GameStateLoader gameStateLoader;
     public GameController(){
         gameStateLoader = new GameStateLoader();
-        gameState = new GameState(new TestLevel());
         Constants.initLevels();
+        gameState = new GameState(Constants.levels.getFirst());
+        //gameState = new GameState(new TestLevel());
         frameManager = new FrameManager(gameState);
-        gameStateLoader = new GameStateLoader();
         gameLoop = new GameLoop(gameState);
         setupEventListeners();
     }
     private void setupEventListeners() {
         EventBus.subscribe(UIEvents.Replay.class, e -> {
-            gameState.resetLevel(Constants.levels.get(0));
+            gameState = new GameState(Constants.levels.getFirst());
             gameLoop = new GameLoop(gameState);
-            frameManager.getGamePanel().reset();
+            frameManager = new FrameManager(gameState);
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
             if(!gameLoop.isRunning()){
                 gameLoop.start();
             }
-            gameState.getConnections().stream()
-                    .forEach(e->{e.setFreeze(true);});
+            gameState.getConnections().forEach(e->{e.setFreeze(true);});
         });
         EventBus.subscribe(GameEvents.GoToLevel.class , e->{
             gameState.goToLevel(Constants.levels.get(e.n()));
@@ -71,6 +71,10 @@ public class GameController {
     private synchronized void load(){
         try {
             gameState = gameStateLoader.loadGameState();
+            if(gameState.getTimePassed()!=0) {
+                gameLoop = new GameLoop(gameState);
+                gameLoop.start();
+            }
         } catch (Exception e) {
             gameState = new GameState(new Level1());
         }

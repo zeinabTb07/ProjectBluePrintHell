@@ -25,7 +25,10 @@ public class DistributeSystem extends NetworkSystem implements Serializable {
                 bit.setParentColossusId(record);
                 EventBus.publish(new GameEvents.SwapPacketEvent(p , bit));
             }
+            p.getCurrentConnection().decreaseStrength();
+
         } else {
+
             storage.add(p);
             p.setCurrentSystem(this);
         }

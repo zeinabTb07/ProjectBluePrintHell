@@ -18,9 +18,13 @@ public class TestLevel extends Level {
         RooterSystem rooter1 = (RooterSystem) SystemFactory.createSystem(SystemType.ROOTER , 40 , 300);
         rooter1.addOutputPort(new OutputPort(rooter1 , PortType.SQUARE));
         rooter1.addOutputPort(new OutputPort(rooter1 , PortType.BITE));
-        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.TITAN));
-      //  rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.BITE));
-        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.RANGAROK));
+        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.BITE));
+        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.BITE));
+        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.SPIRIT));
+        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.SQUARE));
+        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.TRIANGLE));
+        rooter1.addPacket(PacketFactory.createPacket(rooter1 , PacketType.SPIRIT));
+
 
 
 //        RooterSystem rooter2 = (RooterSystem) SystemFactory.createSystem(SystemType.ROOTER , 80 , 500);
@@ -34,7 +38,7 @@ public class TestLevel extends Level {
 //        rooter2.addPacket(PacketFactory.createPacket(rooter2 , PacketType.SPIRIT));
 
 
-        NetworkSystem ns1 =  SystemFactory.createSystem(SystemType.LINK , 300  , 460);
+        NetworkSystem ns1 =  SystemFactory.createSystem(SystemType.VPN , 300  , 460);
         ns1.addInputPort(new InputPort(ns1 , PortType.TRIANGLE));
         ns1.addInputPort(new InputPort(ns1 , PortType.BITE));
         ns1.addInputPort(new InputPort(ns1 , PortType.SQUARE));

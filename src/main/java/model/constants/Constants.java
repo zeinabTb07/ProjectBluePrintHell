@@ -20,7 +20,7 @@ public class Constants {
 
     public static final double WAVE_SPEED = 2 * SCALE;
     public static final double MAX_WAVE_R = 400 * SCALE;
-    public static double PACKET_SPEED = 20 * SCALE;
+    public static double PACKET_SPEED = 30 * SCALE;
     public static double PACKET_ACCELERATION = 10 * SCALE;
 
     public static Stroke LINE_STROKE = new BasicStroke((float)(3 * SCALE));
