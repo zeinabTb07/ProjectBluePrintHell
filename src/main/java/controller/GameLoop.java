@@ -5,15 +5,14 @@ import events.GameEvents;
 import events.UIEvents;
 
 import model.GameState;
-import model.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GameLoop extends Thread {
     private static final Logger logger = LoggerFactory.getLogger(GameLoop.class);
     private static final int FRAME_RATE = 30;
-    private volatile boolean running = true;
-    private volatile boolean paused = false;
+    private volatile boolean running ;
+    private volatile boolean paused;
     private double realDelta;
     private double delta;
     private GameState gameState;
@@ -33,6 +32,7 @@ public class GameLoop extends Thread {
     @Override
     public void run() {
         logger.info("GameLoop started");
+        running = true;
         long lastTime = System.nanoTime();
         int frameSave = 0 ;
 
@@ -50,7 +50,7 @@ public class GameLoop extends Thread {
                 gameState.timePass(realDelta);
                 frameSave++;
                 if(frameSave>=40){
-                    EventBus.publish(new UIEvents.SaveGameEvent());
+                    EventBus.publish(new UIEvents.SaveGame());
                     frameSave = 0 ;
                 }
 

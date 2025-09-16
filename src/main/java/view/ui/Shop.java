@@ -4,7 +4,6 @@ import events.EventBus;
 import events.GameEvents;
 import events.ShopEvents;
 import events.UIEvents;
-import model.GameState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +54,6 @@ public class Shop extends JDialog {
 
     private void handlePurchase(ShopEvents.PowerUpType powerUp) {
         EventBus.publish(new ShopEvents.PowerUpEvent(powerUp));
-        EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/buyitem.wav"));
+        EventBus.publish(new UIEvents.PlaySound("src/main/resources/buyitem.wav"));
     }
 }

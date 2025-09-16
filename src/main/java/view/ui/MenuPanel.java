@@ -75,7 +75,7 @@ public class MenuPanel extends JPanel {
                         (int)(550 * Constants.SCALE),
                         (int)(500 * Constants.SCALE)
                 ))
-                .withAction(e -> EventBus.publish(new ReplayEvent()))
+                .withAction(e -> EventBus.publish(new Replay()))
                 .build();
 
         JButton play = new ButtonBuilder.Builder()
@@ -84,7 +84,7 @@ public class MenuPanel extends JPanel {
                         (int)(550 * Constants.SCALE),
                         (int)(350 * Constants.SCALE)
                 ))
-                .withAction(e -> EventBus.publish(new OpenGameEvent()))
+                .withAction(e -> EventBus.publish(new OpenGame()))
                 .build();
 
         JButton settings = new ButtonBuilder.Builder()
@@ -93,7 +93,7 @@ public class MenuPanel extends JPanel {
                         (int)(150 * Constants.SCALE),
                         (int)(350 * Constants.SCALE)
                 ))
-                .withAction(e -> EventBus.publish(new OpenSettingsEvent()))
+                .withAction(e -> EventBus.publish(new OpenSetting()))
                 .build();
 
         add(exit);

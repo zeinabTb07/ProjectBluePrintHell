@@ -12,10 +12,10 @@ import java.awt.*;
 
 
 public class GamePanel extends JPanel {
-    private GameState gameState;
-    private GameMouseListener gameMouseListener;
-    private GameStateRenderer gameStateRenderer;
-    private InfoBar infoBar ;
+    private final GameState gameState;
+    private final GameMouseListener gameMouseListener;
+    private final GameStateRenderer gameStateRenderer;
+    private final InfoBar infoBar ;
 
     @Override
     protected void paintComponent(Graphics g) {

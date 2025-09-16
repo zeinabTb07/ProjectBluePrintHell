@@ -4,6 +4,7 @@ import events.EventBus;
 import events.GameEvents;
 import model.constants.Constants;
 import model.objects.packets.ColossusPacket;
+import utils.NetworkConnectivityChecker;
 import utils.Vector2D;
 import model.enums.GameShape;
 import model.interfaces.Forceable;
@@ -39,6 +40,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
 
     protected boolean dirty;
     protected boolean active = true;
+    protected boolean overlap;
     protected int coldDownCounter = 0 ;
 
     public NetworkSystem(Point point){
@@ -89,6 +91,14 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
                         con.decreaseStrength();
                     }
                     return con;
+                }
+            } else {
+                if (c == null) {
+                    log.debug("Port {}: No connection", output);
+                } else if (c.isBusy()) {
+                    log.debug("Connection {}: Busy", c);
+                } else if (!c.getTarget().getParentSystem().isActive()) {
+                    log.debug("Connection {}: Target system inactive", c);
                 }
             }
         }
@@ -186,6 +196,22 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         return dirty;
     }
 
+    public boolean isOverlap() {
+        return overlap;
+    }
+
+    public void setOverlap(boolean overlap) {
+        this.overlap = overlap;
+    }
+
+    public int getColdDownCounter() {
+        return coldDownCounter;
+    }
+
+    public void setColdDownCounter(int coldDownCounter) {
+        this.coldDownCounter = coldDownCounter;
+    }
+
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
@@ -207,6 +233,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
 
     public void setActive(boolean active) {
         this.active = active;
+        if(!active) log.info("System {} deactivate",id);
     }
 
     @Override
@@ -226,6 +253,7 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         if(coldDownCounter>=300){
             coldDownCounter = 0 ;
             active = true;
+            log.info("System {} reactivate",id);
         }
     }
 

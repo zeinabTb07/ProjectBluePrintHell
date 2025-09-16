@@ -48,10 +48,15 @@ public class ChaosSystem extends NetworkSystem implements Serializable {
                     }
                     return con;
                 }
+            } else {
+                if (c == null) {
+                    log.debug("Port {}: No connection", output);
+                } else if (c.isBusy()) {
+                    log.debug("Connection {}: Busy", c);
+                } else if (!c.getTarget().getParentSystem().isActive()) {
+                    log.debug("Connection {}: Target system inactive", c);
+                }
             }
-        }
-        if(p instanceof ColossusPacket){
-            con.decreaseStrength();
         }
         return con;
     }

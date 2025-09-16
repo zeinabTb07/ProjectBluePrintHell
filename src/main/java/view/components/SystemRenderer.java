@@ -14,7 +14,9 @@ public class SystemRenderer {
     }
 
     private void renderSystemBody(Graphics2D g2d, NetworkSystem system) {
-        if(!system.isActive()){
+        if(system.isOverlap()){
+            g2d.setColor(Color.RED);
+        } else if(!system.isActive()){
             g2d.setColor(Color.lightGray);
         } else g2d.setColor(Constants.Colors.SYSTEM);
         g2d.fill(system.getShape());
@@ -36,7 +38,7 @@ public class SystemRenderer {
 
     private void renderInputPorts(Graphics2D g2d, NetworkSystem system) {
         g2d.setColor(Constants.Colors.INPUT_PORT);
-        system.getInputPorts().stream()
+        system.getInputPorts()
                 .forEach(port -> g2d.fill(
                         port.getShape())
                 );
@@ -44,8 +46,7 @@ public class SystemRenderer {
 
     private void renderOutputPorts(Graphics2D g2d, NetworkSystem system) {
         g2d.setColor(Constants.Colors.OUTPUT_PORT);
-        system.getOutputPorts().stream()
-                .forEach(port -> g2d.fill(
+        system.getOutputPorts().forEach(port -> g2d.fill(
                         port.getShape())
                 );
     }

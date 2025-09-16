@@ -7,18 +7,11 @@ import model.GameState;
 import model.objects.other.Connection;
 import model.objects.packets.Packet;
 import model.objects.systems.NetworkSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class GameStateRenderer {
-    private static final Logger log = LoggerFactory.getLogger(GameStateRenderer.class);
-
     private final ConnectionRenderer connectionRenderer;
     private final PacketRenderer packetRenderer;
     private final SystemRenderer systemRenderer;
@@ -27,8 +20,6 @@ public class GameStateRenderer {
         this.connectionRenderer = new ConnectionRenderer();
         this.packetRenderer = new PacketRenderer();
         this.systemRenderer = new SystemRenderer();
-
-        log.debug("GameStateRenderer initialized");
     }
     public void render(Graphics2D g , GameState gameState){
         g.setColor(Color.white);
@@ -38,6 +29,7 @@ public class GameStateRenderer {
         g.drawString("Level : "+level.getNumber() +level.getMessage(), 15, 70);
 
         for(Collision collision : new ArrayList<>(gameState.getCollisions())){
+            collision.update();
             g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));
             g.draw(collision.getShape());
         }

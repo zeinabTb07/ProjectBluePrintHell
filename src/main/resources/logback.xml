@@ -1,13 +1,12 @@
-
 <configuration>
-    <appender name="SIMPLE_FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/app.log</file> <!-- اسم فایل: app.log -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/application.log</file>
         <encoder>
-            <pattern>%logger{20} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss} %-5level [%logger{20}] - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="SIMPLE_FILE" />
+    <root level="DEBUG">
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>

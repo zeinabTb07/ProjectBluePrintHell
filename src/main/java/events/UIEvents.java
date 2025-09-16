@@ -7,55 +7,51 @@ import org.slf4j.LoggerFactory;
 public class UIEvents {
     private static final Logger log = LoggerFactory.getLogger(UIEvents.class);
 
-    public record OpenMenuEvent() {
-        public OpenMenuEvent {
+    public record OpenMenu() {
+        public OpenMenu {
             EventBus.publish(new GameEvents.PauseGameEvent(true));
             log.info("Main menu opened by the user.");
         }
     }
 
-    public record OpenGameEvent() {
-        public OpenGameEvent {
+    public record OpenGame() {
+        public OpenGame {
             EventBus.publish(new GameEvents.PauseGameEvent(false));
             log.info("Game screen initialized and displayed.");
         }
     }
 
-    public record SaveGameEvent() {
-        public SaveGameEvent {
-            log.info("Game saved");
-        }
-    }
+    public record SaveGame() { }
 
-    public record OpenSettingsEvent() {
-        public OpenSettingsEvent {
+    public record OpenSetting() {
+        public OpenSetting {
             log.info("User opened the settings panel.");
         }
     }
 
 
-    public record OpenShopEvent() {
-        public OpenShopEvent {
+    public record OpenShop() {
+        public OpenShop {
             EventBus.publish(new GameEvents.PauseGameEvent(true));
             log.info("Player accessed the in-game store.");
         }
     }
 
-    public record VolumeChangeEvent(int volume) {
-        public VolumeChangeEvent {
+    public record VolumeChange(int volume) {
+        public VolumeChange {
             log.info("Volume level changed to {}%.", volume);
         }
     }
 
-    public record PlaySoundEvent(String path) {
-        public PlaySoundEvent {
+    public record PlaySound(String path) {
+        public PlaySound {
             log.info("Playing sound effect from: {}", path);
         }
     }
 
-    public record ReplayEvent() {
-        public ReplayEvent {
-            EventBus.publish(new OpenGameEvent());
+    public record Replay() {
+        public Replay {
+            EventBus.publish(new OpenGame());
             log.info("Game will start over");
         }
     }

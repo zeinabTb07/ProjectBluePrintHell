@@ -8,12 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SettingDialog extends JDialog {
-    private JSlider soundValume;
-
-    public  JSlider getSoundSlider(){
-        return soundValume;
-    }
-
+    private final JSlider soundValume;
     public SettingDialog(){
         super((JFrame)null, "Settings", true);
 
@@ -22,7 +17,7 @@ public class SettingDialog extends JDialog {
 
         soundValume.addChangeListener(e -> {
             int volume = soundValume.getValue();
-            EventBus.publish(new UIEvents.VolumeChangeEvent(volume));
+            EventBus.publish(new UIEvents.VolumeChange(volume));
         });
 
         this.add(new JLabel("Sound Volume :"));

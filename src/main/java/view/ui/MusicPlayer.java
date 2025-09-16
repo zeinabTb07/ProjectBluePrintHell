@@ -13,8 +13,8 @@ public class MusicPlayer {
     private int currentVolume = 90;
 
     public MusicPlayer (){
-        EventBus.subscribe(UIEvents.VolumeChangeEvent.class, e -> setVolume(e.volume()));
-        EventBus.subscribe(UIEvents.PlaySoundEvent.class, e-> playSoundEffect(e.path()));
+        EventBus.subscribe(UIEvents.VolumeChange.class, e -> setVolume(e.volume()));
+        EventBus.subscribe(UIEvents.PlaySound.class, e-> playSoundEffect(e.path()));
     }
     public void playBackgroundMusic() {
         try {

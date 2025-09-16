@@ -52,6 +52,9 @@ public class GameState implements Serializable {
         for(Packet packet : packets){
             RooterSystem rooterSystem =(RooterSystem) packet.getCurrentSystem();
             rooterSystem.addPacket(packet);
+            if(packet.getCurrentConnection()!=null){
+                packet.getCurrentConnection().setBusy(false);
+            }
         }
         for(NetworkSystem system : level.getSystems()){
             if(system instanceof RooterSystem){
@@ -64,16 +67,12 @@ public class GameState implements Serializable {
     }
 
     private void setupEventListeners() {
-
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> {
             packets.remove(e.packet());
             lostPackets++;
         });
-
         EventBus.subscribe(GameEvents.SwapPacketEvent.class, e -> {
-            if(packets.contains(e.from())){
-                packets.remove(e.from());
-            }
+            packets.remove(e.from());
             if(!packets.contains(e.to())){
                 packets.add(e.to());
             }
@@ -83,6 +82,7 @@ public class GameState implements Serializable {
             e.connection().disconnect();
             connections.remove(e.connection());
         });
+
         EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
             coin += e.n();
         });

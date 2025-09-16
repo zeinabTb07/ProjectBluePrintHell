@@ -3,7 +3,6 @@ package controller;
 
 import events.EventBus;
 import events.GameEvents;
-import events.UIEvents;
 import events.UIEvents.*;
 import model.GameState;
 import model.constants.Constants;
@@ -32,8 +31,8 @@ public class FrameManager {
     }
 
     private void setupEventListeners() {
-        EventBus.subscribe(OpenSettingsEvent.class, e -> {settingDialog.setVisible(true);});
-        EventBus.subscribe(OpenShopEvent.class, e -> {shop.setVisible(true);});
+        EventBus.subscribe(OpenSetting.class, e -> {settingDialog.setVisible(true);});
+        EventBus.subscribe(OpenShop.class, e -> {shop.setVisible(true);});
 
         EventBus.subscribe(GameEvents.CheckGameEndEvent.class, e -> {
             String[] options = {"Back to Menu" , "Go To Next Level"};
@@ -49,14 +48,14 @@ public class FrameManager {
             );
 
             if (choice == 0) {
-                EventBus.publish(new OpenMenuEvent());
+                EventBus.publish(new OpenMenu());
             }
             if(choice == 1){
                 int n = gameState.getGameLevel().getNumber();
                 n++;
                 if(n<Constants.levels.size()){
                     EventBus.publish(new GameEvents.GoToLevel(n));
-                }  else EventBus.publish(new OpenMenuEvent());
+                }  else EventBus.publish(new OpenMenu());
             }
 
         });

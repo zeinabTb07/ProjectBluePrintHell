@@ -25,7 +25,7 @@ public class InfoBar extends JLabel {
     public InfoBar(GameState gameState) {
         super();
         this.gameState = gameState;
-        networkConnectivityChecker = new NetworkConnectivityChecker(gameState.getNetworkSystems());
+        networkConnectivityChecker = new NetworkConnectivityChecker(gameState);
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBounds(0, 0, Constants.FRAME_WIDTH, 60);
         setBackground(Color.white);
@@ -37,7 +37,7 @@ public class InfoBar extends JLabel {
                 .withText("Back")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e ->{EventBus.publish(new UIEvents.OpenMenuEvent());})
+                .withAction(e ->{EventBus.publish(new UIEvents.OpenMenu());})
                 .build();
         add(back);
         add(Box.createHorizontalStrut(20));
@@ -71,7 +71,7 @@ public class InfoBar extends JLabel {
                 .withSize(new Dimension(50, 30))
                 .withAction(e -> { if (networkConnectivityChecker.check()){
                     EventBus.publish(new GameEvents.StartGameEvent());
-                }
+                } else EventBus.publish(new UIEvents.RepaintGamePanelEvent());
                 })
                 .build();
         add(run);
@@ -81,7 +81,7 @@ public class InfoBar extends JLabel {
                 .withText("Shop")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e -> EventBus.publish(new UIEvents.OpenShopEvent()))
+                .withAction(e -> EventBus.publish(new UIEvents.OpenShop()))
                 .build();
         add(shop);
         add(Box.createHorizontalStrut(20));

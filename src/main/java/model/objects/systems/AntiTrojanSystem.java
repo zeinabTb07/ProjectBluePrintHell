@@ -21,7 +21,7 @@ public class AntiTrojanSystem extends NetworkSystem implements Serializable {
             for(Packet packet:packets){
                 if(packet.isTrojan()){
                     packet.setTrojan(false);
-                    active = false;
+                    setActive(false);
                 }
             }
         }

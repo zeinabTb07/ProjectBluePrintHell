@@ -7,9 +7,6 @@ import model.objects.packets.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.event.ChangeEvent;
-import java.util.ArrayList;
-
 
 public class GameEvents {
     private static final Logger log = LoggerFactory.getLogger(GameEvents.class);
@@ -24,9 +21,9 @@ public class GameEvents {
         public CheckGameEndEvent {
             log.info("Game ends : {}", b ? "win" :"lost");
             if(b){
-                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/won.wav"));
+                EventBus.publish(new UIEvents.PlaySound("src/main/resources/won.wav"));
             } else {
-                EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/lost.wav"));
+                EventBus.publish(new UIEvents.PlaySound("src/main/resources/lost.wav"));
             }
         }
     }

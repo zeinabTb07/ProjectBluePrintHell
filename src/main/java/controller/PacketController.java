@@ -2,7 +2,6 @@ package controller;
 
 import events.EventBus;
 import events.GameEvents;
-import events.ShopEvents;
 import model.constants.Constants;
 import model.enums.PortType;
 import model.objects.other.Connection;
@@ -51,8 +50,12 @@ public class PacketController {
                     Connection con = packet.getCurrentConnection();
                     if(packet instanceof ColossusPacket){
                         con.getTarget().setPortType(getRandomPortType());
-                        con.getTarget().getParentSystem().setDirty(true);
-                        con.getTarget().getParentSystem().setStorage(new ArrayList<>());
+                        NetworkSystem system = con.getTarget().getParentSystem();
+                        system.setDirty(true);
+                        for(Packet p : system.getStorage()){
+                            EventBus.publish(new GameEvents.PacketLostEvent(p));
+                        }
+                        system.setStorage(new ArrayList<>());
                     }
                     NetworkSystem end = con.getTarget().getParentSystem();
                     end.receivePacket(packet);

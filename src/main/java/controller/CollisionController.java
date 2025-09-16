@@ -52,7 +52,7 @@ public class CollisionController {
                         }
                         Point colCenter = new Point((p.x + p1.x) / 2, (p.y + p1.y) / 2);
                         collisions.add(new Collision(colCenter));
-                        EventBus.publish(new UIEvents.PlaySoundEvent("src/main/resources/collision.wav"));
+                        EventBus.publish(new UIEvents.PlaySound("src/main/resources/collision.wav"));
                     }
                 }
             }
