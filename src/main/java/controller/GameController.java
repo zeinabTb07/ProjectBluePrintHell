@@ -24,8 +24,7 @@ public class GameController {
     public GameController(){
         gameStateLoader = new GameStateLoader();
         Constants.initLevels();
-        gameState = new GameState(Constants.levels.getFirst());
-        //gameState = new GameState(new TestLevel());
+        load();
         frameManager = new FrameManager(gameState);
         gameLoop = new GameLoop(gameState);
         setupEventListeners();
@@ -52,10 +51,10 @@ public class GameController {
         });
         EventBus.subscribe(UIEvents.OpenMenu.class, e ->{
             frameManager.goToMenu();
-           // save();
+            save();
         });
         EventBus.subscribe(UIEvents.SaveGame.class , e-> {
-         //  save();
+           save();
         });
         EventBus.subscribe(UIEvents.OpenGame.class, e -> {
             frameManager.goToGame();
