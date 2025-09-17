@@ -38,6 +38,8 @@ public class GameState implements Serializable {
     public void goToLevel(Level level) {
         this.gameLevel = level;
         timePassed = 0;
+        networkSystems.forEach(system->{system.reset();});
+        connections.forEach(c ->{c.setBusy(false);});
         addNewSystems(level.getSystems());
         resetPacketsToInitial();
         addInitialPacketsFromLevelSystems(level.getSystems());
@@ -62,14 +64,6 @@ public class GameState implements Serializable {
         EventBus.subscribe(GameEvents.ConnectionDestroyEvent.class, e -> {
             e.connection().disconnect();
             connections.remove(e.connection());
-        });
-
-        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
-            coin += e.n();
-        });
-
-        EventBus.subscribe(ShopEvents.PowerUpEvent.class, e -> {
-            coin -= e.powerUpType().getPrice();
         });
     }
 
@@ -98,15 +92,13 @@ public class GameState implements Serializable {
         }
     }
 
+
     private void resetPacketsToInitial() {
         packets.clear();
         packets.addAll(initialPackets);
         for (Packet packet : packets) {
             RooterSystem rooterSystem = (RooterSystem) packet.getCurrentSystem();
             rooterSystem.addPacket(packet);
-            if (packet.getCurrentConnection() != null) {
-                packet.getCurrentConnection().setBusy(false);
-            }
         }
     }
 

@@ -32,9 +32,9 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     protected static transient final Logger log = LoggerFactory.getLogger(NetworkSystem.class);
     protected ArrayList<InputPort> inputPorts;
     protected ArrayList<OutputPort> outputPorts;
+    protected Point point;
 
     protected ArrayList<Packet> storage;
-    protected Point point;
     protected Inductor inductor;
 
     protected boolean dirty;
@@ -233,6 +233,13 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
     public void setActive(boolean active) {
         this.active = active;
         if(!active) log.info("System {} deactivate",id);
+    }
+
+    public void reset(){
+        storage = new ArrayList<>();
+        dirty = true;
+        active = true;
+        coldDownCounter = 0 ;
     }
 
     @Override

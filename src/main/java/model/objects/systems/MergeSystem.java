@@ -32,6 +32,7 @@ public class MergeSystem extends NetworkSystem implements Serializable {
         });
     }
 
+
     @Override
     public void process(){
         if (!storage.isEmpty()) trySendingPacket(storage.get(0));
@@ -72,6 +73,13 @@ public class MergeSystem extends NetworkSystem implements Serializable {
               }
           }
       }
+    }
+
+    @Override
+    public void reset(){
+      super.reset();
+        packetsMap = new HashMap<>();
+        colossusPacketLostMap = new HashMap<>();
     }
 
 }

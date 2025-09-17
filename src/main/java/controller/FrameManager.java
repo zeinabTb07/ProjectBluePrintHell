@@ -3,6 +3,7 @@ package controller;
 
 import events.EventBus;
 import events.GameEvents;
+import events.UIEvents;
 import events.UIEvents.*;
 import model.GameState;
 import model.constants.Constants;
@@ -35,7 +36,10 @@ public class FrameManager {
         EventBus.subscribe(OpenShop.class, e -> {shop.setVisible(true);});
 
         EventBus.subscribe(GameEvents.CheckGameEndEvent.class, e -> {
-            String[] options = {"Back to Menu" , "Go To Next Level"};
+            String[] options ;
+            if(e.b()){
+                options = new String[] {"Back to Menu" , "Go To Next Level"};
+            } else options = new String[]{"Back to Menu", "Start Over"};
             int choice = JOptionPane.showOptionDialog(
                     null,
                     e.b() ? "You win!" : "You lost!",
@@ -51,11 +55,13 @@ public class FrameManager {
                 EventBus.publish(new OpenMenu());
             }
             if(choice == 1){
-                int n = gameState.getGameLevel().getNumber();
-                n++;
-                if(n<Constants.levels.size()){
-                    EventBus.publish(new GameEvents.GoToLevel(n));
-                }  else EventBus.publish(new OpenMenu());
+                if(e.b()){
+                    int n = gameState.getGameLevel().getNumber();
+                    n++;
+                    if(n<Constants.levels.size()){
+                        EventBus.publish(new GameEvents.GoToLevel(n));
+                    }  else EventBus.publish(new OpenMenu());
+                } else EventBus.publish(new UIEvents.Replay());
             }
 
         });

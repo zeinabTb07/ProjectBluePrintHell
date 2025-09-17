@@ -9,6 +9,7 @@ import model.objects.packets.Packet;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RooterSystem extends NetworkSystem implements Serializable {
     protected ArrayList<Packet> initialPackets;
@@ -42,6 +43,11 @@ public class RooterSystem extends NetworkSystem implements Serializable {
         }
         p.setCurrentSystem(this);
         EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
+    }
+    @Override
+    public void reset(){
+        super.reset();
+        initialPackets = new ArrayList<>();
     }
 
     public void addPacket(Packet packet) {

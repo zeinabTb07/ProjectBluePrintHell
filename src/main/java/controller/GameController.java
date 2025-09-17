@@ -44,6 +44,8 @@ public class GameController {
         EventBus.subscribe(GameEvents.GoToLevel.class , e->{
             gameState.goToLevel(Constants.levels.get(e.n()));
             gameLoop = new GameLoop(gameState);
+            frameManager = new FrameManager(gameState);
+            save();
         });
 
         EventBus.subscribe(GameEvents.PauseGameEvent.class, d -> {

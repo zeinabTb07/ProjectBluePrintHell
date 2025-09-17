@@ -1,5 +1,6 @@
 package view.ui;
 
+import events.ShopEvents;
 import utils.NetworkConnectivityChecker;
 import events.EventBus;
 import events.GameEvents;
@@ -90,9 +91,13 @@ public class InfoBar extends JLabel {
     }
 
     private void setupGameStateListeners() {
-        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> updateCoinDisplay());
+        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
+            gameState.setCoin(gameState.getCoin()+e.n());
+            updateCoinDisplay();});
         EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
         EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> updateTime());
+        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->{gameState.setCoin(gameState.getCoin()-e.powerUpType().getPrice());
+            updateCoinDisplay();});
     }
     private void updateTime() {
         if(framePassed>5){

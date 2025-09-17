@@ -11,6 +11,7 @@ import model.objects.packets.ProtectedPacket;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class VPNSystem extends NetworkSystem implements Serializable {
@@ -56,5 +57,10 @@ public class VPNSystem extends NetworkSystem implements Serializable {
             }
             packets = new ArrayList<>();
         }
+    }
+    @Override
+    public void reset(){
+        super.reset();
+        packets = new ArrayList<>();
     }
 }
