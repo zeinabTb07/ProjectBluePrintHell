@@ -113,6 +113,8 @@ public class InfoBar extends JLabel {
     public void reset(){
         updateCoinDisplay();
         updatePacketLoss();
+        updateTime();
+        packetLoss.setValue(0);
     }
 
     private void updatePacketLoss() {

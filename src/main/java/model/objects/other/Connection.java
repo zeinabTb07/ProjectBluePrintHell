@@ -106,7 +106,7 @@ public class Connection extends GameObject implements Updatable , Serializable {
                 path.curveTo(ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, p2.getX(), p2.getY());
             }
             length = GeometryUtils.calcPathLength((Path2D) shape);
-            logger.info("Connection with ID : {} reshaped with length {}"  , id , length);
+            logger.debug("Connection with ID : {} reshaped with length {}"  , id , length);
         }
 
         super.shape = path;

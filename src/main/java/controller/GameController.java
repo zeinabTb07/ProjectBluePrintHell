@@ -30,9 +30,9 @@ public class GameController {
     }
     private void setupEventListeners() {
         EventBus.subscribe(UIEvents.Replay.class, e -> {
-            gameState = new GameState(Constants.levels.getFirst());
+            gameState.reset(Constants.levels.getFirst());
             gameLoop = new GameLoop(gameState);
-            frameManager = new FrameManager(gameState);
+            frameManager.reset();
             save();
         });
         EventBus.subscribe(GameEvents.StartGameEvent.class, d -> {
@@ -44,7 +44,7 @@ public class GameController {
         EventBus.subscribe(GameEvents.GoToLevel.class , e->{
             gameState.goToLevel(Constants.levels.get(e.n()));
             gameLoop = new GameLoop(gameState);
-            frameManager = new FrameManager(gameState);
+            frameManager.reset();
             save();
         });
 

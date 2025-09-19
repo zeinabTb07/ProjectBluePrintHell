@@ -34,6 +34,18 @@ public class GameState implements Serializable {
         this.gameLevel = level;
         initializeState();
     }
+    public void reset(Level level){
+        this.gameLevel = level;
+        connections.clear();
+        packets.clear();
+        initialPackets.clear();
+        collisions.clear();
+        networkSystems.clear();
+        coin = 0 ;
+        lostPackets = 0 ;
+        timePassed = 0 ;
+        initializeState();
+    }
 
     public void goToLevel(Level level) {
         this.gameLevel = level;

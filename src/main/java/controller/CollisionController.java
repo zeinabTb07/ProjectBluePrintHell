@@ -42,12 +42,12 @@ public class CollisionController {
         acclertionMap.values().forEach(aDouble -> {aDouble +=0.02;});
         backCenterMap.values().forEach(aDouble -> {aDouble +=0.02;});
         for(Point p : acclertionMap.keySet()){
-            if (packet.getAbsolutePoint().distance(p)<1){
+            if (packet.getAbsolutePoint().distance(p)<50){
                 packet.setAcceleration(0);
             }
         }
         for(Point p : backCenterMap.keySet()){
-            if (packet.getAbsolutePoint().distance(p)<1){
+            if (packet.getAbsolutePoint().distance(p)<50){
                 Point2D point = packet.getCenterOfMass();
                 point.setLocation(point.getX()/2 , point.getY()/2);
                 packet.setCenterOfMass(point);

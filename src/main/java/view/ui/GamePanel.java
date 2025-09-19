@@ -45,6 +45,9 @@ public class GamePanel extends JPanel {
         super.addMouseListener(gameMouseListener);
         EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class , e->{repaint();});
     }
+    public void reset(){
+        infoBar.reset();
+    }
 
     public GameState getGameState() {
         return gameState;
