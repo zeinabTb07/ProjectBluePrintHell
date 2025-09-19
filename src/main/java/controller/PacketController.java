@@ -48,26 +48,29 @@ public class PacketController {
 
                 if (isPacketReachedEnd(packet)) {
                     Connection con = packet.getCurrentConnection();
-                    if(packet instanceof ColossusPacket){
-                        con.getTarget().setPortType(getRandomPortType());
-                        NetworkSystem system = con.getTarget().getParentSystem();
-                        system.setDirty(true);
-                        for(Packet p : system.getStorage()){
-                            EventBus.publish(new GameEvents.PacketLostEvent(p));
+                    if(con.getTarget().getParentSystem().isActive()){
+                        if(packet instanceof ColossusPacket){
+                            con.getTarget().setPortType(getRandomPortType());
+                            NetworkSystem system = con.getTarget().getParentSystem();
+                            system.setDirty(true);
+                            for(Packet p : system.getStorage()){
+                                EventBus.publish(new GameEvents.PacketLostEvent(p));
+                            }
+                            system.setStorage(new ArrayList<>());
                         }
-                        system.setStorage(new ArrayList<>());
-                    }
-                    NetworkSystem end = con.getTarget().getParentSystem();
-                    end.receivePacket(packet);
-                    if(packet.getVelocity()>150){
-                        end.setActive(false);
-                    }
-                    resetPacket(packet);
+                        NetworkSystem end = con.getTarget().getParentSystem();
+                        end.receivePacket(packet);
+                        if(packet.getVelocity()>200){
+                            end.setActive(false);
+                        }
+                        resetPacket(packet);
+                    } else packet.setComeBack(true);
                 }
 
                 if(isPacketComingBack(packet)){
                     Connection con = packet.getCurrentConnection();
                     NetworkSystem head = con.getSource().getParentSystem();
+                    packet.setComeBack(false);
                     head.receivePacket(packet);
                     resetPacket(packet);
                 }
@@ -93,7 +96,7 @@ public class PacketController {
     }
 
     private boolean isPacketComingBack(Packet packet){
-        return packet.getDistancePassedOnConnection()<0&&packet.getVelocity()<0;
+        return packet.getDistancePassedOnConnection()<0&&packet.isComeBack();
     }
 
     private boolean isPacketReachedEnd(Packet packet) {

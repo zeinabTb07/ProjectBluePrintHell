@@ -31,6 +31,7 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     protected double distance;
     protected Point2D centerOfMass;
     protected PacketType type;
+    protected boolean comeBack;
     protected boolean trojan;
 
     protected boolean dirty;
@@ -188,9 +189,18 @@ public abstract class Packet extends GameObject implements Updatable , Movable  
     }
     @Override
     public void moveNormal(double deltaTime) {
-        velocity += acceleration * deltaTime;
-        distance += velocity * deltaTime;
+        int sign = comeBack ? -1 : 1;
+        velocity += sign*acceleration * deltaTime;
+        distance += sign* velocity * deltaTime;
         dirty = true;
+    }
+
+    public boolean isComeBack() {
+        return comeBack;
+    }
+
+    public void setComeBack(boolean comeBack) {
+        this.comeBack = comeBack;
     }
 
     @Override

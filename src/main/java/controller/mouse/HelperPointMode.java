@@ -2,6 +2,8 @@ package controller.mouse;
 
 
 import events.EventBus;
+import events.GameEvents;
+import events.ShopEvents;
 import events.UIEvents;
 import model.GameState;
 
@@ -54,9 +56,9 @@ public class HelperPointMode implements MouseMode {
                 Optional<Connection> connOpt = findConnectionLineAtPoint(clickPoint);
                 if (connOpt.isPresent()) {
                     Connection conn = connOpt.get();
-                    double oldLength = conn.getLength();
                     if(conn.getHelperPoints().size()<3){
                         conn.addHelperPoint(clickPoint);
+                        EventBus.publish(new  GameEvents.SetPowerUpPoint(ShopEvents.PowerUpType.HELPER_POINT , clickPoint));
                     } else{
                         EventBus.publish(new UIEvents.PlaySound("src/main/resources/error.wav"));
                         return;

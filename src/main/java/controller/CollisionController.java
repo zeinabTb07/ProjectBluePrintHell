@@ -78,10 +78,7 @@ public class CollisionController {
                         Point p1 = packet1.getAbsolutePoint();
                         packet.increaseNoise(packet1.getSize()/2);
                         packet1.increaseNoise(packet.getSize()/2);
-                        if(packet.getType()== PacketType.BITE){
-                            packet.setVelocity(-packet.getVelocity());
-                            packet.setAcceleration(-packet.getAcceleration());
-                        }
+                        if(packet.getType()== PacketType.BITE) packet.setComeBack(!packet.isComeBack());
                         Point colCenter = new Point((p.x + p1.x) / 2, (p.y + p1.y) / 2);
                         collisions.add(new Collision(colCenter));
                         EventBus.publish(new UIEvents.PlaySound("src/main/resources/collision.wav"));

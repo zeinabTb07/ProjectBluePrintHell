@@ -14,12 +14,11 @@ public class PrivatePacket extends Packet implements Serializable {
 
     @Override
     public void moveNormal(double deltaTime) {
-        velocity += acceleration * deltaTime;
+        super.moveNormal(deltaTime);
         NetworkSystem targetSystem = this.getCurrentConnection().getTarget().getParentSystem();
-        if(!targetSystem.getStorage().isEmpty()&&type == PacketType.PHANTOM){
-            distance += Constants.PACKET_SPEED/3 * deltaTime;
-        } else distance += velocity * deltaTime;
-        dirty = true;
+        if(!targetSystem.getStorage().isEmpty() && type == PacketType.PHANTOM){
+            velocity = Constants.PACKET_SPEED/3;
+        }
     }
     @Override
     public Packet clon() {
