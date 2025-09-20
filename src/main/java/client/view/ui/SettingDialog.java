@@ -1,0 +1,30 @@
+package client.view.ui;
+
+
+import javax.swing.*;
+import java.awt.*;
+
+public class SettingDialog extends JDialog {
+    private final JSlider soundValume;
+    public SettingDialog(){
+        super((JFrame)null, "Settings", true);
+
+        soundValume = new JSlider(50 , 120);
+        soundValume.setValue(90);
+
+        soundValume.addChangeListener(e -> {
+            int volume = soundValume.getValue();
+        });
+
+        this.add(new JLabel("Sound Volume :"));
+
+
+        this.setLayout(new FlowLayout());
+        this.add(soundValume);
+
+        this.setSize(300, 100);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        this.setVisible(false);
+    }
+}
