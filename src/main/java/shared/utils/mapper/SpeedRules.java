@@ -15,7 +15,7 @@ public class SpeedRules {
         for(PortType portType : PortType.values()){
             squarePacket.put(portType, new PacketRecord.PacketMovement(2 , 0));
         }
-       squarePacket.put(PortType.SQUARE , new PacketRecord.PacketMovement(4 , 0));
+       squarePacket.put(PortType.RECTANGLE , new PacketRecord.PacketMovement(4 , 0));
        rules.put(PacketType.RECTANGLE , squarePacket);
 
         HashMap<PortType, PacketRecord.PacketMovement> trianglePacket = new HashMap<>();

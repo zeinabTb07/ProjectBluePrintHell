@@ -20,7 +20,7 @@ public class MenuPanel extends JPanel {
         setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
 
         try {
-            backgroundImage = new ImageIcon("src/main/resources/edited_background.jpg").getImage();
+            backgroundImage = new ImageIcon("src/main/resources/client/graphic/edited_background.jpg").getImage();
         } catch (Exception e) {
             System.out.println("Background image not found!");
         }

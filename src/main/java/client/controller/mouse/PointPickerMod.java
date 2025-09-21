@@ -12,7 +12,7 @@ public class PointPickerMod implements MouseMode{
     @Override
     public void mousePressed(MouseEvent e) {
        if(event== ShopEvents.PowerUpType.ALIGN_CENTER || event == ShopEvents.PowerUpType.ZERO_ACCELERATION){
-           EventBus.publish(new GameEvents.SetPowerUpPoint(event , e.getPoint()));
+         //  EventBus.publish(new GameEvents.SetPowerUpPoint(event , e.getPoint()));
        }
     }
 

@@ -1,5 +1,6 @@
 package shared.utils;
 
+import client.Constants;
 import shared.model.GameState;
 import shared.model.objects.GameObject;
 import shared.model.objects.other.Connection;
@@ -7,11 +8,13 @@ import shared.model.objects.systems.addon.Inductor;
 import shared.model.objects.systems.NetworkSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shared.utils.math.GeometryUtils;
 
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.*;
 
 public class NetworkConnectivityChecker {
@@ -58,12 +61,30 @@ public class NetworkConnectivityChecker {
         return overlap;
     }
 
-    private boolean checkOverlap(GameObject obj1, GameObject obj2) {
+    private boolean checkOverlap(GameObject obj1, NetworkSystem obj2) {
         if (log.isDebugEnabled()) {
             log.debug("Checking overlap between {} and {}", obj1.getId(), obj2.getId());
         }
-        Shape shape1 = obj1.getShape();
-        Shape shape2 = obj2.getShape();
+        Shape shape1 ;
+        if(obj1 instanceof Connection){
+            shape1 = GeometryUtils.getPath2d((Connection) obj1);
+        } else {
+            NetworkSystem system = (NetworkSystem) obj1;
+            shape1  =  new Rectangle((int)system.getPoint().getX(),
+                    (int) system.getPoint().getY() ,
+                    Constants.SYSTEMS_WIDTH ,
+                    (int) (Math.max(obj2.getOutputPorts().size(), obj2.getInputPorts().size())
+                            *Constants.PORT_GAP+1.5f*Constants.INDUCTOR_HEIGHT)
+            );
+
+        }
+
+        Shape shape2 =  new Rectangle((int)obj2.getPoint().getX(),
+                (int) obj2.getPoint().getY() ,
+                Constants.SYSTEMS_WIDTH ,
+                (int) (Math.max(obj2.getOutputPorts().size(), obj2.getInputPorts().size())
+                        *Constants.PORT_GAP+1.5f*Constants.INDUCTOR_HEIGHT)
+                );
         if(shape1 instanceof Path2D){
             BasicStroke stroke = new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
             shape1 = stroke.createStrokedShape(shape1);

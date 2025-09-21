@@ -18,15 +18,15 @@ public class Level2 extends Level {
         ArrayList<SpySystem> spySystems = new ArrayList<>();
         SpySystem spy1 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 510 , 490);
         spy1.addOutputPort(new OutputPort(spy1 , PortType.TRIANGLE));
-        spy1.addOutputPort(new OutputPort(spy1 , PortType.SQUARE));
+        spy1.addOutputPort(new OutputPort(spy1 , PortType.RECTANGLE));
         spy1.addOutputPort(new OutputPort(spy1 , PortType.BIT_PACKET));
         spy1.addInputPort(new InputPort(spy1 , PortType.BIT_PACKET));
-        spy1.addInputPort(new InputPort(spy1 , PortType.SQUARE));
+        spy1.addInputPort(new InputPort(spy1 , PortType.RECTANGLE));
 
         SpySystem spy2 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 230 , 300);
         spy2.addInputPort(new InputPort(spy2 , PortType.BIT_PACKET));
         spy2.addOutputPort(new OutputPort(spy2 , PortType.TRIANGLE));
-        spy2.addOutputPort(new OutputPort(spy2 , PortType.SQUARE));
+        spy2.addOutputPort(new OutputPort(spy2 , PortType.RECTANGLE));
 
 
         SpySystem spy3 = (SpySystem) SystemFactory.createSystem(SystemType.SPY , 600 , 200);

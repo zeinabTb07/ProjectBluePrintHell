@@ -34,7 +34,7 @@ public class DefaultConnectionMode implements MouseMode {
 
     public DefaultConnectionMode(GameState gameState) {
         this.gameState = gameState;
-        EventBus.subscribe(GameEvents.SetPowerUpPoint.class , e->{if(e.type()== ShopEvents.PowerUpType.HELPER_POINT) draggablePoints.add(e.point());});
+      //  EventBus.subscribe(GameEvents.SetPowerUpPoint.class , e->{if(e.type()== ShopEvents.PowerUpType.HELPER_POINT) draggablePoints.add(e.point());});
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DefaultConnectionMode implements MouseMode {
                 Connection connection = new Connection(targetPort, sourcePort);
                 gameState.addConnection(connection);
                 log.info("Connection created: {}", connection.getId());
-                EventBus.publish(new UIEvents.PlaySound("src/main/resources/connect.wav"));
+               // EventBus.publish(new UIEvents.PlaySound("src/main/resources/connect.wav"));
             }
         });
         clearDragState();
@@ -138,7 +138,7 @@ public class DefaultConnectionMode implements MouseMode {
                 if(!connection.isFreeze()){
                     connection.disconnect();
                     gameState.removeConnection(connection);
-                    EventBus.publish(new UIEvents.PlaySound("src/main/resources/disconnect.wav"));
+                 //   EventBus.publish(new UIEvents.PlaySound("src/main/resources/disconnect.wav"));
                     log.info("Connection removed: {}", connection.getId());
                     break;
                 }

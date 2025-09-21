@@ -59,9 +59,9 @@ public class HelperPointMode implements MouseMode {
                     Connection conn = connOpt.get();
                     if(conn.getHelperPoints().size()<3){
                         conn.addHelperPoint(clickPoint);
-                        EventBus.publish(new  GameEvents.SetPowerUpPoint(ShopEvents.PowerUpType.HELPER_POINT , clickPoint));
+                      //  EventBus.publish(new  GameEvents.SetPowerUpPoint(ShopEvents.PowerUpType.HELPER_POINT , clickPoint));
                     } else{
-                        EventBus.publish(new UIEvents.PlaySound("src/main/resources/error.wav"));
+                       // EventBus.publish(new UIEvents.PlaySound("src/main/resources/error.wav"));
                         return;
                     }
 

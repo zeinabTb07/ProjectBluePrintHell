@@ -38,7 +38,7 @@ public class InfoBar extends JLabel {
                 .withText("Back")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e ->{EventBus.publish(new UIEvents.OpenMenu());})
+            //    .withAction(e ->{EventBus.publish(new UIEvents.OpenMenu());})
                 .build();
         add(back);
         add(Box.createHorizontalStrut(20));
@@ -51,7 +51,6 @@ public class InfoBar extends JLabel {
 
         packetLoss = new JProgressBar(0, 100);
         packetLoss.setString("Packet Loss");
-        packetLoss.setValue((int) gameState.getPacketLossPercentage());
         packetLoss.setBackground(Color.lightGray);
         packetLoss.setForeground(Color.RED);
         packetLoss.setStringPainted(true);
@@ -70,10 +69,10 @@ public class InfoBar extends JLabel {
                 .withText("Run")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e -> { if (networkConnectivityChecker.check()){
-                    EventBus.publish(new GameEvents.StartGameEvent());
-                } else EventBus.publish(new UIEvents.RepaintGamePanelEvent());
-                })
+//                .withAction(e -> { if (networkConnectivityChecker.check()){
+//                    EventBus.publish(new GameEvents.StartGameEvent());
+//                } else EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+//                })
                 .build();
         add(run);
         add(Box.createHorizontalStrut(20));
@@ -82,7 +81,7 @@ public class InfoBar extends JLabel {
                 .withText("Shop")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-                .withAction(e -> EventBus.publish(new UIEvents.OpenShop()))
+               // .withAction(e -> EventBus.publish(new UIEvents.OpenShop()))
                 .build();
         add(shop);
         add(Box.createHorizontalStrut(20));
@@ -91,13 +90,13 @@ public class InfoBar extends JLabel {
     }
 
     private void setupGameStateListeners() {
-        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
-            gameState.setCoin(gameState.getCoin()+e.n());
-            updateCoinDisplay();});
-        EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
-        EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> updateTime());
-        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->{gameState.setCoin(gameState.getCoin()-e.powerUpType().getPrice());
-            updateCoinDisplay();});
+//        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
+//            gameState.setCoin(gameState.getCoin()+e.n());
+//            updateCoinDisplay();});
+//        EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
+//        EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> updateTime());
+//        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->{gameState.setCoin(gameState.getCoin()-e.powerUpType().getPrice());
+//            updateCoinDisplay();});
     }
     private void updateTime() {
         if(framePassed>5){
@@ -118,6 +117,6 @@ public class InfoBar extends JLabel {
     }
 
     private void updatePacketLoss() {
-        packetLoss.setValue((int) gameState.getPacketLossPercentage());
+        packetLoss.setValue( gameState.getPackets().size()/gameState.getInitialPackets().size());
     }
 }

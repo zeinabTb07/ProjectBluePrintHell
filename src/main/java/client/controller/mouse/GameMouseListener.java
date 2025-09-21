@@ -27,32 +27,32 @@ public class GameMouseListener extends MouseAdapter {
         this.currentMode = defaultMode;
 
 
-        EventBus.subscribe(ShopEvents.PowerUpEvent.class, event -> {
-            ShopEvents.PowerUpType type = event.powerUpType();
-            if (type == ShopEvents.PowerUpType.RELOCATE_SYSTEM) {
-                currentMode = relocateMode;
-                log.info("Switched to RelocateSystemMode.");
-            } else if (type == ShopEvents.PowerUpType.HELPER_POINT) {
-                currentMode = helperPointMode;
-                log.info("Switched to HelperPointMode.");
-            } else if (type== ShopEvents.PowerUpType.ALIGN_CENTER||type== ShopEvents.PowerUpType.ZERO_ACCELERATION) {
-               pointPickerMod.event = type;
-                currentMode = pointPickerMod;
-                log.info("Switched to PointPickerMode.");
-            }
-        });
+//        EventBus.subscribe(ShopEvents.PowerUpEvent.class, event -> {
+//            ShopEvents.PowerUpType type = event.powerUpType();
+//            if (type == ShopEvents.PowerUpType.RELOCATE_SYSTEM) {
+//                currentMode = relocateMode;
+//                log.info("Switched to RelocateSystemMode.");
+//            } else if (type == ShopEvents.PowerUpType.HELPER_POINT) {
+//                currentMode = helperPointMode;
+//                log.info("Switched to HelperPointMode.");
+//            } else if (type== ShopEvents.PowerUpType.ALIGN_CENTER||type== ShopEvents.PowerUpType.ZERO_ACCELERATION) {
+//               pointPickerMod.event = type;
+//                currentMode = pointPickerMod;
+//                log.info("Switched to PointPickerMode.");
+//            }
+//        });
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         currentMode.mousePressed(e);
-        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+     //   EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         currentMode.mouseDragged(e);
-        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+       // EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class GameMouseListener extends MouseAdapter {
             currentMode = defaultMode;
             log.info("Reverted to DefaultConnectionMode.");
         }
-        EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+       // EventBus.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     public void paintLine(Graphics2D g) {
