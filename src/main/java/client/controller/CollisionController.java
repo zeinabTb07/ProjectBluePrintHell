@@ -4,7 +4,7 @@ import shared.api.enums.PacketType;
 import shared.model.objects.other.Collision;
 import client.Constants;
 import shared.model.objects.packets.Packet;
-import shared.utils.mapper.PacketDetails;
+import shared.api.service.mapper.PacketDetails;
 
 import java.awt.*;
 import java.util.*;

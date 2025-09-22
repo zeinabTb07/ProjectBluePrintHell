@@ -49,4 +49,8 @@ public class GamePanel extends JPanel {
     public GameState getGameState() {
         return gameState;
     }
+
+    public GameMouseListener getGameMouseListener() {
+        return gameMouseListener;
+    }
 }

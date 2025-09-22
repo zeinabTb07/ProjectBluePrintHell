@@ -1,11 +1,12 @@
 package client.controller.mouse;
 
-import shared.events.EventBus;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import shared.events.Publisher;
 import shared.events.ShopEvents;
 import shared.events.UIEvents;
 import shared.model.GameState;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -18,41 +19,43 @@ public class GameMouseListener extends MouseAdapter {
     private final MouseMode relocateMode;
     private final MouseMode helperPointMode;
     private final PointPickerMod pointPickerMod;
-
+    private final Publisher publisher ;
     public GameMouseListener(GameState gameState) {
+        this.publisher = gameState.getPublisher();
         this.defaultMode = new DefaultConnectionMode(gameState);
         this.relocateMode = new RelocateSystemMode(gameState);
         this.helperPointMode = new HelperPointMode(gameState);
-        this.pointPickerMod = new PointPickerMod();
+        this.pointPickerMod = new PointPickerMod(gameState.getPublisher());
         this.currentMode = defaultMode;
-
-
-//        EventBus.subscribe(ShopEvents.PowerUpEvent.class, event -> {
-//            ShopEvents.PowerUpType type = event.powerUpType();
-//            if (type == ShopEvents.PowerUpType.RELOCATE_SYSTEM) {
-//                currentMode = relocateMode;
-//                log.info("Switched to RelocateSystemMode.");
-//            } else if (type == ShopEvents.PowerUpType.HELPER_POINT) {
-//                currentMode = helperPointMode;
-//                log.info("Switched to HelperPointMode.");
-//            } else if (type== ShopEvents.PowerUpType.ALIGN_CENTER||type== ShopEvents.PowerUpType.ZERO_ACCELERATION) {
-//               pointPickerMod.event = type;
-//                currentMode = pointPickerMod;
-//                log.info("Switched to PointPickerMode.");
-//            }
-//        });
     }
+    public void switchedPointPickerNormal(ShopEvents.PowerUpType type){
+        pointPickerMod.event = type;
+        currentMode = pointPickerMod;
+        log.info("Switched to PointPickerMode.");
+    }
+    public void switchToRelocateSystem(){
+        currentMode = relocateMode;
+        log.info("Switched to RelocateSystemMode.");
+    }
+    public void switchToHelperPoint(){
+        currentMode = helperPointMode;
+        log.info("Switched to HelperPointMode.");
+    }
+    public void addDraggablePoint(Point point){
+        ((DefaultConnectionMode)defaultMode).addDraggablePoint(point);
+    }
+
 
     @Override
     public void mousePressed(MouseEvent e) {
         currentMode.mousePressed(e);
-     //   EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+        publisher.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         currentMode.mouseDragged(e);
-       // EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+        publisher.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
@@ -62,7 +65,7 @@ public class GameMouseListener extends MouseAdapter {
             currentMode = defaultMode;
             log.info("Reverted to DefaultConnectionMode.");
         }
-       // EventBus.publish(new UIEvents.RepaintGamePanelEvent());
+        publisher.publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     public void paintLine(Graphics2D g) {

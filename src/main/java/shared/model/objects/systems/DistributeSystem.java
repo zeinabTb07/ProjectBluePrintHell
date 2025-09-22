@@ -4,8 +4,8 @@ import shared.model.objects.packets.ColossusPacket;
 import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.packets.Packet;
 import shared.api.enums.PacketType;
-import shared.utils.mapper.PacketDetails;
-import shared.utils.mapper.PacketRecord;
+import shared.api.service.mapper.PacketDetails;
+import shared.api.service.mapper.PacketRecord;
 
 import java.awt.*;
 import java.io.Serializable;

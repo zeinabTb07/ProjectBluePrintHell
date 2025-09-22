@@ -89,4 +89,24 @@ public class FrameManager {
         gamePanel.reset();
         gamePanel.repaint();
     }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
+    public MenuPanel getMenuPanel() {
+        return menuPanel;
+    }
+
+    public SettingDialog getSettingDialog() {
+        return settingDialog;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public MusicPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
 }

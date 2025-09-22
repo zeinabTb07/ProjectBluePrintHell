@@ -1,5 +1,8 @@
 package client.controller;
 
+import shared.events.GameEvents;
+import shared.events.Publisher;
+import shared.events.UIEvents;
 import shared.model.GameState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +20,8 @@ public class GameLoop extends Thread {
 
     public GameLoop(GameState gameState) {
         this.gameState = gameState;
-        packetController = new PacketController(gameState.getPackets());
+        packetController = new PacketController(gameState);
         collisionController = new CollisionController(gameState.getPackets() , gameState.getCollisions());
-
         logger.debug("GameLoop initialized with GameState: {}", gameState);
     }
 
@@ -39,7 +41,7 @@ public class GameLoop extends Thread {
             lastTime = now;
             realDelta+=deltaTime;
             if (!paused && delta >= 1) {
-                //To_Do : repaint
+                gameState.getPublisher().publish(new UIEvents.RepaintGamePanelEvent());
                 packetController.updatePackets(realDelta);
                 collisionController.checkForCollision();
                 collisionController.applyCollisions();
@@ -73,5 +75,6 @@ public class GameLoop extends Thread {
 
     public void finishGame() {
         running = false;
+        gameState.getPublisher().publish(new GameEvents.CheckGameEndEvent(checkWinCondition()));
     }
 }

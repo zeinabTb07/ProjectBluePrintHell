@@ -1,15 +1,12 @@
 package client.controller.mouse;
 
-
-import shared.events.EventBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shared.events.GameEvents;
 import shared.events.ShopEvents;
 import shared.events.UIEvents;
 import shared.model.GameState;
-
 import shared.model.objects.other.Connection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import shared.utils.math.GeometryUtils;
 
 import javax.swing.*;
@@ -59,9 +56,9 @@ public class HelperPointMode implements MouseMode {
                     Connection conn = connOpt.get();
                     if(conn.getHelperPoints().size()<3){
                         conn.addHelperPoint(clickPoint);
-                      //  EventBus.publish(new  GameEvents.SetPowerUpPoint(ShopEvents.PowerUpType.HELPER_POINT , clickPoint));
+                        gameState.getPublisher().publish(new  GameEvents.SetPowerUpPoint(ShopEvents.PowerUpType.HELPER_POINT , clickPoint));
                     } else{
-                       // EventBus.publish(new UIEvents.PlaySound("src/main/resources/error.wav"));
+                        gameState.getPublisher().publish(new UIEvents.PlaySound("src/main/resources/error.wav"));
                         return;
                     }
 
@@ -110,7 +107,7 @@ public class HelperPointMode implements MouseMode {
 
     private Optional<Connection> findConnectionLineAtPoint(Point point) {
         for (Connection conn : gameState.getConnections()) {
-            Path2D path = GeometryUtils.getPath2d(conn);
+            Path2D path = (Path2D) GeometryUtils.getPath2d(conn);
             double[] coords = new double[6];
             Point2D prev = null;
             for (var it = path.getPathIterator(null, 0.1); !it.isDone(); it.next()) {

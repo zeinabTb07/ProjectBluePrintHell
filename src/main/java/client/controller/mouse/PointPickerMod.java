@@ -1,7 +1,7 @@
 package client.controller.mouse;
 
-import shared.events.EventBus;
 import shared.events.GameEvents;
+import shared.events.Publisher;
 import shared.events.ShopEvents;
 
 import java.awt.*;
@@ -9,10 +9,14 @@ import java.awt.event.MouseEvent;
 
 public class PointPickerMod implements MouseMode{
     public ShopEvents.PowerUpType event ;
+    private Publisher publisher ;
+    public PointPickerMod(Publisher publisher){
+        this.publisher = publisher;
+    }
     @Override
     public void mousePressed(MouseEvent e) {
        if(event== ShopEvents.PowerUpType.ALIGN_CENTER || event == ShopEvents.PowerUpType.ZERO_ACCELERATION){
-         //  EventBus.publish(new GameEvents.SetPowerUpPoint(event , e.getPoint()));
+           publisher.publish(new GameEvents.SetPowerUpPoint(event , e.getPoint()));
        }
     }
 

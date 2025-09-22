@@ -1,16 +1,17 @@
 package client.controller.mouse;
 
 import client.Constants;
-import shared.model.GameState;
-import shared.utils.math.Vector2D;
-import shared.model.objects.systems.NetworkSystem;
-import shared.model.objects.systems.RooterSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shared.model.GameState;
+import shared.model.objects.systems.NetworkSystem;
+import shared.model.objects.systems.RooterSystem;
+import shared.utils.math.Vector2D;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Optional;
 
 public class RelocateSystemMode implements MouseMode {
@@ -61,17 +62,21 @@ public class RelocateSystemMode implements MouseMode {
 
     }
 
-    private boolean isInSystem(NetworkSystem system , Point point){
-        Rectangle rectangle = new Rectangle(system.getPoint().x + 2 ,
-                system.getPoint().y + 2 ,
-                Constants.SYSTEMS_WIDTH-4 ,
-                Constants.INDUCTOR_HEIGHT);
-        return rectangle.contains(point);
-    }
-
-    private Optional<NetworkSystem> findSystemAtPoint(Point p) {
+    private Optional<NetworkSystem> findSystemAtPoint(Point point) {
         return gameState.getNetworkSystems().stream()
-                .filter(system -> isInSystem(system , p))
+                .filter(system -> {
+                    Shape rectangle = new RoundRectangle2D.Double(
+                            system.getPoint().getX(),
+                            system.getPoint().getY(),
+                            Constants.SYSTEMS_WIDTH,
+                            Math.max(system.getOutputPorts().size(), system.getInputPorts().size())
+                                    * Constants.PORT_GAP + 1.5f * Constants.INDUCTOR_HEIGHT,
+                            8,
+                            8
+                    );
+                    return rectangle.contains(point);
+                })
                 .findFirst();
     }
+
 }

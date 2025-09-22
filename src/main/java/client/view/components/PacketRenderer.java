@@ -5,7 +5,7 @@ import client.view.GameShape;
 import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.packets.Packet;
 import shared.api.enums.PacketType;
-import shared.utils.mapper.PacketRecord;
+import shared.api.service.mapper.PacketRecord;
 
 import java.awt.*;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package shared.utils.mapper;
+package shared.api.service.mapper;
 
 
 import shared.api.enums.PacketType;

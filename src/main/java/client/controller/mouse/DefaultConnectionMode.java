@@ -1,17 +1,14 @@
 package client.controller.mouse;
 
-import shared.events.EventBus;
-import shared.events.GameEvents;
-import shared.events.ShopEvents;
+import client.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shared.events.UIEvents;
 import shared.model.GameState;
-import client.Constants;
-import shared.utils.math.Line;
 import shared.model.objects.other.Connection;
 import shared.model.objects.systems.addon.InputPort;
 import shared.model.objects.systems.addon.OutputPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import shared.utils.math.Line;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +31,9 @@ public class DefaultConnectionMode implements MouseMode {
 
     public DefaultConnectionMode(GameState gameState) {
         this.gameState = gameState;
-      //  EventBus.subscribe(GameEvents.SetPowerUpPoint.class , e->{if(e.type()== ShopEvents.PowerUpType.HELPER_POINT) draggablePoints.add(e.point());});
+    }
+    public void addDraggablePoint(Point point){
+        draggablePoints.add(point);
     }
 
     @Override
@@ -49,9 +48,9 @@ public class DefaultConnectionMode implements MouseMode {
             });
 
             if (sourcePort == null) {
-                // Check for draggable points after port checking
+
                 for (Point p : draggablePoints) {
-                    if (isNear(clickPoint, p, 10)) { // Tolerance of 10 pixels
+                    if (isNear(clickPoint, p, 10)) {
                         selectedDraggablePoint = p;
                         dragOffset = new Point(clickPoint.x - p.x, clickPoint.y - p.y);
                         log.info("Selected draggable point for moving: {}", p);
@@ -98,7 +97,7 @@ public class DefaultConnectionMode implements MouseMode {
                 Connection connection = new Connection(targetPort, sourcePort);
                 gameState.addConnection(connection);
                 log.info("Connection created: {}", connection.getId());
-               // EventBus.publish(new UIEvents.PlaySound("src/main/resources/connect.wav"));
+                gameState.getPublisher().publish(new UIEvents.PlaySound("src/main/resources/connect.wav"));
             }
         });
         clearDragState();
@@ -117,7 +116,7 @@ public class DefaultConnectionMode implements MouseMode {
         return gameState.getNetworkSystems().stream()
                 .flatMap(system -> system.getOutputPorts().stream())
                 .filter(port -> !port.isConnected())
-                .filter(port -> isNearEnough(port.getPoint() , point))
+                .filter(port -> port.getPoint().distance(point)<Constants.PORT_SIZE)
                 .findFirst();
     }
 
@@ -125,7 +124,7 @@ public class DefaultConnectionMode implements MouseMode {
         return gameState.getNetworkSystems().stream()
                 .flatMap(system -> system.getInputPorts().stream())
                 .filter(port -> !port.isConnected())
-                .filter(port -> isNearEnough(port.getPoint() , point))
+                .filter(port ->port.getPoint().distance(point)<Constants.PORT_SIZE)
                 .findFirst();
     }
 
@@ -133,12 +132,12 @@ public class DefaultConnectionMode implements MouseMode {
         Iterator<Connection> iterator = gameState.getConnections().iterator();
         while (iterator.hasNext()) {
             Connection connection = iterator.next();
-            if (isNearEnough(connection.getTarget().getPoint() , point)||
-                    isNearEnough(connection.getSource().getPoint() , point)) {
+            if (connection.getSource().getPoint().distance(point)<Constants.PORT_SIZE ||
+                    connection.getTarget().getPoint().distance(point)<Constants.PORT_SIZE) {
                 if(!connection.isFreeze()){
                     connection.disconnect();
                     gameState.removeConnection(connection);
-                 //   EventBus.publish(new UIEvents.PlaySound("src/main/resources/disconnect.wav"));
+                    gameState.getPublisher().publish(new UIEvents.PlaySound("src/main/resources/disconnect.wav"));
                     log.info("Connection removed: {}", connection.getId());
                     break;
                 }
@@ -150,10 +149,6 @@ public class DefaultConnectionMode implements MouseMode {
         dragStartPoint = null;
         sourcePort = null;
         currentLine = null;
-    }
-
-    private boolean isNearEnough(Point p1 , Point p2){
-        return p1.distance(p2)<Constants.PORT_SIZE;
     }
 
     private boolean isNear(Point a, Point b, int tolerance) {

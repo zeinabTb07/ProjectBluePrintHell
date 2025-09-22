@@ -1,10 +1,8 @@
 package client.view.ui;
 
-import shared.events.ShopEvents;
-import shared.utils.NetworkConnectivityChecker;
-import shared.events.EventBus;
 import shared.events.GameEvents;
 import shared.events.UIEvents;
+import shared.utils.NetworkConnectivityChecker;
 import client.Constants;
 
 import javax.swing.*;
@@ -38,7 +36,7 @@ public class InfoBar extends JLabel {
                 .withText("Back")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-            //    .withAction(e ->{EventBus.publish(new UIEvents.OpenMenu());})
+                .withAction(e ->{gameState.getPublisher().publish(new UIEvents.OpenMenu());})
                 .build();
         add(back);
         add(Box.createHorizontalStrut(20));
@@ -69,10 +67,10 @@ public class InfoBar extends JLabel {
                 .withText("Run")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-//                .withAction(e -> { if (networkConnectivityChecker.check()){
-//                    EventBus.publish(new GameEvents.StartGameEvent());
-//                } else EventBus.publish(new UIEvents.RepaintGamePanelEvent());
-//                })
+                .withAction(e -> { if (networkConnectivityChecker.check()){
+                    gameState.getPublisher().publish(new GameEvents.StartGameEvent());
+                } else gameState.getPublisher().publish(new UIEvents.RepaintGamePanelEvent());
+                })
                 .build();
         add(run);
         add(Box.createHorizontalStrut(20));
@@ -81,23 +79,12 @@ public class InfoBar extends JLabel {
                 .withText("Shop")
                 .withFont(DEFAULT_FONT)
                 .withSize(new Dimension(50, 30))
-               // .withAction(e -> EventBus.publish(new UIEvents.OpenShop()))
+                .withAction(e -> gameState.getPublisher().publish(new UIEvents.OpenShop()))
                 .build();
         add(shop);
         add(Box.createHorizontalStrut(20));
-
-        setupGameStateListeners();
     }
 
-    private void setupGameStateListeners() {
-//        EventBus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
-//            gameState.setCoin(gameState.getCoin()+e.n());
-//            updateCoinDisplay();});
-//        EventBus.subscribe(GameEvents.PacketLostEvent.class, e -> updatePacketLoss());
-//        EventBus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> updateTime());
-//        EventBus.subscribe(ShopEvents.PowerUpEvent.class , e->{gameState.setCoin(gameState.getCoin()-e.powerUpType().getPrice());
-//            updateCoinDisplay();});
-    }
     private void updateTime() {
         if(framePassed>5){
             time.setText("Time Passed "+ Math.round(gameState.getTimePassed()*10.0) / 10.0+" : "+ gameState.getGameLevel().getTime());

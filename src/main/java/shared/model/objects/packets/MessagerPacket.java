@@ -3,8 +3,8 @@ package shared.model.objects.packets;
 
 import client.Constants;
 import shared.api.enums.PacketType;
-import shared.utils.mapper.PacketRecord;
-import shared.utils.mapper.SpeedRules;
+import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.SpeedRules;
 import shared.model.objects.other.Connection;
 import shared.model.objects.systems.NetworkSystem;
 

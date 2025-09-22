@@ -1,6 +1,7 @@
 package client.view.ui;
 
 
+import shared.events.Publisher;
 import shared.events.UIEvents.*;
 import client.Constants;
 
@@ -9,6 +10,7 @@ import java.awt.*;
 
 public class MenuPanel extends JPanel {
     private Image backgroundImage;
+    private Publisher publisher;
 
     public MenuPanel() {
         super();
@@ -69,21 +71,21 @@ public class MenuPanel extends JPanel {
                 .build();
 
         JButton replay = new ButtonBuilder.Builder()
-                .withText("Replay")
+                .withText("Play Offline")
                 .atPosition(new Point(
                         (int)(550 * Constants.SCALE),
                         (int)(500 * Constants.SCALE)
                 ))
-                //.withAction(e -> EventBus.publish(new Replay()))
+                .withAction(e -> publisher.publish(new Replay()))
                 .build();
 
         JButton play = new ButtonBuilder.Builder()
-                .withText("Continue")
+                .withText("Go Online")
                 .atPosition(new Point(
                         (int)(550 * Constants.SCALE),
                         (int)(350 * Constants.SCALE)
                 ))
-               // .withAction(e -> EventBus.publish(new OpenGame()))
+                .withAction(e -> publisher.publish(new OpenGame()))
                 .build();
 
         JButton settings = new ButtonBuilder.Builder()
@@ -92,7 +94,7 @@ public class MenuPanel extends JPanel {
                         (int)(150 * Constants.SCALE),
                         (int)(350 * Constants.SCALE)
                 ))
-             //   .withAction(e -> EventBus.publish(new OpenSetting()))
+                .withAction(e -> publisher.publish(new OpenSetting()))
                 .build();
 
         add(exit);
@@ -108,5 +110,13 @@ public class MenuPanel extends JPanel {
             Graphics2D g2d = (Graphics2D) g;
             g2d.drawImage(backgroundImage, 0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT, this);
         }
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 }

@@ -1,5 +1,6 @@
 package shared.model;
 
+import shared.events.Publisher;
 import shared.model.levels.Level;
 import shared.model.objects.other.Collision;
 import shared.model.objects.other.Connection;
@@ -10,19 +11,24 @@ import shared.model.objects.systems.RooterSystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GameState implements Serializable {
     private Level gameLevel;
-    private final List<Connection> connections = new ArrayList<>();
-    private final List<Packet> packets = new ArrayList<>();
-    private final List<Packet> initialPackets = new ArrayList<>();
-    private final List<Collision> collisions = new ArrayList<>();
-    private final List<NetworkSystem> networkSystems = new ArrayList<>();
+    private UUID gameID;
+    private final ArrayList<Connection> connections = new ArrayList<>();
+    private final ArrayList<Packet> packets = new ArrayList<>();
+    private final ArrayList<Packet> initialPackets = new ArrayList<>();
+    private final ArrayList<Collision> collisions = new ArrayList<>();
+    private final ArrayList<NetworkSystem> networkSystems = new ArrayList<>();
+    private transient Publisher publisher;
     private int coin;
     private double timePassed;
 
+
     public GameState(Level level) {
         this.gameLevel = level;
+        gameID = UUID.randomUUID();
         initializeState();
     }
     public void reset(Level level){
@@ -101,7 +107,7 @@ public class GameState implements Serializable {
         this.gameLevel = gameLevel;
     }
 
-    public List<Connection> getConnections() {
+    public ArrayList<Connection> getConnections() {
         return connections;
     }
 
@@ -112,7 +118,7 @@ public class GameState implements Serializable {
         }
     }
 
-    public List<Packet> getInitialPackets() {
+    public ArrayList<Packet> getInitialPackets() {
         return initialPackets;
     }
 
@@ -123,7 +129,7 @@ public class GameState implements Serializable {
         }
     }
 
-    public List<Packet> getPackets() {
+    public ArrayList<Packet> getPackets() {
         return packets;
     }
 
@@ -134,7 +140,7 @@ public class GameState implements Serializable {
         }
     }
 
-    public List<Collision> getCollisions() {
+    public ArrayList<Collision> getCollisions() {
         return collisions;
     }
 
@@ -145,7 +151,7 @@ public class GameState implements Serializable {
         }
     }
 
-    public List<NetworkSystem> getNetworkSystems() {
+    public ArrayList<NetworkSystem> getNetworkSystems() {
         return networkSystems;
     }
 
@@ -174,5 +180,21 @@ public class GameState implements Serializable {
 
     public void timePass(double delta) {
         timePassed += delta;
+    }
+
+    public UUID getGameID() {
+        return gameID;
+    }
+
+    public void setGameID(UUID gameID) {
+        this.gameID = gameID;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 }

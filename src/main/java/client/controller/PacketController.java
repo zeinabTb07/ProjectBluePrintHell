@@ -2,28 +2,27 @@ package client.controller;
 
 import shared.api.enums.PortType;
 import client.Constants;
+import shared.events.GameEvents;
+import shared.model.GameState;
 import shared.model.objects.other.Connection;
 import shared.model.objects.packets.ColossusPacket;
 import shared.model.objects.packets.Packet;
 import shared.model.objects.systems.NetworkSystem;
 import shared.model.objects.systems.RooterSystem;
-import shared.utils.mapper.PacketDetails;
+import shared.api.service.mapper.PacketDetails;
 
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class PacketController {
-    private final List<Packet> packets;
+    private final GameState gameState ;
+    private final ArrayList<Packet> packets;
 
-    public PacketController(List<Packet> packets) {
-        this.packets = packets;
-        setupEventListeners();
-    }
-
-    private void setupEventListeners() {
+    public PacketController(GameState gameState) {
+        this.gameState = gameState;
+        packets = gameState.getPackets();
     }
 
     public void timesUp(){
@@ -50,7 +49,7 @@ public class PacketController {
                             con.getTarget().setPortType(getRandomPortType());
                             NetworkSystem system = con.getTarget().getParentSystem();
                             for(Packet p : system.getStorage()){
-                                //Todo lost all packet in this sys
+                                gameState.getPublisher().publish(new GameEvents.PacketLostEvent(p));
                             }
                             system.getStorage().clear();
                         }
@@ -72,15 +71,11 @@ public class PacketController {
                 }
 
                 if (isPacketFallen(packet) || isPacketDisruptedByNoise(packet)) {
+                    gameState.getPublisher().publish(new GameEvents.PacketLostEvent(packet));
                     resetPacket(packet);
-                    // To do packetLost
                 }
             }
         }
-    }
-
-    public NetworkSystem getReceiverSystem(Connection connection) {
-        return connection.getTarget().getParentSystem();
     }
 
     private boolean isPacketFallen(Packet packet) {

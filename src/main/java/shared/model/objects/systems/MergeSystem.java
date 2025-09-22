@@ -5,8 +5,8 @@ import java.io.Serializable;
 import shared.model.objects.packets.ColossusPacket;
 import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.packets.Packet;
-import shared.utils.mapper.PacketRecord;
-import shared.utils.mapper.PacketDetails;
+import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.PacketDetails;
 
 import java.awt.Point;
 import java.util.ArrayList;
