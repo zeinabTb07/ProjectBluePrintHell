@@ -19,16 +19,16 @@ public class GameMouseListener extends MouseAdapter {
     private final MouseMode relocateMode;
     private final MouseMode helperPointMode;
     private final PointPickerMod pointPickerMod;
-    private final Publisher publisher ;
+    private final GameState gameState ;
     public GameMouseListener(GameState gameState) {
-        this.publisher = gameState.getPublisher();
+       this.gameState = gameState;
         this.defaultMode = new DefaultConnectionMode(gameState);
         this.relocateMode = new RelocateSystemMode(gameState);
         this.helperPointMode = new HelperPointMode(gameState);
         this.pointPickerMod = new PointPickerMod(gameState.getPublisher());
         this.currentMode = defaultMode;
     }
-    public void switchedPointPickerNormal(ShopEvents.PowerUpType type){
+    public void switchedPointPicker(ShopEvents.PowerUpType type){
         pointPickerMod.event = type;
         currentMode = pointPickerMod;
         log.info("Switched to PointPickerMode.");
@@ -49,13 +49,13 @@ public class GameMouseListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         currentMode.mousePressed(e);
-        publisher.publish(new UIEvents.RepaintGamePanelEvent());
+        gameState.getPublisher().publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         currentMode.mouseDragged(e);
-        publisher.publish(new UIEvents.RepaintGamePanelEvent());
+        gameState.getPublisher().publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class GameMouseListener extends MouseAdapter {
             currentMode = defaultMode;
             log.info("Reverted to DefaultConnectionMode.");
         }
-        publisher.publish(new UIEvents.RepaintGamePanelEvent());
+        gameState.getPublisher().publish(new UIEvents.RepaintGamePanelEvent());
     }
 
     public void paintLine(Graphics2D g) {

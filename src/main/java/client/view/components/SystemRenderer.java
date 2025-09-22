@@ -24,10 +24,10 @@ public class SystemRenderer {
             g2d.setColor(Color.lightGray);
         } else g2d.setColor(Constants.Colors.SYSTEM);
         Shape rectangle = new RoundRectangle2D.Double(system.getPoint().getX(),
-                system.getPoint().getY() ,
-                Constants.SYSTEMS_WIDTH ,
-                Math.max(system.getOutputPorts().size(), system.getInputPorts().size())*Constants.PORT_GAP+1.5f*Constants.INDUCTOR_HEIGHT,
-                8 ,
+                system.getPoint().getY(),
+                Constants.SYSTEMS_WIDTH,
+                Math.max(system.getOutputPorts().size(), system.getInputPorts().size()) * Constants.PORT_GAP + 1.5f * Constants.INDUCTOR_HEIGHT,
+                8,
                 8);
         g2d.fill(rectangle);
     }
@@ -65,7 +65,7 @@ public class SystemRenderer {
             case TRIANGLE:
                 return GameShape.PORT_TRIANGLE.getShape(point);
             case BIT_PACKET:
-                return GameShape.BITE.getShape(point);
+                return GameShape.PORT_BITE.getShape(point);
             default:
                 throw new IllegalArgumentException("Incorrect port type");
         }

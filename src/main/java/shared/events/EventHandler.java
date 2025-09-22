@@ -21,7 +21,9 @@ public class EventHandler implements  Publisher{
         gameID = gameState.getGameID();
         frameManager.getMenuPanel().setPublisher(this);
         gameState.setPublisher(this);
+        frameManager.getShop().setPublisher(this);
         EventBusMapper.addEventBus(gameID);
+        subscribeAll();
     }
 
     public void subscribeAll(){
@@ -30,6 +32,10 @@ public class EventHandler implements  Publisher{
             gameState.reset(Constants.levels.getFirst());
             gameLoop = new GameLoop(gameState);
             frameManager.reset();
+        });
+        bus.subscribe(UIEvents.OpenShop.class, e -> {
+            frameManager.openShop();
+            bus.publish(new GameEvents.PauseGameEvent(true));
         });
         bus.subscribe(GameEvents.StartGameEvent.class, d -> {
             if(!gameLoop.isRunning()){
@@ -61,7 +67,7 @@ public class EventHandler implements  Publisher{
             } else if (type == ShopEvents.PowerUpType.HELPER_POINT) {
                 gameMouseListener.switchToHelperPoint();
             } else if (type== ShopEvents.PowerUpType.ALIGN_CENTER||type== ShopEvents.PowerUpType.ZERO_ACCELERATION) {
-                gameMouseListener.switchedPointPickerNormal(type);
+                gameMouseListener.switchedPointPicker(type);
             }
         });
         bus.subscribe(GameEvents.SetPowerUpPoint.class , e->{if(e.type()== ShopEvents.PowerUpType.HELPER_POINT) {

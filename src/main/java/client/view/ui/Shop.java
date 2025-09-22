@@ -1,5 +1,7 @@
 package client.view.ui;
 
+import shared.events.GameEvents;
+import shared.events.Publisher;
 import shared.events.ShopEvents;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Shop extends JDialog {
-
+    private Publisher publisher;
     public Shop() {
         super((JFrame) null, "Power-Up Shop");
 
@@ -29,7 +31,7 @@ public class Shop extends JDialog {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            //    EventBus.publish(new GameEvents.PauseGameEvent(false)); باس یه فکری به حالش بکنم
+            publisher.publish(new GameEvents.PauseGameEvent(false));
             }
         });
     }
@@ -50,6 +52,10 @@ public class Shop extends JDialog {
     }
 
     private void handlePurchase(ShopEvents.PowerUpType powerUp) {
+        publisher.publish(new ShopEvents.PowerUpEvent(powerUp));
+    }
 
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 }

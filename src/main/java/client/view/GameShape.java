@@ -10,7 +10,7 @@ public enum GameShape {
     PORT_SQUARE {
         @Override
         public Shape getShape(Point center) {
-            int size = Constants.PACKET_SIZE_SCALE*3;
+            int size = Constants.PORT_SIZE;
             Polygon polygon = new Polygon();
             polygon.addPoint(center.x - size, center.y - size);
             polygon.addPoint(center.x + size, center.y - size);
@@ -22,7 +22,7 @@ public enum GameShape {
     PORT_TRIANGLE {
         @Override
         public Shape getShape(Point center) {
-            int size = (int) (Constants.PACKET_SIZE_SCALE*2.5);
+            int size = (int) (Constants.PORT_SIZE);
             Polygon polygon = new Polygon();
             polygon.addPoint(center.x, center.y - size);
             polygon.addPoint(center.x + size, center.y + size);
@@ -33,7 +33,7 @@ public enum GameShape {
     PORT_BITE {
         @Override
         public Shape getShape(Point center) {
-            int size = Constants.PACKET_SIZE_SCALE*2;
+            int size = Constants.PORT_SIZE;
             Polygon polygon = new Polygon();
             double angleStep = Math.PI / 3;
 

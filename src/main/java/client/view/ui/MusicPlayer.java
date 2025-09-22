@@ -16,7 +16,7 @@ public class MusicPlayer {
             }
 
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
-                    new File("src/main/resources/SoundTrack.wav"));
+                    new File("src/main/resources/client/sound/SoundTrack.wav"));
             backgroundMusic = AudioSystem.getClip();
             backgroundMusic.open(audioInputStream);
             bgVolumeControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
