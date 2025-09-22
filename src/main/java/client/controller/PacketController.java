@@ -58,6 +58,7 @@ public class PacketController {
                         if(packet.getVelocity()>200){
                             end.setActive(false);
                         }
+                        gameState.getPublisher().publish(new GameEvents.CoinGeneratedEvent(PacketDetails.getProperties(packet.getType()).size()));
                         resetPacket(packet);
                     } else packet.setComeBack(true);
                 }

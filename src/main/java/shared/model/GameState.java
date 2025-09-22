@@ -96,8 +96,7 @@ public class GameState implements Serializable {
     }
 
     private void addNewSystems(List<NetworkSystem> newSystems) {
-        networkSystems.addAll(newSystems);
-    }
+        networkSystems.addAll(newSystems);}
 
     public Level getGameLevel() {
         return gameLevel;

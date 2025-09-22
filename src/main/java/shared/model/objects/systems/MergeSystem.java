@@ -1,7 +1,7 @@
 package shared.model.objects.systems;
 
 import shared.api.service.mapper.PacketDetails;
-import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.Records;
 import shared.events.GameEvents;
 import shared.model.objects.packets.ColossusPacket;
 import shared.model.objects.packets.MessagerPacket;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class MergeSystem extends NetworkSystem implements Serializable {
-    private HashMap<PacketRecord.ColossusPackets, ArrayList<MessagerPacket>> packetsMap;
+    private HashMap<Records.ColossusPackets, ArrayList<MessagerPacket>> packetsMap;
     private HashMap<UUID , Integer> colossusPacketLostMap;
     public MergeSystem(Point point) {
         super(point);
@@ -29,7 +29,7 @@ public class MergeSystem extends NetworkSystem implements Serializable {
     public void process(){
         if (!storage.isEmpty()) trySendingPacket(storage.get(0));
 
-         for (PacketRecord.ColossusPackets key : new ArrayList<>(packetsMap.keySet())) {
+         for (Records.ColossusPackets key : new ArrayList<>(packetsMap.keySet())) {
              ArrayList<MessagerPacket> packets = packetsMap.get(key);
               int expectedSize = PacketDetails.getProperties(key.type()).size();
              int lostCount = colossusPacketLostMap.getOrDefault(key.uuid(), 0);
@@ -74,11 +74,11 @@ public class MergeSystem extends NetworkSystem implements Serializable {
         colossusPacketLostMap = new HashMap<>();
     }
 
-    public HashMap<PacketRecord.ColossusPackets, ArrayList<MessagerPacket>> getPacketsMap() {
+    public HashMap<Records.ColossusPackets, ArrayList<MessagerPacket>> getPacketsMap() {
         return packetsMap;
     }
 
-    public void setPacketsMap(HashMap<PacketRecord.ColossusPackets, ArrayList<MessagerPacket>> packetsMap) {
+    public void setPacketsMap(HashMap<Records.ColossusPackets, ArrayList<MessagerPacket>> packetsMap) {
         this.packetsMap = packetsMap;
     }
 

@@ -3,7 +3,7 @@ package shared.model.objects.packets;
 
 import client.Constants;
 import shared.api.enums.PacketType;
-import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.Records;
 import shared.api.service.mapper.SpeedRules;
 import shared.model.objects.other.Connection;
 import shared.model.objects.systems.NetworkSystem;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 
 public class MessagerPacket extends Packet implements Serializable {
-    private PacketRecord.ColossusPackets parentColossus;
+    private Records.ColossusPackets parentColossus;
     public MessagerPacket(NetworkSystem system, PacketType type) {
         super(system,type);
     }
@@ -22,18 +22,18 @@ public class MessagerPacket extends Packet implements Serializable {
     @Override
     public void sendTo(Connection connection){
         this.currentConnection = connection;
-        PacketRecord.PacketMovement packetRecord = SpeedRules.getProperties(type, connection.getSource().getPortType());
+        Records.PacketMovement packetRecord = SpeedRules.getProperties(type, connection.getSource().getPortType());
         if(!(connection.getTarget().getPortType().name().equals(type.name()))){
             this.velocity = 2*packetRecord.speed()* Constants.PACKET_SPEED;
         } else this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
         this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
     }
 
-    public PacketRecord.ColossusPackets getParentColossusId() {
+    public Records.ColossusPackets getParentColossusId() {
         return parentColossus;
     }
 
-    public void setParentColossusId(PacketRecord.ColossusPackets parentColossusId) {
+    public void setParentColossusId(Records.ColossusPackets parentColossusId) {
         this.parentColossus = parentColossusId;
     }
     @Override

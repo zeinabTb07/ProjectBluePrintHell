@@ -5,11 +5,12 @@ import client.controller.FrameManager;
 import client.controller.GameLoop;
 import client.controller.mouse.GameMouseListener;
 import shared.api.service.mapper.EventBusMapper;
+import shared.api.service.mapper.Records;
 import shared.model.GameState;
 import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.systems.MergeSystem;
 import shared.model.objects.systems.NetworkSystem;
-import shared.model.objects.systems.VPNSystem;
+import shared.utils.PlayerQueue;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class EventHandler implements  Publisher{
     private FrameManager frameManager;
     private GameState gameState;
     private GameLoop gameLoop;
+    private PlayerQueue playerQueue = new PlayerQueue();
     public EventHandler(FrameManager  frameManager , GameLoop gameLoop , GameState gameState ){
         this.frameManager = frameManager;
         this.gameLoop = gameLoop;
@@ -46,6 +48,9 @@ public class EventHandler implements  Publisher{
         bus.subscribe(GameEvents.StartGameEvent.class, d -> {
             if(!gameLoop.isRunning()){
                 gameLoop.start();
+                for(NetworkSystem system : gameState.getNetworkSystems()){
+                    system.setPublisher(this);
+                }
             }
             gameState.getConnections().forEach(e->{e.setFreeze(true);});
         });
@@ -115,6 +120,7 @@ public class EventHandler implements  Publisher{
         String[] options ;
         if(b){
             options = new String[] {"Back to Menu" , "Go To Next Level"};
+            playerQueue.add(new Records.PlayerRecord(gameState.getCoin()*(int)(gameState.getGameLevel().getTime()-gameState.getTimePassed())));
         } else options = new String[]{"Back to Menu", "Start Over"};
         int choice = JOptionPane.showOptionDialog(
                 null,

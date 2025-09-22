@@ -5,7 +5,7 @@ import client.view.GameShape;
 import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.packets.Packet;
 import shared.api.enums.PacketType;
-import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.Records;
 
 import java.awt.*;
 import java.util.UUID;
@@ -42,7 +42,7 @@ public class PacketRenderer {
         if(packet.isTrojan()){
             color = Constants.Colors.TROJAN_PACKET;
         } else  if(packet instanceof MessagerPacket){
-            PacketRecord.ColossusPackets c = ((MessagerPacket)packet).getParentColossusId();
+            Records.ColossusPackets c = ((MessagerPacket)packet).getParentColossusId();
             if(c!=null){
                 color = getColorFromUUID(c.uuid());
             } else color = Constants.Colors.PACKET;

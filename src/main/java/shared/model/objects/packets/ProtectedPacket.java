@@ -2,7 +2,7 @@ package shared.model.objects.packets;
 
 import client.Constants;
 import shared.api.enums.PacketType;
-import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.Records;
 import shared.api.service.mapper.SpeedRules;
 import shared.model.objects.other.Connection;
 
@@ -22,7 +22,7 @@ public class ProtectedPacket extends Packet implements Serializable {
         this.currentConnection = connection;
         PacketType[] types = {PacketType.TRIANGLE, PacketType.RECTANGLE, PacketType.BIT_PACKET};
         Random random = new Random();
-        PacketRecord.PacketMovement packetRecord = SpeedRules.getProperties(types[random.nextInt(0 , 3)] , connection.getSource().getPortType());
+        Records.PacketMovement packetRecord = SpeedRules.getProperties(types[random.nextInt(0 , 3)] , connection.getSource().getPortType());
         this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
         this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
     }

@@ -2,7 +2,7 @@ package shared.model.objects.packets;
 import client.Constants;
 import shared.model.interfaces.Cloneable;
 import shared.api.enums.PacketType;
-import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.Records;
 import shared.api.service.mapper.SpeedRules;
 import shared.utils.math.Vector2D;
 import shared.model.interfaces.Forceable;
@@ -66,7 +66,7 @@ public abstract class Packet extends GameObject implements Movable  , Forceable 
     }
     public void sendTo(Connection connection){
         this.currentConnection = connection;
-        PacketRecord.PacketMovement packetRecord = SpeedRules.getProperties(type, connection.getSource().getPortType());
+        Records.PacketMovement packetRecord = SpeedRules.getProperties(type, connection.getSource().getPortType());
         this.velocity = packetRecord.speed()* Constants.PACKET_SPEED;
         this.acceleration = packetRecord.acceleration()*Constants.PACKET_ACCELERATION;
     }

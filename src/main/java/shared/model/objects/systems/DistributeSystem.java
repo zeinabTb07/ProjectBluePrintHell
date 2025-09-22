@@ -6,7 +6,7 @@ import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.packets.Packet;
 import shared.api.enums.PacketType;
 import shared.api.service.mapper.PacketDetails;
-import shared.api.service.mapper.PacketRecord;
+import shared.api.service.mapper.Records;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class DistributeSystem extends NetworkSystem implements Serializable {
     @Override
     public void receivePacket(Packet p){
         if(p instanceof ColossusPacket){
-            PacketRecord.ColossusPackets record = new PacketRecord.ColossusPackets(p.getId() , p.getType());
+            Records.ColossusPackets record = new Records.ColossusPackets(p.getId() , p.getType());
             for(int i = 0; i < PacketDetails.getProperties(p.getType()).size(); i++){
                 MessagerPacket bit = new MessagerPacket(this , PacketType.BIT_PACKET);
                 storage.add(bit);
