@@ -1,5 +1,6 @@
 package shared.model.objects.systems;
 
+import shared.events.GameEvents;
 import shared.model.objects.packets.ColossusPacket;
 import shared.model.objects.packets.MessagerPacket;
 import shared.model.objects.packets.Packet;
@@ -21,6 +22,7 @@ public class DistributeSystem extends NetworkSystem implements Serializable {
             for(int i = 0; i < PacketDetails.getProperties(p.getType()).size(); i++){
                 MessagerPacket bit = new MessagerPacket(this , PacketType.BIT_PACKET);
                 storage.add(bit);
+                publisher.publish(new GameEvents.SwapPacketEvent(p , bit));
                 bit.setParentColossusId(record);
             }
             p.getCurrentConnection().decreaseStrength();

@@ -73,7 +73,7 @@ public class ButtonBuilder {
 
 
             if (font == null) {
-                font = new Font("Monospaced", Font.BOLD, (int) (40 * Constants.SCALE));
+                font = new Font("Monospaced", Font.BOLD, (int) (30 * Constants.SCALE));
             }
             button.setFont(font);
 

@@ -1,5 +1,6 @@
 package shared.model.objects.systems;
 
+import shared.events.Publisher;
 import shared.model.objects.packets.ColossusPacket;
 import shared.api.enums.PacketType;
 import shared.utils.math.Vector2D;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class NetworkSystem extends GameObject implements Updatable , Forceable , Serializable {
     protected static transient final Logger log = LoggerFactory.getLogger(NetworkSystem.class);
+    protected transient Publisher publisher;
     protected ArrayList<InputPort> inputPorts;
     protected ArrayList<OutputPort> outputPorts;
     protected Point point;
@@ -228,4 +230,11 @@ public abstract class NetworkSystem extends GameObject implements Updatable , Fo
         }
     }
 
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
 }

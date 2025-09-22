@@ -100,10 +100,12 @@ public class InfoBar extends JLabel {
         updateCoinDisplay();
         updatePacketLoss();
         updateTime();
-        packetLoss.setValue(0);
     }
 
     private void updatePacketLoss() {
-        packetLoss.setValue( gameState.getPackets().size()/gameState.getInitialPackets().size());
+        int percent = (int) Math.round(
+                ((double) gameState.getPackets().size() / gameState.getInitialPackets().size()) * 100
+        );
+        packetLoss.setValue(100-percent);
     }
 }

@@ -1,7 +1,6 @@
 package client.controller;
 
 import shared.events.GameEvents;
-import shared.events.Publisher;
 import shared.events.UIEvents;
 import shared.model.GameState;
 import org.slf4j.Logger;
@@ -32,7 +31,6 @@ public class GameLoop extends Thread {
         logger.info("GameLoop started");
         running = true;
         long lastTime = System.nanoTime();
-        int frameSave = 0 ;
 
         while (running) {
             long now = System.nanoTime();
@@ -46,7 +44,6 @@ public class GameLoop extends Thread {
                 collisionController.checkForCollision();
                 collisionController.applyCollisions();
                 gameState.timePass(realDelta);
-                frameSave++;
                 if(gameState.getTimePassed()>gameState.getGameLevel().getTime()){
                     finishGame();
                 }

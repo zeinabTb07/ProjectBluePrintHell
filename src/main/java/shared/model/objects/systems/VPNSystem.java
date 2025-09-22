@@ -1,6 +1,7 @@
 package shared.model.objects.systems;
 
 import shared.api.enums.PacketType;
+import shared.events.GameEvents;
 import shared.model.objects.packets.ColossusPacket;
 import shared.model.objects.packets.Packet;
 import shared.model.objects.packets.PrivatePacket;
@@ -29,10 +30,9 @@ public class VPNSystem extends NetworkSystem implements Serializable {
             packet = new ProtectedPacket(p);
             packets.add((ProtectedPacket) packet);
         }
-        //EventBus.publish(new GameEvents.SwapPacketEvent(p , packet));
+        publisher.publish(new GameEvents.SwapPacketEvent(p , packet));
         storage.add(packet);
         packet.setCurrentSystem(this);
-        //EventBus.publish(new GameEvents.CoinGeneratedEvent(p.getSize()));
         System.out.println("straoge:" +storage.size());
 
     }
@@ -50,7 +50,7 @@ public class VPNSystem extends NetworkSystem implements Serializable {
                     base.setDistancePassedOnConnection(p.getDistancePassedOnConnection());
                     base.setVelocity(20);
                 }
-            //    EventBus.publish(new GameEvents.SwapPacketEvent(p , base));
+                publisher.publish(new GameEvents.SwapPacketEvent(p , base));
             }
             packets.clear();
         }

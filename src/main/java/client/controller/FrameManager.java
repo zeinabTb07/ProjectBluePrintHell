@@ -26,36 +26,6 @@ public class FrameManager {
         switchPanel(menuPanel);
     }
 
-    public void shopEndOptions(boolean b){
-        String[] options ;
-        if(b){
-            options = new String[] {"Back to Menu" , "Go To Next Level"};
-        } else options = new String[]{"Back to Menu", "Start Over"};
-        int choice = JOptionPane.showOptionDialog(
-                null,
-                b ? "You win!" : "You lost!",
-                "Game Finished",
-                JOptionPane.DEFAULT_OPTION,
-                b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-
-        if (choice == 0) {
-           // EventBus.publish(new OpenMenu());
-        }
-        if(choice == 1){
-            if(b){
-                int n = gameState.getGameLevel().getNumber();
-                n++;
-                if(n<Constants.levels.size()){
-                    //EventBus.publish(new GameEvents.GoToLevel(n));
-                }  //else EventBus.publish(new OpenMenu());
-            } //else  EventBus.publish(new UIEvents.Replay());
-        }
-    }
-
     public void goToMenu() {
         switchPanel(menuPanel);
         musicPlayer.stopBackgroundMusic();

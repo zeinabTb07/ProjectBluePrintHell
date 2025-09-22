@@ -6,7 +6,13 @@ import client.controller.GameLoop;
 import client.controller.mouse.GameMouseListener;
 import shared.api.service.mapper.EventBusMapper;
 import shared.model.GameState;
+import shared.model.objects.packets.MessagerPacket;
+import shared.model.objects.systems.MergeSystem;
+import shared.model.objects.systems.NetworkSystem;
+import shared.model.objects.systems.VPNSystem;
 
+import javax.swing.*;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class EventHandler implements  Publisher{
@@ -55,7 +61,7 @@ public class EventHandler implements  Publisher{
         bus.subscribe(UIEvents.OpenMenu.class, e ->{
             frameManager.goToMenu();
         });
-
+        bus.subscribe(GameEvents.CheckGameEndEvent.class, e-> endOptions(e.b()));
         bus.subscribe(UIEvents.OpenGame.class, e -> {
             frameManager.goToGame();
         });
@@ -77,14 +83,62 @@ public class EventHandler implements  Publisher{
         bus.subscribe(GameEvents.CoinGeneratedEvent.class, e -> {
             gameState.setCoin(gameState.getCoin()+e.n());
            frameManager.reset();});
+        bus.subscribe(UIEvents.OpenSetting.class,  e-> {
+            frameManager.openSetting();
+        });
         bus.subscribe(GameEvents.PacketLostEvent.class, e -> {
             gameState.getPackets().remove(e.packet());
             frameManager.reset();
+            if(e.packet() instanceof MessagerPacket){
+                MessagerPacket p = (MessagerPacket) e.packet();
+                if(p.getParentColossusId()!=null){
+                  for(NetworkSystem system : gameState.getNetworkSystems()){
+                      if(system instanceof MergeSystem){
+                          HashMap<UUID , Integer>  map = ((MergeSystem) system).getColossusPacketLostMap();
+                          map.merge(p.getParentColossusId().uuid(), 1, Integer::sum);
+                      }
+                  }
+                }
+            }
         });
-        bus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> frameManager.getGamePanel().repaint());
+        bus.subscribe(UIEvents.RepaintGamePanelEvent.class, e -> {
+            frameManager.getGamePanel().repaint();
+            frameManager.reset();
+        });
         bus.subscribe(ShopEvents.PowerUpEvent.class , e->{gameState.setCoin(gameState.getCoin()-e.powerUpType().getPrice());
             frameManager.reset();
         });
+    }
+
+    public void endOptions(boolean b){
+        EventBus bus = EventBusMapper.getEventBus(gameID);
+        String[] options ;
+        if(b){
+            options = new String[] {"Back to Menu" , "Go To Next Level"};
+        } else options = new String[]{"Back to Menu", "Start Over"};
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                b ? "You win!" : "You lost!",
+                "Game Finished",
+                JOptionPane.DEFAULT_OPTION,
+                b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        if (choice == 0) {
+             bus.publish(new UIEvents.OpenMenu());
+        }
+        if(choice == 1){
+            if(b){
+                int n = gameState.getGameLevel().getNumber();
+                n++;
+                if(n<Constants.levels.size()){
+                    bus.publish(new GameEvents.GoToLevel(n));
+                }  else bus.publish(new UIEvents.OpenMenu());
+            } else  bus.publish(new UIEvents.Replay());
+        }
     }
 
     @Override
