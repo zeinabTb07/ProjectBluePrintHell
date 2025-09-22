@@ -19,8 +19,6 @@ public class UIEvents {
         }
     }
 
-    public record SaveGame() { }
-
     public record OpenSetting() {
         public OpenSetting {
             log.info("User opened the settings panel.");

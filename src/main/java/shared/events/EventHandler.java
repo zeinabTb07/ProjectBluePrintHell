@@ -40,6 +40,7 @@ public class EventHandler implements  Publisher{
             gameState.reset(Constants.levels.getFirst());
             gameLoop = new GameLoop(gameState);
             frameManager.reset();
+            frameManager.goToGame();
         });
         bus.subscribe(UIEvents.OpenShop.class, e -> {
             frameManager.openShop();
@@ -120,7 +121,7 @@ public class EventHandler implements  Publisher{
         String[] options ;
         if(b){
             options = new String[] {"Back to Menu" , "Go To Next Level"};
-            playerQueue.add(new Records.PlayerRecord(gameState.getCoin()*(int)(gameState.getGameLevel().getTime()-gameState.getTimePassed())));
+            playerQueue.add(new Records.PlayerRecord(gameState.getCoin()));
         } else options = new String[]{"Back to Menu", "Start Over"};
         int choice = JOptionPane.showOptionDialog(
                 null,

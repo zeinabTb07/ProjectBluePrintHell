@@ -61,20 +61,12 @@ public class MenuPanel extends JPanel {
 
         add(titlePanel);
 
-        JButton exit = new ButtonBuilder.Builder()
-                .withText("Exit")
-                .atPosition(new Point(
-                        (int)(150 * Constants.SCALE),
-                        (int)(500 * Constants.SCALE)
-                ))
-                .withAction(e -> System.exit(0))
-                .build();
 
         JButton replay = new ButtonBuilder.Builder()
                 .withText("Play Offline")
                 .atPosition(new Point(
-                        (int)(550 * Constants.SCALE),
-                        (int)(500 * Constants.SCALE)
+                        (int)(600 * Constants.SCALE),
+                        (int)(550 * Constants.SCALE)
                 ))
                 .withAction(e -> publisher.publish(new Replay()))
                 .build();
@@ -82,22 +74,21 @@ public class MenuPanel extends JPanel {
         JButton play = new ButtonBuilder.Builder()
                 .withText("Go Online")
                 .atPosition(new Point(
-                        (int)(550 * Constants.SCALE),
-                        (int)(350 * Constants.SCALE)
+                        (int)(350 * Constants.SCALE),
+                        (int)(400 * Constants.SCALE)
                 ))
-                .withAction(e -> publisher.publish(new OpenGame()))
+                .withAction(e -> {})
                 .build();
 
         JButton settings = new ButtonBuilder.Builder()
                 .withText("Setting")
                 .atPosition(new Point(
-                        (int)(150 * Constants.SCALE),
-                        (int)(350 * Constants.SCALE)
+                        (int)(100 * Constants.SCALE),
+                        (int)(550 * Constants.SCALE)
                 ))
                 .withAction(e -> publisher.publish(new OpenSetting()))
                 .build();
 
-        add(exit);
         add(replay);
         add(play);
         add(settings);

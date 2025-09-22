@@ -13,10 +13,10 @@ public class Frame extends JFrame {
 
     private void insilize() {
         setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
-        setUndecorated(true);
         setLayout(null);
         setLocationRelativeTo(null);
         setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 }
