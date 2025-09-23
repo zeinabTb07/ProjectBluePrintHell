@@ -1,4 +1,4 @@
-package client.controller.mouse;
+package client.controller.offline.mouse;
 
 import client.Constants;
 import org.slf4j.Logger;

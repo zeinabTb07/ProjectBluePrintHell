@@ -1,4 +1,4 @@
-package client.controller;
+package client.controller.offline;
 
 import shared.api.enums.PortType;
 import client.Constants;

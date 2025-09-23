@@ -1,6 +1,6 @@
 package client.view.ui;
 
-import client.controller.mouse.GameMouseListener;
+import client.controller.offline.mouse.GameMouseListener;
 import shared.model.GameState;
 import client.Constants;
 import client.view.components.GameStateRenderer;

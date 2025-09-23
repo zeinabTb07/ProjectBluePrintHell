@@ -1,4 +1,4 @@
-package client.controller.mouse;
+package client.controller.offline.mouse;
 
 import shared.events.GameEvents;
 import shared.events.Publisher;

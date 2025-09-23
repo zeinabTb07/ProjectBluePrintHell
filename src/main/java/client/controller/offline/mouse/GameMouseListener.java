@@ -1,9 +1,8 @@
-package client.controller.mouse;
+package client.controller.offline.mouse;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shared.events.Publisher;
 import shared.events.ShopEvents;
 import shared.events.UIEvents;
 import shared.model.GameState;

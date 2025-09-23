@@ -15,6 +15,13 @@ public class PacketDTO {
         this.position=new Point(x,y);
     }
 
+    public PacketDTO(PacketType packetType , UUID id , Point point){
+        this.packetType = packetType ;
+        this.id = id ;
+        this.position = point;
+    }
+
+
     // Getters & Setters
     public UUID getId() { return id; }
     public PacketType getPacketType() { return packetType; }

@@ -1,4 +1,4 @@
-package client.controller.mouse;
+package client.controller.offline.mouse;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

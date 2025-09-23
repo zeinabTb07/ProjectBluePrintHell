@@ -1,8 +1,6 @@
-package client.controller;
+package client.controller.offline;
 
-import shared.events.UIEvents.*;
 import shared.model.GameState;
-import client.Constants;
 import client.view.ui.*;
 
 import javax.swing.*;

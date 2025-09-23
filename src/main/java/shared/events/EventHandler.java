@@ -1,9 +1,9 @@
 package shared.events;
 
 import client.Constants;
-import client.controller.FrameManager;
-import client.controller.GameLoop;
-import client.controller.mouse.GameMouseListener;
+import client.controller.offline.FrameManager;
+import client.controller.offline.GameLoop;
+import client.controller.offline.mouse.GameMouseListener;
 import shared.api.service.mapper.EventBusMapper;
 import shared.api.service.mapper.Records;
 import shared.model.GameState;

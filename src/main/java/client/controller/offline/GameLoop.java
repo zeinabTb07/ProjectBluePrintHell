@@ -1,4 +1,4 @@
-package client.controller;
+package client.controller.offline;
 
 import shared.events.GameEvents;
 import shared.events.UIEvents;
