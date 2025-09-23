@@ -28,7 +28,6 @@ public class MatchHandler implements Runnable {
             out1.println("Match found! You're Player 1");
             out2.println("Match found! You're Player 2");
 
-            // Example: simple chat relay between players
             new Thread(() -> relayMessages(in1, out2, "P1")).start();
             relayMessages(in2, out1, "P2");
 

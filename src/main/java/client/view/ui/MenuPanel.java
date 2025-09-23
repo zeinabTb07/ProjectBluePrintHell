@@ -1,6 +1,7 @@
 package client.view.ui;
 
 
+import shared.events.GameEvents;
 import shared.events.Publisher;
 import shared.events.UIEvents.*;
 import client.Constants;
@@ -77,7 +78,10 @@ public class MenuPanel extends JPanel {
                         (int)(350 * Constants.SCALE),
                         (int)(400 * Constants.SCALE)
                 ))
-                .withAction(e -> {})
+                .withAction(e -> {{
+                    publisher.publish(new GameEvents.GoOnline());
+
+                }})
                 .build();
 
         JButton settings = new ButtonBuilder.Builder()

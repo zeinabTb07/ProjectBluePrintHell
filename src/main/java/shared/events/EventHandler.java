@@ -1,6 +1,7 @@
 package shared.events;
 
 import client.Constants;
+import client.controller.Network.Client;
 import client.controller.offline.FrameManager;
 import client.controller.offline.GameLoop;
 import client.controller.offline.mouse.GameMouseListener;
@@ -35,7 +36,10 @@ public class EventHandler implements  Publisher{
     }
 
     public void subscribeAll(){
+        Client client = new Client("localhost" , 8080);
         EventBus bus = EventBusMapper.getEventBus(gameID);
+        bus.subscribe(GameEvents.GoOnline.class , e->{
+            client.connect();});
         bus.subscribe(UIEvents.Replay.class, e -> {
             gameState.reset(Constants.levels.getFirst());
             gameLoop = new GameLoop(gameState);

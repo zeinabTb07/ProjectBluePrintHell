@@ -15,26 +15,25 @@ public class Client {
         this.port = port;
     }
 
-    // one-shot connection attempt
     public boolean connect() {
-        try {
-            socket = new Socket(host, port);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            System.out.println("Connected to server: " + socket.getRemoteSocketAddress());
+        if(socket == null){
+            try {
+                socket = new Socket(host, port);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                System.out.println("Connected to server: " + socket.getRemoteSocketAddress());
 
-            // start threads
-            new Thread(new ServerListener(in)).start();
-            new Thread(new InputHandler(out)).start();
+                new Thread(new ServerListener(in)).start();
+                new Thread(new InputHandler(out)).start();
 
-            return true;
-        } catch (IOException e) {
-            System.out.println("Connection failed: " + e.getMessage());
-            return false;
-        }
+                return true;
+            } catch (IOException e) {
+                System.out.println("Connection failed: " + e.getMessage());
+                return false;
+            }
+        } else return true;
     }
 
-    // retry method, just calls connect again
     public boolean retryConnect() {
         return connect();
     }

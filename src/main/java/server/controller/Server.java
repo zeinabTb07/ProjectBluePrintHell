@@ -1,8 +1,7 @@
-package server;
+package server.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import server.controller.MatchHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,11 +30,9 @@ public class Server implements Runnable {
 
                 synchronized (this) {
                     if (waitingPlayer == null) {
-                        // First player waits
                         waitingPlayer = clientSocket;
                         logger.info("Player {} waiting for another player...", clientSocket.getRemoteSocketAddress());
                     } else {
-                        // Second player arrives → start match
                         Socket player1 = waitingPlayer;
                         Socket player2 = clientSocket;
                         waitingPlayer = null;

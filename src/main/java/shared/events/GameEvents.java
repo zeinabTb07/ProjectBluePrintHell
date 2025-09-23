@@ -19,6 +19,12 @@ public class GameEvents {
         }
     }
 
+    public record GoOnline(){
+        public GoOnline{
+            log.info("Player try to connect");
+        }
+    }
+
     public record CheckGameEndEvent(boolean b){
         public CheckGameEndEvent {
             log.info("Game ends : {}", b ? "win" :"lost");

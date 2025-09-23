@@ -21,9 +21,10 @@ public class SystemDTO {
     }
     public SystemDTO(SystemType systemType, Point point, List<PortDTO> inputPorts, List<PortDTO> outputPorts , UUID id) {
         this.systemType = systemType;
-        this.position=new Point(x,y);
+        this.position=point;
         this.inputPorts = inputPorts;
         this.outputPorts = outputPorts;
+        this.id = id;
     }
 
     // Getters & Setters
